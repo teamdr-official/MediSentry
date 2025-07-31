@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediSentry | Medicine Authentication Quiz</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Favicon -->
+  <link rel="icon" href="/images/favicon.jpg" type="image/x-icon" alt="MediSentry logo">
+  <link rel="apple-touch-icon" href="images/favicon.jpg">
+  <style>
+    :root {
+      --primary: #6C4DF6;
+      --primary-light: rgba(108, 77, 246, 0.1);
+      --secondary: #FF7D59;
+      --accent: #00E5CC;
+      --dark: #2E2E48;
+      --light: #F8F9FA;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--light);
+      color: var(--dark);
+      padding-bottom: 80px; /* For sticky mobile footer */
+    }
+    
+    .navbar {
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .navbar-brand {
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    
+    .quiz-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .quiz-header {
+      background: linear-gradient(135deg, var(--primary), #8A6DF4);
+      color: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 20px rgba(108, 77, 246, 0.2);
+    }
+    
+    .quiz-header h1 {
+      font-weight: 800;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .quiz-header .lead {
+      opacity: 0.9;
+    }
+    
+    .progress {
+      height: 10px;
+      border-radius: 5px;
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    .progress-bar {
+      background-color: white;
+      transition: width 0.6s ease;
+    }
+    
+    .question-card {
+      border-radius: 12px;
+      border: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .question-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    }
+    
+    .question-card .card-body {
+      padding: 1.5rem;
+    }
+    
+    .question-number {
+      width: 36px;
+      height: 36px;
+      background-color: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      margin-right: 1rem;
+      flex-shrink: 0;
+    }
+    
+    .question-text {
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 0;
+    }
+    
+    .option {
+      padding: 1rem 1.5rem;
+      margin: 0.5rem 0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid #eee;
+      display: flex;
+      align-items: center;
+    }
+    
+    .option:hover {
+      background-color: var(--primary-light);
+      border-color: var(--primary);
+    }
+    
+    .option input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+    }
+    
+    .option input:checked + label {
+      font-weight: 600;
+    }
+    
+    .option label {
+      cursor: pointer;
+      margin-bottom: 0;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+    
+    .option label::before {
+      content: "";
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #ddd;
+      border-radius: 50%;
+      margin-right: 12px;
+      transition: all 0.3s ease;
+    }
+    
+    .option input:checked + label::before {
+      border-color: var(--primary);
+      background-color: var(--primary);
+      box-shadow: inset 0 0 0 3px white;
+    }
+    
+    .explanation {
+      background-color: rgba(0, 229, 204, 0.08);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 1.25rem;
+      margin-top: 1rem;
+    }
+    
+    .explanation strong {
+      color: var(--accent);
+    }
+    
+    .correct-option {
+      background-color: rgba(40, 167, 69, 0.1) !important;
+      border-color: #28a745 !important;
+    }
+    
+    .correct-option label::before {
+      border-color: #28a745 !important;
+      background-color: #28a745 !important;
+      box-shadow: inset 0 0 0 3px white !important;
+    }
+    
+    .incorrect-option {
+      background-color: rgba(220, 53, 69, 0.1) !important;
+      border-color: #dc3545 !important;
+    }
+    
+    .incorrect-option label::before {
+      border-color: #dc3545 !important;
+    }
+    
+    .submit-btn {
+      background-color: var(--primary);
+      border: none;
+      padding: 0.8rem 2.5rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(108, 77, 246, 0.3);
+    }
+    
+    .submit-btn:hover {
+      background-color: #5b3de6;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(108, 77, 246, 0.4);
+    }
+    
+    .result-card {
+      border-radius: 16px;
+      border: 2px dashed var(--primary);
+      background-color: white;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+    
+    .result-header {
+      background: linear-gradient(135deg, var(--primary), #8A6DF4);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+    
+    .result-body {
+      padding: 2rem;
+    }
+    
+    .score-display {
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+    
+    .score-card {
+      border-radius: 12px;
+      padding: 1.5rem;
+      height: 100%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease;
+    }
+    
+    .score-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .correct-card {
+      border-top: 4px solid #28a745;
+    }
+    
+    .incorrect-card {
+      border-top: 4px solid #dc3545;
+    }
+    
+    .action-btn {
+      padding: 0.7rem 1.8rem;
+      font-weight: 600;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .retake-btn {
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+    
+    .retake-btn:hover {
+      background-color: var(--primary-light);
+    }
+    
+    .report-btn {
+      background-color: var(--primary);
+      color: white;
+      box-shadow: 0 4px 12px rgba(108, 77, 246, 0.3);
+    }
+    
+    .report-btn:hover {
+      background-color: #5b3de6;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(108, 77, 246, 0.4);
+    }
+    
+    /* Mobile sticky footer */
+    .mobile-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      padding: 10px 0;
+      display: none;
+      z-index: 1000;
+    }
+    
+    .mobile-footer .btn {
+      flex: 1;
+      margin: 0 5px;
+    }
+    
+    /* Review section */
+    .review-section {
+      margin-top: 2rem;
+      border-top: 1px solid #eee;
+      padding-top: 2rem;
+    }
+    
+    .review-question {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .review-question:last-child {
+      border-bottom: none;
+    }
+    
+    @media (max-width: 768px) {
+      .quiz-header {
+        padding: 1.5rem;
+      }
+      
+      .question-text {
+        font-size: 1rem;
+      }
+      
+      .option {
+        padding: 0.8rem 1rem;
+      }
+      
+      .score-display {
+        font-size: 2.5rem;
+      }
+      
+      .mobile-footer {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-primary" href="#">
+        <i class="fas fa-shield-alt me-2"></i>MediSentry
+      </a>
+      <div class="d-flex align-items-center">
+        <span class="badge bg-primary rounded-pill px-3 py-2 d-none d-md-block">Medicine Safety Quiz</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-4 py-lg-5 quiz-container">
+    <div class="quiz-header text-center">
+      <h1 class="display-5 fw-bold mb-3">
+        <i class="fas fa-pills me-2"></i>
+        Medicine Authentication Quiz
+      </h1>
+      <p class="lead mb-4">Test your knowledge about identifying genuine medicines and spotting counterfeits</p>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-white-50">Progress</span>
+        <span id="progress-text" class="fw-bold">0/15</span>
+      </div>
+      <div class="progress">
+        <div class="progress-bar" role="progressbar" id="quiz-progress" style="width: 0%"></div>
+      </div>
+    </div>
+
+    <form id="medicine-quiz">
+      <!-- Question 1 -->
+      <div class="card question-card">
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-3">
+            <div class="question-number">1</div>
+            <h5 class="question-text">What's the most reliable way to verify medicine authenticity?</h5>
+          </div>
+          <div class="option">
+            <input type="radio" name="q1" id="q1a" value="a" class="d-none">
+            <label for="q1a">A. Check the manufacturer's hologram</label>
+          </div>
+          <div class="option">
+            <input type="radio" name="q1" id="q1b" value="b" class="d-none">
+            <label for="q1b">B. Verify the unique serial number online</label>
+          </div>
+          <div class="option">
+            <input type="radio" name="q1" id="q1c" value="c" class="d-none">
+            <label for="q1c">C. Compare the price with other pharmacies</label>
+          </div>
+          <div class="option">
+            <input type="radio" name="q1" id="q1d" value="d" class="d-none">
+            <label for="q1d">D. Ask the pharmacist for assurance</label>
+          </div>
+          <div class="explanation d-none" id="explanation1">
+            <strong><i class="fas fa-lightbulb me-2"></i>Explanation:</strong> 
+            While holograms are important, verifying the unique serial number through official channels 
+            (like SMS or manufacturer website) is the most reliable method as it checks against the 
+            manufacturer's database.
+          </div>
+        </div>
+      </div>
+
+      <!-- Question 2 -->
+      <div class="card question-card">
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-3">
+            <div class="question-number">2</div>
+            <h5 class="question-text">Which of these is NOT a common security feature on genuine medicine packaging?</h5>
+          </div>
+          <div class="option">
+            <input type="radio" name="q2" id="q2a" value="a" class="d-none">
+            <label for="q2a">A. Microtext</label>
+          </div>
+          <div class="option">
+            <input type="radio" name="q2" id="q2b" value="b" class="d-none">
+            <label for="q2b">B. Color-shifting ink</label>
+          </div>
+          <div class="option">
+            <input type="radio" name="q2" id="q2c" value="c" class="d-none">
+            <label for="q2c">C. Blurry barcodes</label>
+          </div>
+          <div class="option">
+            <input type="radio" name="q2" id="q2d" value="d" class="d-none">
+            <label for="q2d">D. Tamper-evident seals</label>
+          </div>
+          <div class="explanation d-none" id="explanation2">
+            <strong><i class="fas fa-lightbulb me-2"></i>Explanation:</strong> 
+            Blurry barcodes are a sign of poor quality printing often found in counterfeit medicines. 
+            Genuine medicines always have clear, scannable barcodes as part of their track-and-trace systems.
+          </div>
+        </div>
+      </div>
+
+      <!-- Question 3 -->
+      <div class="card question-card">
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-3">
+            <div class="question-number">3</div>
+            <h5 class="question-text">What unique number is used to track a medicine's manufacturing and authenticity?</h5>
+          </div>
+          <div class="option">
+            <input type="radio" name="q3" id="q3a" value="a" class="d-none">
+            <label for="q3a">A. Batch Number</label>
+          </div>
+          <div class="option">
+            <input type="radio" name="q3" id="q3b" value="b" class="d-none">
+            <label for="q3b">B. ISBN Number</label>
+          </div>
+          <div class="option">
+            <input type="radio" name="q3" id="q3c" value="c" class="d-none">
+            <label for="q3c">C. Barcode Number</label>
+          </div>
+          <div class="option">
+            <input type="radio" name="q3" id="q3d" value="d" class="d-none">
+            <label for="q3d">D. Serial Number</label>
+          </div>
+          <div class="explanation d-none" id="explanation3">
+            <strong><i class="fas fa-lightbulb me-2"></i>Explanation:</strong> 
+            The batch number identifies when and where the medicine was manufactured, allowing for tracking 
+            through the supply chain. This is crucial for verifying authenticity and recalling specific batches if needed.
+          </div>
+        </div>
+      </div>
+
+            <!-- Question 4 -->
+      <div class="card question-card mb-4">
+        <div class="card-body">
+          <div class="d-flex mb-3">
+            <span class="badge bg-primary me-2">4</span>
+            <h5 class="mb-0">What should you check on the medicine packaging first?</h5>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q4" id="q4a" value="a" class="d-none">
+            <label for="q4a" class="d-block cursor-pointer">A. Expiry date</label>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q4" id="q4b" value="b" class="d-none">
+            <label for="q4b" class="d-block cursor-pointer">B. Manufacturer's address</label>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q4" id="q4c" value="c" class="d-none">
+            <label for="q4c" class="d-block cursor-pointer">C. Security features (hologram, QR code, etc.)</label>
+          </div>
+          <div class="option ps-4 py-2 rounded">
+            <input type="radio" name="q4" id="q4d" value="d" class="d-none">
+            <label for="q4d" class="d-block cursor-pointer">D. All of the above</label>
+          </div>
+          <div class="explanation p-3 mt-3 rounded d-none" id="explanation4">
+            <strong><i class="fas fa-lightbulb text-primary me-2"></i>Explanation:</strong> 
+            You should check all these elements. The expiry date ensures the medicine is still effective, 
+            the manufacturer's address verifies its origin, and security features help authenticate the product.
+          </div>
+        </div>
+      </div>
+
+      <!-- Question 5 -->
+      <div class="card question-card mb-4">
+        <div class="card-body">
+          <div class="d-flex mb-3">
+            <span class="badge bg-primary me-2">5</span>
+            <h5 class="mb-0">Which of these is a red flag for counterfeit medicine?</h5>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q5" id="q5a" value="a" class="d-none">
+            <label for="q5a" class="d-block cursor-pointer">A. Slightly different packaging colors</label>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q5" id="q5b" value="b" class="d-none">
+            <label for="q5b" class="d-block cursor-pointer">B. Misspelled words on the label</label>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q5" id="q5c" value="c" class="d-none">
+            <label for="q5c" class="d-block cursor-pointer">C. No patient information leaflet</label>
+          </div>
+          <div class="option ps-4 py-2 rounded">
+            <input type="radio" name="q5" id="q5d" value="d" class="d-none">
+            <label for="q5d" class="d-block cursor-pointer">D. All of the above</label>
+          </div>
+          <div class="explanation p-3 mt-3 rounded d-none" id="explanation5">
+            <strong><i class="fas fa-lightbulb text-primary me-2"></i>Explanation:</strong> 
+            All these are red flags. Genuine medicines have consistent packaging, correct spelling, and always 
+            include patient information leaflets. Any deviation could indicate a counterfeit product.
+          </div>
+        </div>
+      </div>
+
+      <!-- Question 6 -->
+      <div class="card question-card mb-4">
+        <div class="card-body">
+          <div class="d-flex mb-3">
+            <span class="badge bg-primary me-2">6</span>
+            <h5 class="mb-0">What does a tamper-evident seal indicate?</h5>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q6" id="q6a" value="a" class="d-none">
+            <label for="q6a" class="d-block cursor-pointer">A. The packaging hasn't been opened since leaving the manufacturer</label>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q6" id="q6b" value="b" class="d-none">
+            <label for="q6b" class="d-block cursor-pointer">B. The medicine is of high quality</label>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q6" id="q6c" value="c" class="d-none">
+            <label for="q6c" class="d-block cursor-pointer">C. The medicine is expensive</label>
+          </div>
+          <div class="option ps-4 py-2 rounded">
+            <input type="radio" name="q6" id="q6d" value="d" class="d-none">
+            <label for="q6d" class="d-block cursor-pointer">D. The medicine is imported</label>
+          </div>
+          <div class="explanation p-3 mt-3 rounded d-none" id="explanation6">
+            <strong><i class="fas fa-lightbulb text-primary me-2"></i>Explanation:</strong> 
+            Tamper-evident seals show if the packaging has been opened or compromised since leaving the 
+            manufacturer. If the seal is broken, the medicine's safety cannot be guaranteed.
+          </div>
+        </div>
+      </div>
+
+      <!-- Question 7 -->
+      <div class="card question-card mb-4">
+        <div class="card-body">
+          <div class="d-flex mb-3">
+            <span class="badge bg-primary me-2">7</span>
+            <h5 class="mb-0">Where should you buy medicines to minimize the risk of counterfeits?</h5>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q7" id="q7a" value="a" class="d-none">
+            <label for="q7a" class="d-block cursor-pointer">A. Licensed pharmacies</label>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q7" id="q7b" value="b" class="d-none">
+            <label for="q7b" class="d-block cursor-pointer">B. Hospital pharmacies</label>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q7" id="q7c" value="c" class="d-none">
+            <label for="q7c" class="d-block cursor-pointer">C. Authorized online pharmacies</label>
+          </div>
+          <div class="option ps-4 py-2 rounded">
+            <input type="radio" name="q7" id="q7d" value="d" class="d-none">
+            <label for="q7d" class="d-block cursor-pointer">D. All of the above</label>
+          </div>
+          <div class="explanation p-3 mt-3 rounded d-none" id="explanation7">
+            <strong><i class="fas fa-lightbulb text-primary me-2"></i>Explanation:</strong> 
+            All these are safe sources. Licensed pharmacies, hospital pharmacies, and authorized online 
+            pharmacies are regulated and have systems to ensure medicine authenticity.
+          </div>
+        </div>
+      </div>
+
+      <!-- Question 8 -->
+      <div class="card question-card mb-4">
+        <div class="card-body">
+          <div class="d-flex mb-3">
+            <span class="badge bg-primary me-2">8</span>
+            <h5 class="mb-0">What should you do if the medicine looks different from what you usually take?</h5>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q8" id="q8a" value="a" class="d-none">
+            <label for="q8a" class="d-block cursor-pointer">A. Check with your pharmacist before taking it</label>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q8" id="q8b" value="b" class="d-none">
+            <label for="q8b" class="d-block cursor-pointer">B. Take it if the name is the same</label>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q8" id="q8c" value="c" class="d-none">
+            <label for="q8c" class="d-block cursor-pointer">C. Assume the manufacturer changed the packaging</label>
+          </div>
+          <div class="option ps-4 py-2 rounded">
+            <input type="radio" name="q8" id="q8d" value="d" class="d-none">
+            <label for="q8d" class="d-block cursor-pointer">D. Return it to the store for a refund</label>
+          </div>
+          <div class="explanation p-3 mt-3 rounded d-none" id="explanation8">
+            <strong><i class="fas fa-lightbulb text-primary me-2"></i>Explanation:</strong> 
+            Always check with your pharmacist if the medicine looks different. While packaging changes do occur, 
+            it's important to verify the authenticity and confirm it's the correct medication.
+          </div>
+        </div>
+      </div>
+
+      <!-- Question 9 -->
+      <div class="card question-card mb-4">
+        <div class="card-body">
+          <div class="d-flex mb-3">
+            <span class="badge bg-primary me-2">9</span>
+            <h5 class="mb-0">What is the purpose of a QR code on medicine packaging?</h5>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q9" id="q9a" value="a" class="d-none">
+            <label for="q9a" class="d-block cursor-pointer">A. To provide manufacturer information</label>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q9" id="q9b" value="b" class="d-none">
+            <label for="q9b" class="d-block cursor-pointer">B. To verify authenticity through scanning</label>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q9" id="q9c" value="c" class="d-none">
+            <label for="q9c" class="d-block cursor-pointer">C. To link to patient information</label>
+          </div>
+          <div class="option ps-4 py-2 rounded">
+            <input type="radio" name="q9" id="q9d" value="d" class="d-none">
+            <label for="q9d" class="d-block cursor-pointer">D. All of the above</label>
+          </div>
+          <div class="explanation p-3 mt-3 rounded d-none" id="explanation9">
+            <strong><i class="fas fa-lightbulb text-primary me-2"></i>Explanation:</strong> 
+            QR codes on medicine packaging serve multiple purposes: verifying authenticity, providing manufacturer 
+            information, and often linking to detailed patient information or usage instructions.
+          </div>
+        </div>
+      </div>
+
+      <!-- Question 10 -->
+      <div class="card question-card mb-4">
+        <div class="card-body">
+          <div class="d-flex mb-3">
+            <span class="badge bg-primary me-2">10</span>
+            <h5 class="mb-0">What should you be suspicious of when buying medicine online?</h5>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q10" id="q10a" value="a" class="d-none">
+            <label for="q10a" class="d-block cursor-pointer">A. Prices significantly lower than other pharmacies</label>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q10" id="q10b" value="b" class="d-none">
+            <label for="q10b" class="d-block cursor-pointer">B. No requirement for a prescription</label>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q10" id="q10c" value="c" class="d-none">
+            <label for="q10c" class="d-block cursor-pointer">C. No physical address provided</label>
+          </div>
+          <div class="option ps-4 py-2 rounded">
+            <input type="radio" name="q10" id="q10d" value="d" class="d-none">
+            <label for="q10d" class="d-block cursor-pointer">D. All of the above</label>
+          </div>
+          <div class="explanation p-3 mt-3 rounded d-none" id="explanation10">
+            <strong><i class="fas fa-lightbulb text-primary me-2"></i>Explanation:</strong> 
+            All these are red flags for online pharmacies. Extremely low prices, no prescription requirements, 
+            and lack of physical address are common characteristics of illegitimate online medicine sellers.
+          </div>
+        </div>
+      </div>
+
+      <!-- Question 11 -->
+      <div class="card question-card mb-4">
+        <div class="card-body">
+          <div class="d-flex mb-3">
+            <span class="badge bg-primary me-2">11</span>
+            <h5 class="mb-0">What does a hologram on medicine packaging indicate?</h5>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q11" id="q11a" value="a" class="d-none">
+            <label for="q11a" class="d-block cursor-pointer">A. The medicine is from the original manufacturer</label>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q11" id="q11b" value="b" class="d-none">
+            <label for="q11b" class="d-block cursor-pointer">B. The medicine is expensive</label>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q11" id="q11c" value="c" class="d-none">
+            <label for="q11c" class="d-block cursor-pointer">C. The medicine is imported</label>
+          </div>
+          <div class="option ps-4 py-2 rounded">
+            <input type="radio" name="q11" id="q11d" value="d" class="d-none">
+            <label for="q11d" class="d-block cursor-pointer">D. The medicine is safe to use</label>
+          </div>
+          <div class="explanation p-3 mt-3 rounded d-none" id="explanation11">
+            <strong><i class="fas fa-lightbulb text-primary me-2"></i>Explanation:</strong> 
+            Holograms are security features used by manufacturers to indicate genuine products. However, 
+            sophisticated counterfeiters sometimes copy holograms, so they should be verified along with other security features.
+          </div>
+        </div>
+      </div>
+
+      <!-- Question 12 -->
+      <div class="card question-card mb-4">
+        <div class="card-body">
+          <div class="d-flex mb-3">
+            <span class="badge bg-primary me-2">12</span>
+            <h5 class="mb-0">Which organization regulates medicine authenticity in India?</h5>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q12" id="q12a" value="a" class="d-none">
+            <label for="q12a" class="d-block cursor-pointer">A. WHO</label>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q12" id="q12b" value="b" class="d-none">
+            <label for="q12b" class="d-block cursor-pointer">B. FDA</label>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q12" id="q12c" value="c" class="d-none">
+            <label for="q12c" class="d-block cursor-pointer">C. CDSCO</label>
+          </div>
+          <div class="option ps-4 py-2 rounded">
+            <input type="radio" name="q12" id="q12d" value="d" class="d-none">
+            <label for="q12d" class="d-block cursor-pointer">D. UNESCO</label>
+          </div>
+          <div class="explanation p-3 mt-3 rounded d-none" id="explanation12">
+            <strong><i class="fas fa-lightbulb text-primary me-2"></i>Explanation:</strong> 
+            The Central Drugs Standard Control Organization (CDSCO) is India's national regulatory body 
+            for pharmaceuticals and medical devices, responsible for approving and monitoring medicines.
+          </div>
+        </div>
+      </div>
+
+      <!-- Question 13 -->
+      <div class="card question-card mb-4">
+        <div class="card-body">
+          <div class="d-flex mb-3">
+            <span class="badge bg-primary me-2">13</span>
+            <h5 class="mb-0">What is the most common type of counterfeit medicine found in India?</h5>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q13" id="q13a" value="a" class="d-none">
+            <label for="q13a" class="d-block cursor-pointer">A. Antibiotics</label>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q13" id="q13b" value="b" class="d-none">
+            <label for="q13b" class="d-block cursor-pointer">B. Painkillers</label>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q13" id="q13c" value="c" class="d-none">
+            <label for="q13c" class="d-block cursor-pointer">C. Lifestyle drugs (for erectile dysfunction, weight loss, etc.)</label>
+          </div>
+          <div class="option ps-4 py-2 rounded">
+            <input type="radio" name="q13" id="q13d" value="d" class="d-none">
+            <label for="q13d" class="d-block cursor-pointer">D. All are equally common</label>
+          </div>
+          <div class="explanation p-3 mt-3 rounded d-none" id="explanation13">
+            <strong><i class="fas fa-lightbulb text-primary me-2"></i>Explanation:</strong> 
+            Lifestyle drugs (for conditions like erectile dysfunction and weight loss) are most commonly 
+            counterfeited because they are in high demand and often carry social stigma, making people 
+            more likely to buy them from questionable sources.
+          </div>
+        </div>
+      </div>
+
+      <!-- Question 14 -->
+      <div class="card question-card mb-4">
+        <div class="card-body">
+          <div class="d-flex mb-3">
+            <span class="badge bg-primary me-2">14</span>
+            <h5 class="mb-0">What should you do if a medicine's packaging seems tampered with?</h5>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q14" id="q14a" value="a" class="d-none">
+            <label for="q14a" class="d-block cursor-pointer">A. Use it if the medicine looks normal</label>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q14" id="q14b" value="b" class="d-none">
+            <label for="q14b" class="d-block cursor-pointer">B. Return it to the pharmacy for replacement</label>
+          </div>
+          <div class="option ps-4 py-2 mb-2 rounded">
+            <input type="radio" name="q14" id="q14c" value="c" class="d-none">
+            <label for="q14c" class="d-block cursor-pointer">C. Report it to the drug control authority</label>
+          </div>
+          <div class="option ps-4 py-2 rounded">
+            <input type="radio" name="q14" id="q14d" value="d" class="d-none">
+            <label for="q14d" class="d-block cursor-pointer">D. Both B and C</label>
+          </div>
+          <div class="explanation p-3 mt-3 rounded d-none" id="explanation14">
+            <strong><i class="fas fa-lightbulb text-primary me-2"></i>Explanation:</strong> 
+            You should both return the medicine to the pharmacy and report it to authorities. Tampered 
+            packaging could indicate counterfeit or adulterated medicine, which poses health risks and 
+            should be reported to prevent harm to others.
+          </div>
+        </div>
+      </div>
+
+      <!-- Question 15 -->
+      <div class="card question-card">
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-3">
+            <div class="question-number">15</div>
+            <h5 class="question-text">What should you do if you suspect you've purchased counterfeit medicine?</h5>
+          </div>
+          <div class="option">
+            <input type="radio" name="q15" id="q15a" value="a" class="d-none">
+            <label for="q15a">A. Stop using it and report to authorities</label>
+          </div>
+          <div class="option">
+            <input type="radio" name="q15" id="q15b" value="b" class="d-none">
+            <label for="q15b">B. Continue using it to avoid waste</label>
+          </div>
+          <div class="option">
+            <input type="radio" name="q15" id="q15c" value="c" class="d-none">
+            <label for="q15c">C. Return it to the pharmacy for replacement</label>
+          </div>
+          <div class="option">
+            <input type="radio" name="q15" id="q15d" value="d" class="d-none">
+            <label for="q15d">D. Share your experience only on social media</label>
+          </div>
+          <div class="explanation d-none" id="explanation15">
+            <strong><i class="fas fa-lightbulb me-2"></i>Explanation:</strong> 
+            Counterfeit medicines can be dangerous. You should immediately stop using them and report to 
+            authorities like CDSCO or state drug controllers. This helps prevent others from being harmed 
+            and enables investigations.
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-4 mb-5">
+        <button type="submit" class="btn submit-btn btn-lg">
+          <i class="fas fa-check-circle me-2"></i>Submit Quiz
+        </button>
+      </div>
+    </form>
+
+    <!-- Results Section -->
+    <div id="quiz-results" class="card result-card mt-5 d-none">
+      <div class="result-header">
+        <h2 class="display-5 fw-bold mb-3">
+          <i class="fas fa-award me-2"></i>Quiz Results
+        </h2>
+      </div>
+      <div class="result-body text-center">
+        <div class="score-display" id="score-text">80%</div>
+        <p class="lead fw-bold mb-4" id="result-message">Good job! You're quite knowledgeable about medicine authentication.</p>
+        
+        <div class="row g-4 mt-4">
+          <div class="col-md-6">
+            <div class="score-card correct-card">
+              <h5 class="d-flex align-items-center justify-content-center">
+                <i class="fas fa-check-circle text-success me-2"></i>Correct Answers
+              </h5>
+              <h2 class="text-center my-3" id="correct-answers">12</h2>
+              <p class="text-muted text-center mb-0">out of 15 questions</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="score-card incorrect-card">
+              <h5 class="d-flex align-items-center justify-content-center">
+                <i class="fas fa-times-circle text-danger me-2"></i>Incorrect Answers
+              </h5>
+              <h2 class="text-center my-3" id="incorrect-answers">3</h2>
+              <p class="text-muted text-center mb-0">needs improvement</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Review Section -->
+        <div class="review-section text-start">
+          <h4 class="mb-4"><i class="fas fa-clipboard-check me-2 text-primary"></i>Review Your Answers</h4>
+          
+          <div class="review-question">
+            <h5>1. What's the most reliable way to verify medicine authenticity?</h5>
+            <div class="alert alert-success">
+              <strong>Correct Answer:</strong> B. Verify the unique serial number online
+            </div>
+            <div class="explanation">
+              <strong><i class="fas fa-lightbulb me-2"></i>Explanation:</strong> 
+              While holograms are important, verifying the unique serial number through official channels 
+              (like SMS or manufacturer website) is the most reliable method as it checks against the 
+              manufacturer's database.
+            </div>
+          </div>
+          
+          <!-- More review questions would be here -->
+          <!-- ... -->
+        </div>
+        
+        <div class="mt-4">
+          <button onclick="window.location.reload()" class="btn action-btn retake-btn me-3">
+            <i class="fas fa-redo me-2"></i>Retake Quiz
+          </button>
+          <a href="#" class="btn action-btn report-btn">
+            <i class="fas fa-flag me-2"></i>Report Counterfeit
+          </a>
+          <a href="awareness.html" class="btn action-btn retake-btn">
+            <i class="fas fa-book me-2"></i>Learn More
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile sticky footer -->
+  <div class="mobile-footer d-flex justify-content-around">
+    <button onclick="window.scrollTo(0,0)" class="btn btn-sm btn-outline-primary">
+      <i class="fas fa-arrow-up me-1"></i> Top
+    </button>
+    <button onclick="window.location.reload()" class="btn btn-sm btn-primary">
+      <i class="fas fa-redo me-1"></i> Retake
+    </button>
+    <a href="awareness.html" class="btn btn-sm btn-outline-primary">
+      <i class="fas fa-book me-1"></i> Learn
+    </a>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const quizForm = document.getElementById('medicine-quiz');
+      const quizResults = document.getElementById('quiz-results');
+      const progressText = document.getElementById('progress-text');
+      
+      // Load saved progress if available
+      const savedProgress = localStorage.getItem('quizProgress');
+      if (savedProgress) {
+        const progress = JSON.parse(savedProgress);
+        // Restore answered questions
+        for (const questionId in progress.answers) {
+          const input = document.querySelector(`input[name="${questionId}"][value="${progress.answers[questionId]}"]`);
+          if (input) {
+            input.checked = true;
+            input.dispatchEvent(new Event('change'));
+          }
+        }
+      }
+      
+      // Correct answers
+      const answers = {
+        q1: "b", q2: "c", q3: "a", q4: "d", q5: "d",
+        q6: "a", q7: "d", q8: "a", q9: "d", q10: "d",
+        q11: "a", q12: "c", q13: "c", q14: "d", q15: "a"
+      };
+      
+      // Explanation IDs
+      const explanations = {
+        q1: "explanation1", q2: "explanation2", q3: "explanation3",
+        q4: "explanation4", q5: "explanation5", q6: "explanation6",
+        q7: "explanation7", q8: "explanation8", q9: "explanation9",
+        q10: "explanation10", q11: "explanation11", q12: "explanation12",
+        q13: "explanation13", q14: "explanation14", q15: "explanation15"
+      };
+      
+      // Update progress bar
+      const progressBar = document.getElementById('quiz-progress');
+      const radioButtons = document.querySelectorAll('input[type="radio"]');
+      
+      radioButtons.forEach(radio => {
+        radio.addEventListener('change', function() {
+          const answered = document.querySelectorAll('input[type="radio"]:checked').length;
+          const progress = (answered / 15) * 100;
+          progressBar.style.width = `${progress}%`;
+          progressText.textContent = `${answered}/15`;
+          
+          // Save progress to localStorage
+          const userAnswers = {};
+          document.querySelectorAll('input[type="radio"]:checked').forEach(input => {
+            userAnswers[input.name] = input.value;
+          });
+          
+          localStorage.setItem('quizProgress', JSON.stringify({
+            answers: userAnswers,
+            progress: progress
+          }));
+        });
+      });
+      
+      // Calculate results
+      quizForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        let correct = 0;
+        let incorrect = 0;
+        const userAnswers = {};
+        
+        // Check each question and show explanations
+        for (let i = 1; i <= 15; i++) {
+          const questionId = `q${i}`;
+          const selected = document.querySelector(`input[name="${questionId}"]:checked`);
+          const explanation = document.getElementById(explanations[questionId]);
+          
+          if (selected) {
+            // Save user answer
+            userAnswers[questionId] = selected.value;
+            
+            // Show explanation
+            explanation.classList.remove('d-none');
+            
+            // Highlight selected option
+            const selectedOption = selected.closest('.option');
+            
+            if (selected.value === answers[questionId]) {
+              correct++;
+              selectedOption.classList.add('correct-option');
+            } else {
+              incorrect++;
+              selectedOption.classList.add('incorrect-option');
+              
+              // Also highlight correct answer
+              const correctOption = document.querySelector(`input[name="${questionId}"][value="${answers[questionId]}"]`).closest('.option');
+              correctOption.classList.add('correct-option');
+            }
+          } else {
+            // No answer selected
+            incorrect++;
+            explanation.classList.remove('d-none');
+            
+            // Highlight correct answer
+            const correctOption = document.querySelector(`input[name="${questionId}"][value="${answers[questionId]}"]`).closest('.option');
+            correctOption.classList.add('correct-option');
+          }
+        }
+        
+        // Display results
+        const score = Math.round((correct / 15) * 100);
+        document.getElementById('correct-answers').textContent = correct;
+        document.getElementById('incorrect-answers').textContent = incorrect;
+        document.getElementById('score-text').textContent = `${score}%`;
+        
+        // Custom result message
+        let message = "";
+        if (score >= 90) {
+          message = "Excellent! You're a medicine authentication expert! Consider volunteering to educate others.";
+        } else if (score >= 70) {
+          message = "Good job! You're quite knowledgeable but could review some authentication techniques.";
+        } else if (score >= 50) {
+          message = "You have basic awareness but should study more - counterfeit medicines can be dangerous!";
+        } else {
+          message = "Important to learn more - your health may depend on identifying counterfeit medicines!";
+        }
+        document.getElementById('result-message').textContent = message;
+        
+        // Save results to localStorage
+        localStorage.setItem('quizResults', JSON.stringify({
+          score: score,
+          correct: correct,
+          incorrect: incorrect,
+          answers: userAnswers,
+          timestamp: new Date().toISOString()
+        }));
+        
+        // Show results and hide form
+        quizForm.classList.add('d-none');
+        quizResults.classList.remove('d-none');
+        
+        // Scroll to results
+        quizResults.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>

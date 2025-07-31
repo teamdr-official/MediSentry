@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediSentry - Medicine Verification System</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Favicon -->
+    <link rel="icon" href="images/favicon.jpg" type="image/x-icon" alt="MediSentry logo">
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --success-color: #198754;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            padding-top: 60px;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+        
+        .navbar-brand i {
+            color: var(--primary-color);
+        }
+        
+        .verification-card {
+            transition: all 0.3s ease;
+            border-radius: 15px;
+            overflow: hidden;
+            border: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .result-card {
+            display: none;
+        }
+        
+        .found {
+            border-left: 5px solid var(--success-color);
+        }
+        
+        .not-found {
+            border-left: 5px solid var(--danger-color);
+        }
+        
+        .suggestion-item {
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 8px !important;
+            margin-bottom: 4px;
+        }
+        
+        .suggestion-item:hover {
+            background-color: rgba(13, 110, 253, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .autocomplete-dropdown {
+            position: absolute;
+            z-index: 1000;
+            width: calc(100% - 30px);
+            max-height: 250px;
+            overflow-y: auto;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            border-radius: 0 0 8px 8px;
+        }
+        
+        #searchForm {
+            position: relative;
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
+        .medicine-badge {
+            font-size: 0.8rem;
+            padding: 5px 10px;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+        }
+        
+        .social-icons a {
+            color: white;
+            margin-left: 15px;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .nav-link:hover {
+            background-color: rgba(13, 110, 253, 0.1);
+        }
+        
+        .nav-link.active {
+            background-color: var(--primary-color);
+            color: white !important;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f8f9fa 100%);
+            border-radius: 15px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 2rem 1rem;
+            }
+            
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+            
+            .display-4 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-shield-check me-2"></i>MediSentry
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html"><i class="bi bi-house-door me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html"><i class="bi bi-info-circle me-1"></i> About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="report.html"><i class="bi bi-flag me-1"></i> Report</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html"><i class="bi bi-envelope me-1"></i> Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <!-- Hero Section -->
+        <section class="hero-section text-center mb-5">
+            <h1 class="display-4 fw-bold text-primary mb-3">
+                <i class="bi bi-shield-check"></i> MediSentry Verification
+            </h1>
+            <p class="lead text-muted mb-4">Verify the authenticity of your medicines with our comprehensive database</p>
+            <div class="d-flex justify-content-center">
+                <a href="#verification-section" class="btn btn-primary btn-lg px-4 me-3">
+                    <i class="bi bi-search me-1"></i> Verify Now
+                </a>
+                <a href="#about-section" class="btn btn-outline-secondary btn-lg px-4">
+                    <i class="bi bi-info-circle me-1"></i> Learn More
+                </a>
+            </div>
+        </section>
+
+        <!-- Verification Section -->
+        <section id="verification-section" class="mb-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="card shadow-sm verification-card">
+                        <div class="card-body p-4">
+                            <h3 class="card-title mb-4"><i class="bi bi-search me-2"></i>Medicine Verification</h3>
+                            <form id="searchForm">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text bg-primary text-white">
+                                        <i class="bi bi-capsule-pill"></i>
+                                    </span>
+                                    <input type="text" class="form-control form-control-lg" 
+                                           id="medicineInput" placeholder="Enter medicine name (e.g. Dolo 650)" 
+                                           autocomplete="off" required>
+                                    <button class="btn btn-primary btn-lg" type="submit" id="verifyBtn">
+                                        <i class="bi bi-check-circle me-1"></i> Verify
+                                    </button>
+                                </div>
+                                <div id="autocompleteDropdown" class="autocomplete-dropdown list-group d-none"></div>
+                                <small class="text-muted">Enter the brand name or generic name of the medicine</small>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Result Card -->
+                    <div id="resultCard" class="card shadow-sm my-4 verification-card result-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h3 class="card-title mb-0" id="resultTitle"></h3>
+                                <span id="resultIcon" class="display-4"></span>
+                            </div>
+                            <div id="resultDetails"></div>
+                            <div class="mt-4" id="actionButtons"></div>
+                        </div>
+                    </div>
+
+                    <!-- Similar Medicines Section -->
+                    <div id="similarMedicines" class="card shadow-sm mb-4 d-none">
+                        <div class="card-body p-4">
+                            <h4 class="card-title mb-3"><i class="bi bi-lightbulb me-2"></i>Did you mean?</h4>
+                            <div id="suggestionsList" class="list-group"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about-section" class="mb-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="card shadow-sm">
+                        <div class="card-body p-4">
+                            <h3 class="card-title mb-3"><i class="bi bi-info-circle me-2"></i>About Medicine Verification</h3>
+                            <p>MediSentry is a comprehensive medicine verification system designed to help consumers identify genuine pharmaceutical products. Our database contains information on thousands of approved medicines from reputable manufacturers.</p>
+                            
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <div class="card bg-light mb-3">
+                                        <div class="card-body">
+                                            <h5 class="card-title"><i class="bi bi-check-circle-fill text-success me-2"></i>Verified Medicines</h5>
+                                            <p class="card-text">When a medicine is verified, it means it exists in our database and matches the manufacturer's specifications. This indicates the product is likely genuine.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card bg-light mb-3">
+                                        <div class="card-body">
+                                            <h5 class="card-title"><i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>Unverified Medicines</h5>
+                                            <p class="card-text">If a medicine isn't found, it could be unlisted, newly launched, or potentially counterfeit. We recommend consulting a pharmacist.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="alert alert-info mt-3">
+                                <i class="bi bi-lightbulb me-2"></i>
+                                <strong>Tip:</strong> For best results, enter the exact brand name as printed on the medicine packaging.
+                            </div>
+                            
+                            <a href="medicine-list.html" class="btn btn-outline-primary mt-2">
+                                <i class="bi bi-list-ul me-1"></i> View Complete Medicine List
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+<!-- Report Section -->
+<section id="report-section" class="mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h3 class="card-title mb-3">
+                        <i class="bi bi-flag me-2"></i>Reporting Suspicious Medicines
+                    </h3>
+                    
+                    <div class="theory-content mb-4">
+                        <h4 class="h5">Why Reporting Matters</h4>
+                        <p>Reporting suspicious medicines is crucial for:</p>
+                        <ul>
+                            <li><strong>Public Safety:</strong> Helps authorities identify and remove dangerous counterfeit drugs from circulation</li>
+                            <li><strong>Data Collection:</strong> Contributes to national databases tracking pharmaceutical fraud</li>
+                            <li><strong>Regulatory Action:</strong> Provides evidence needed for investigations and legal actions</li>
+                            <li><strong>Quality Control:</strong> Alerts manufacturers about potential issues in their supply chains</li>
+                        </ul>
+                        
+                        <h4 class="h5 mt-4">What to Report</h4>
+                        <p>You should report medicines that show any of these signs:</p>
+                        <ul>
+                            <li>Unusual packaging or labeling errors</li>
+                            <li>Different physical appearance (color, size, texture) from what you're familiar with</li>
+                            <li>Unexpected side effects or lack of expected effects</li>
+                            <li>Suspicious sources (unlicensed sellers, online pharmacies without verification)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        Your reports are anonymous and help protect community health. We take all reports seriously.
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                        <a href="report.html" class="btn btn-danger">
+                            <i class="bi bi-arrow-right me-1"></i> Go to Reporting Portal
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+        <!-- Contact Section -->
+        <section id="contact-section" class="mb-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="card shadow-sm">
+                        <div class="card-body p-4">
+                            <h3 class="card-title mb-3"><i class="bi bi-envelope me-2"></i>Contact Us</h3>
+                            <p>Have questions or need assistance with medicine verification? Our team is here to help.</p>
+                            
+                            <div class="row mt-4">
+                                <div class="col-md-4 mb-4 mb-md-0">
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-primary bg-opacity-10 p-3 rounded-circle me-3">
+                                            <i class="bi bi-geo-alt-fill text-primary fs-4"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="mb-1">Location</h5>
+                                            <p class="mb-0">Chandigarh University, Punjab, India</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-4 mb-md-0">
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-primary bg-opacity-10 p-3 rounded-circle me-3">
+                                            <i class="bi bi-envelope-fill text-primary fs-4"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="mb-1">Email</h5>
+                                            <p class="mb-0">teamdr1928@gmail.com</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-primary bg-opacity-10 p-3 rounded-circle me-3">
+                                            <i class="bi bi-phone-fill text-primary fs-4"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="mb-1">Phone</h5>
+                                            <p class="mb-0">+91 94611-11010</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <h5 class="mb-3">Send us a message</h5>
+                                <form id="contactForm">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="contactName" class="form-label">Your Name</label>
+                                            <input type="text" class="form-control" id="contactName" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="contactEmail" class="form-label">Your Email</label>
+                                            <input type="email" class="form-control" id="contactEmail" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="contactMessage" class="form-label">Message</label>
+                                        <textarea class="form-control" id="contactMessage" rows="4" required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="bi bi-send me-1"></i> Send Message
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-3 mb-md-0 small">© <span id="currentYear"></span> MediSentry | Student's Project by Team DR from Chandigarh University</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <div class="social-icons">
+                        <a href="https://x.com/DeepakBawa2803" class="text-white" aria-label="Follow us on Twitter" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.linkedin.com/in/team-dr-93a056375/" class="text-white" aria-label="Connect on LinkedIn" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Medicine Database and Script -->
+    <script>
+        // Enhanced Medicine Database
+        const medicineDatabase = [
+            { id: 1, name: "Crocin", salt: "Paracetamol (500mg)", category: "Analgesic/Antipyretic", purpose: "Fever, mild to moderate pain", manufacturer: "GSK Pharmaceuticals" },
+            { id: 2, name: "Dolo 650", salt: "Paracetamol (650mg)", category: "Analgesic/Antipyretic", purpose: "Fever, pain relief", manufacturer: "Micro Labs Ltd" },
+            { id: 3, name: "Calpol", salt: "Paracetamol (500mg)", category: "Analgesic/Antipyretic", purpose: "Fever (especially in children)", manufacturer: "GlaxoSmithKline" },
+            { id: 4, name: "Combiflam", salt: "Ibuprofen (400mg) + Paracetamol (325mg)", category: "NSAID + Analgesic", purpose: "Headache, body ache, inflammation", manufacturer: "Sanofi India" },
+            { id: 5, name: "Brufen", salt: "Ibuprofen (400mg)", category: "NSAID", purpose: "Joint pain, muscle pain, inflammation", manufacturer: "Abbott Healthcare" },
+            { id: 6, name: "Meftal Spas", salt: "Mefenamic Acid (250mg) + Dicyclomine (10mg)", category: "Antispasmodic + NSAID", purpose: "Menstrual cramps, stomach pain", manufacturer: "Blue Cross Laboratories" },
+            { id: 7, name: "Zerodol", salt: "Aceclofenac (100mg)", category: "NSAID", purpose: "Osteoarthritis, rheumatoid arthritis", manufacturer: "Ipca Laboratories" },
+            { id: 8, name: "Spasmonil", salt: "Dicyclomine (20mg) + Paracetamol (500mg)", category: "Antispasmodic", purpose: "Stomach cramps with pain", manufacturer: "Mankind Pharma" },
+            { id: 9, name: "Buscopan", salt: "Hyoscine Butylbromide (10mg)", category: "Antispasmodic", purpose: "Abdominal pain, intestinal colic", manufacturer: "Boehringer Ingelheim" },
+            { id: 10, name: "Avil", salt: "Pheniramine Maleate (22.75mg)", category: "Antihistamine", purpose: "Allergy, itching, urticaria", manufacturer: "Sanofi India" },
+            { id: 11, name: "Cetirizine", salt: "Cetirizine Hydrochloride (10mg)", category: "Antihistamine", purpose: "Allergies, sneezing, runny nose", manufacturer: "Various Manufacturers" },
+            { id: 12, name: "Allegra", salt: "Fexofenadine Hydrochloride (120mg)", category: "Antihistamine", purpose: "Hay fever, allergic rhinitis", manufacturer: "Sanofi India" },
+            { id: 13, name: "Montair-LC", salt: "Montelukast (10mg) + Levocetirizine (5mg)", category: "Antiallergic", purpose: "Allergic rhinitis, asthma prevention", manufacturer: "Cipla Ltd" },
+            { id: 14, name: "Sinarest", salt: "Paracetamol (500mg) + Phenylephrine (5mg) + Chlorpheniramine (2mg)", category: "Cold & Cough", purpose: "Cold, nasal congestion, sneezing", manufacturer: "Centaur Pharmaceuticals" },
+            { id: 15, name: "Azee 500", salt: "Azithromycin (500mg)", category: "Antibiotic", purpose: "Bacterial infections (throat, skin, etc.)", manufacturer: "Cipla Ltd" },
+            { id: 16, name: "Augmentin", salt: "Amoxicillin (500mg) + Clavulanic Acid (125mg)", category: "Antibiotic", purpose: "Respiratory/urinary infections", manufacturer: "GlaxoSmithKline" },
+            { id: 17, name: "Taxim-O", salt: "Cefixime (200mg)", category: "Antibiotic", purpose: "Bacterial infections (typhoid, UTI)", manufacturer: "Alkem Laboratories" },
+            { id: 18, name: "Doxy 1", salt: "Doxycycline (100mg)", category: "Antibiotic", purpose: "Typhoid, acne, bacterial infections", manufacturer: "Macleods Pharmaceuticals" },
+            { id: 19, name: "Norflox-TZ", salt: "Norfloxacin (400mg) + Tinidazole (600mg)", category: "Antibiotic/Antiprotozoal", purpose: "Diarrhea, dysentery, infections", manufacturer: "Ipca Laboratories" },
+            { id: 20, name: "Metrogyl", salt: "Metronidazole (400mg)", category: "Antiprotozoal", purpose: "Amoebiasis, dental infections", manufacturer: "J.B. Chemicals" },
+            { id: 21, name: "ORS Powder", salt: "Glucose + Electrolytes", category: "Oral Rehydration", purpose: "Dehydration, diarrhea", manufacturer: "Various Manufacturers" },
+            { id: 22, name: "Digene", salt: "Magnesium Hydroxide + Aluminium Hydroxide + Simethicone", category: "Antacid", purpose: "Acidity, gas, bloating", manufacturer: "Abbott Healthcare" },
+            { id: 23, name: "Gelusil", salt: "Aluminium Hydroxide + Magnesium Hydroxide + Simethicone", category: "Antacid", purpose: "Acidity, bloating, indigestion", manufacturer: "Pfizer Ltd" },
+            { id: 24, name: "Pantop", salt: "Pantoprazole (40mg)", category: "PPI (Acid Reducer)", purpose: "Acid reflux, ulcers, GERD", manufacturer: "Alkem Laboratories" },
+            { id: 25, name: "Rantac", salt: "Ranitidine (150mg)", category: "H2 Blocker", purpose: "GERD, acidity, ulcers", manufacturer: "J.B. Chemicals" },
+            { id: 26, name: "Domstal", salt: "Domperidone (10mg)", category: "Antiemetic", purpose: "Vomiting, nausea, gastroparesis", manufacturer: "Macleods Pharmaceuticals" },
+            { id: 27, name: "Emeset", salt: "Ondansetron (4mg)", category: "Antiemetic", purpose: "Vomiting (esp. during travel, pregnancy)", manufacturer: "Cipla Ltd" },
+            { id: 28, name: "Becosules", salt: "Multivitamin B Complex", category: "Supplement", purpose: "Vitamin B deficiency", manufacturer: "Pfizer Ltd" },
+            { id: 29, name: "Limcee", salt: "Vitamin C (500mg)", category: "Supplement", purpose: "Immunity, vitamin C deficiency", manufacturer: "Abbott Healthcare" },
+            { id: 30, name: "Zincovit", salt: "Multivitamin + Zinc", category: "Supplement", purpose: "Immunity, general weakness", manufacturer: "Alkem Laboratories" },
+            { id: 31, name: "Betadine", salt: "Povidone Iodine (5%)", category: "Antiseptic", purpose: "Wound cleaning, skin disinfection", manufacturer: "Win-Medicare Pvt Ltd" },
+            { id: 32, name: "Soframycin", salt: "Framycetin Sulfate (1%)", category: "Topical Antibiotic", purpose: "Skin infections, wounds", manufacturer: "Sanofi India" },
+            { id: 33, name: "Burnol", salt: "Cetrimide (0.5%) + Nitrofurazone (0.2%)", category: "Antiseptic Cream", purpose: "Burns, minor wounds", manufacturer: "Marksans Pharma" },
+            { id: 34, name: "Moov", salt: "Diclofenac Diethylamine (1.16%) + Menthol (5%)", category: "Pain Relief Cream", purpose: "Back pain, muscle pain", manufacturer: "Emami Ltd" },
+            { id: 35, name: "Volini", salt: "Diclofenac Diethylamine (1.16%) + Linseed Oil", category: "Pain Relief Spray", purpose: "Sports injury, joint pain", manufacturer: "Ranbaxy Laboratories" },
+            { id: 36, name: "Iodex", salt: "Methyl Salicylate + Menthol + Camphor", category: "Pain Balm", purpose: "Local pain relief", manufacturer: "GSK Pharmaceuticals" },
+            { id: 37, name: "Vicks Vaporub", salt: "Menthol + Camphor + Eucalyptus Oil", category: "Decongestant Balm", purpose: "Cold, headache, nasal congestion", manufacturer: "Procter & Gamble" },
+            { id: 38, name: "Nasivion", salt: "Oxymetazoline Hydrochloride (0.05%)", category: "Nasal Decongestant", purpose: "Blocked nose, sinus congestion", manufacturer: "GlaxoSmithKline" },
+            { id: 39, name: "Loperamide", salt: "Loperamide Hydrochloride (2mg)", category: "Antidiarrheal", purpose: "Acute diarrhea, loose motions", manufacturer: "Various Manufacturers" },
+            { id: 40, name: "Isabgol", salt: "Psyllium Husk (3.5g)", category: "Laxative (Fiber)", purpose: "Constipation, bowel regularity", manufacturer: "Various Manufacturers" }
+        ];
+
+        // Function to find medicine by name (case insensitive, partial match)
+        function findMedicine(searchTerm) {
+            const lowerSearch = searchTerm.toLowerCase().trim();
+            return medicineDatabase.filter(med => 
+                med.name.toLowerCase().includes(lowerSearch) || 
+                med.salt.toLowerCase().includes(lowerSearch)
+            );
+        }
+
+        // Function to get exact match
+        function getExactMatch(searchTerm) {
+            const lowerSearch = searchTerm.toLowerCase().trim();
+            return medicineDatabase.find(med => 
+                med.name.toLowerCase() === lowerSearch || 
+                med.salt.toLowerCase() === lowerSearch
+            );
+        }
+
+        // Function to show medicine details
+        function showMedicineDetails(medicine, isExactMatch = true) {
+            const resultCard = document.getElementById('resultCard');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultIcon = document.getElementById('resultIcon');
+            const resultDetails = document.getElementById('resultDetails');
+            const actionButtons = document.getElementById('actionButtons');
+            const similarMedicines = document.getElementById('similarMedicines');
+
+            // Show the result card
+            resultCard.style.display = 'block';
+            resultCard.classList.remove('found', 'not-found');
+            
+            if (medicine && isExactMatch) {
+                // Exact match found
+                resultCard.classList.add('found');
+                resultTitle.textContent = medicine.name;
+                resultIcon.innerHTML = '<i class="bi bi-check-circle-fill text-success"></i>';
+                
+                resultDetails.innerHTML = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Generic Composition:</strong> ${medicine.salt}</p>
+                            <p><strong>Category:</strong> <span class="badge medicine-badge bg-info">${medicine.category}</span></p>
+                            <p><strong>Manufacturer:</strong> ${medicine.manufacturer}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Therapeutic Use:</strong> ${medicine.purpose}</p>
+                            <p><strong>Verification Status:</strong> <span class="badge medicine-badge bg-success">Verified</span></p>
+                            <p><strong>Last Updated:</strong> ${new Date().toLocaleDateString()}</p>
+                        </div>
+                    </div>
+                    <div class="alert alert-success mt-3">
+                        <i class="bi bi-check-circle-fill me-2"></i>
+                        <strong>This medicine is verified in our database.</strong> The details match the manufacturer's specifications.
+                    </div>
+                `;
+                
+                actionButtons.innerHTML = `
+                    <button class="btn btn-success me-2">
+                        <i class="bi bi-check-circle me-1"></i> Genuine Medicine
+                    </button>
+                    <a href="medicine-list.html#${medicine.name.toLowerCase().replace(/\s+/g, '-')}" class="btn btn-outline-primary me-2">
+                        <i class="bi bi-info-circle me-1"></i> More Details
+                    </a>
+                    <button class="btn btn-outline-secondary" onclick="window.print()">
+                        <i class="bi bi-printer me-1"></i> Print Report
+                    </button>
+                `;
+                
+                // Hide similar medicines if showing
+                similarMedicines.classList.add('d-none');
+            } else if (medicine && !isExactMatch) {
+                // Partial match found (from suggestions)
+                resultCard.classList.add('not-found');
+                resultTitle.textContent = 'Medicine Not Found';
+                resultIcon.innerHTML = '<i class="bi bi-exclamation-triangle-fill text-warning"></i>';
+                
+                resultDetails.innerHTML = `
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        <strong>"${document.getElementById('medicineInput').value}"</strong> was not found in our database.
+                    </div>
+                    <p>However, we found similar medicines that might match:</p>
+                `;
+                
+                actionButtons.innerHTML = `
+                    <button class="btn btn-outline-danger me-2" onclick="reportMedicine()">
+                        <i class="bi bi-flag me-1"></i> Report Suspicious Medicine
+                    </button>
+                    <a href="medicine-list.html" class="btn btn-outline-secondary">
+                        <i class="bi bi-list-ul me-1"></i> View Complete List
+                    </a>
+                `;
+                
+                // Show similar medicines
+                showSimilarMedicines([medicine]);
+            } else {
+                // No match found
+                resultCard.classList.add('not-found');
+                resultTitle.textContent = 'Medicine Not Found';
+                resultIcon.innerHTML = '<i class="bi bi-exclamation-triangle-fill text-danger"></i>';
+                
+                resultDetails.innerHTML = `
+                    <div class="alert alert-danger">
+                        <i class="bi bi-exclamation-octagon me-2"></i>
+                        <strong>"${document.getElementById('medicineInput').value}"</strong> was not found in our database.
+                    </div>
+                    <p>Possible reasons:</p>
+                    <ul>
+                        <li>The medicine name is misspelled</li>
+                        <li>This is a new or regional medicine not yet in our database</li>
+                        <li>The medicine might be counterfeit or unapproved</li>
+                    </ul>
+                    <div class="alert alert-info mt-2">
+                        <i class="bi bi-lightbulb me-2"></i>
+                        <strong>Recommendation:</strong> Consult your pharmacist or healthcare provider before using this medicine.
+                    </div>
+                `;
+                
+                actionButtons.innerHTML = `
+                    <button class="btn btn-outline-danger me-2" onclick="reportMedicine()">
+                        <i class="bi bi-flag me-1"></i> Report Suspicious Medicine
+                    </button>
+                    <a href="medicine-list.html" class="btn btn-outline-secondary me-2">
+                        <i class="bi bi-list-ul me-1"></i> View Complete List
+                    </a>
+                    <button class="btn btn-outline-primary" onclick="document.getElementById('medicineInput').focus()">
+                        <i class="bi bi-search me-1"></i> Search Again
+                    </button>
+                `;
+                
+                // Show similar medicines if available
+                const similar = findMedicine(document.getElementById('medicineInput').value);
+                if (similar.length > 0) {
+                    showSimilarMedicines(similar);
+                } else {
+                    similarMedicines.classList.add('d-none');
+                }
+            }
+            
+            // Scroll to results
+            resultCard.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Function to show similar medicines
+        function showSimilarMedicines(medicines) {
+            const similarMedicines = document.getElementById('similarMedicines');
+            const suggestionsList = document.getElementById('suggestionsList');
+            
+            suggestionsList.innerHTML = '';
+            
+            medicines.slice(0, 5).forEach(med => {
+                const suggestionItem = document.createElement('a');
+                suggestionItem.className = 'list-group-item list-group-item-action suggestion-item';
+                suggestionItem.innerHTML = `
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">${med.name}</h5>
+                        <small class="text-muted">${med.category}</small>
+                    </div>
+                    <p class="mb-1">${med.salt}</p>
+                    <small>${med.purpose}</small>
+                `;
+                suggestionItem.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.getElementById('medicineInput').value = med.name;
+                    showMedicineDetails(med, true);
+                    similarMedicines.classList.add('d-none');
+                });
+                suggestionsList.appendChild(suggestionItem);
+            });
+            
+            similarMedicines.classList.remove('d-none');
+        }
+
+        // Function to report medicine
+        function reportMedicine() {
+            const medicineName = document.getElementById('medicineInput').value;
+            document.getElementById('reportMedicineName').value = medicineName;
+            document.getElementById('report-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Function to show autocomplete suggestions
+        function showAutocompleteSuggestions(searchTerm) {
+            const dropdown = document.getElementById('autocompleteDropdown');
+            dropdown.innerHTML = '';
+            
+            if (searchTerm.length < 2) {
+                dropdown.classList.add('d-none');
+                return;
+            }
+            
+            const matches = findMedicine(searchTerm).slice(0, 5);
+            
+            if (matches.length === 0) {
+                dropdown.classList.add('d-none');
+                return;
+            }
+            
+            matches.forEach(med => {
+                const suggestionItem = document.createElement('a');
+                suggestionItem.className = 'list-group-item list-group-item-action suggestion-item';
+                suggestionItem.innerHTML = `
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">${med.name}</h6>
+                        <small class="text-muted">${med.category}</small>
+                    </div>
+                    <small>${med.salt}</small>
+                `;
+                suggestionItem.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.getElementById('medicineInput').value = med.name;
+                    dropdown.classList.add('d-none');
+                    showMedicineDetails(med, true);
+                });
+                dropdown.appendChild(suggestionItem);
+            });
+            
+            dropdown.classList.remove('d-none');
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current year in footer
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            
+            // Form submission
+            document.getElementById('searchForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const searchTerm = document.getElementById('medicineInput').value.trim();
+                const exactMatch = getExactMatch(searchTerm);
+                
+                if (exactMatch) {
+                    showMedicineDetails(exactMatch, true);
+                } else {
+                    const partialMatches = findMedicine(searchTerm);
+                    if (partialMatches.length > 0) {
+                        showMedicineDetails(partialMatches[0], false);
+                    } else {
+                        showMedicineDetails(null);
+                    }
+                }
+                
+                // Hide autocomplete dropdown
+                document.getElementById('autocompleteDropdown').classList.add('d-none');
+            });
+            
+            // Autocomplete functionality
+            document.getElementById('medicineInput').addEventListener('input', function() {
+                showAutocompleteSuggestions(this.value);
+            });
+            
+            // Hide dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('#searchForm')) {
+                    document.getElementById('autocompleteDropdown').classList.add('d-none');
+                }
+            });
+            
+            // Report form submission
+            document.getElementById('reportForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Thank you for your report. We will investigate this medicine.');
+                this.reset();
+            });
+            
+            // Contact form submission
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Thank you for your message. We will get back to you soon.');
+                this.reset();
+            });
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                        
+                        // Update active nav link
+                        document.querySelectorAll('.nav-link').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                    }
+                });
+            });
+            
+            // Highlight active nav link based on scroll position
+            window.addEventListener('scroll', function() {
+                const sections = document.querySelectorAll('section');
+                let currentSection = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 100;
+                    if (window.pageYOffset >= sectionTop) {
+                        currentSection = '#' + section.getAttribute('id');
+                    }
+                });
+                
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === currentSection) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

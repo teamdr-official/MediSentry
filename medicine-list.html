@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediSentry - Medicine List</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Favicon -->
+    <link rel="icon" href="images/favicon.jpg" type="image/x-icon" alt="MediSentry logo">
+    <link rel="apple-touch-icon" href="images/favicon.jpg">
+    <style>
+        /* Custom Styles */
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        
+        .medicine-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            border: none;
+        }
+        
+        .medicine-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .category-badge {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+            box-shadow: 0 0 15px rgba(0,0,0,0.05);
+            border-radius: 8px;
+        }
+        
+        .table thead th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .search-box {
+            max-width: 500px;
+        }
+        
+        .purpose-text {
+            font-size: 0.9rem;
+            color: #555;
+        }
+        
+        .input-group-text {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* Footer Styles */
+        footer {
+            position: relative;
+            z-index: 1;
+            background-color: #212529 !important;
+        }
+        
+        footer a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        footer a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .social-icon i {
+            font-size: 1rem;
+        }
+        
+        .footer-contact-item i {
+            margin-top: 3px;
+            color: var(--primary-color);
+        }
+        
+        .footer-links a {
+            position: relative;
+            margin-left: 15px;
+        }
+        
+        .footer-links a:not(:last-child):after {
+            content: "|";
+            position: absolute;
+            right: -12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .footer-links a:first-child {
+            margin-left: 0;
+        }
+        
+        /* Animation for footer elements */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out forwards;
+            opacity: 0;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 767.98px) {
+            footer .col-lg-4 {
+                margin-bottom: 2rem;
+            }
+            
+            .footer-links {
+                text-align: center !important;
+                margin-top: 1rem;
+            }
+            
+            .footer-links a {
+                margin: 0 8px;
+            }
+            
+            .footer-links a:after {
+                display: none;
+            }
+            
+            .medicine-card {
+                margin-bottom: 1rem;
+            }
+        }
+        
+        /* Additional improvements */
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .text-primary {
+            color: var(--primary-color) !important;
+        }
+        
+        .badge.bg-primary {
+            background-color: var(--primary-color) !important;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
+                <i class="fas fa-shield-alt me-2 text-primary"></i>MediSentry
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="verify.html">Verify Medicine</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="report.html">Report Fake</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="awareness.html">Awareness</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="medicine-list.html">Medicine List</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="faq.html">FAQ</a>
+                    </li>
+                    <li class="nav-item ms-lg-2">
+                        <a class="btn btn-primary rounded-pill px-3" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-4">
+        <!-- Header -->
+        <header class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-primary">
+                <i class="bi bi-capsule-pill"></i> MediSentry
+            </h1>
+            <p class="lead text-muted">Your comprehensive medicine database</p>
+        </header>
+
+        <!-- Search and Filter Section -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="input-group mb-3 shadow-sm">
+                    <span class="input-group-text bg-primary text-white">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    <input type="text" class="form-control" id="searchInput" placeholder="Search medicines...">
+                    <button class="btn btn-outline-secondary" type="button" id="clearSearch">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <select class="form-select shadow-sm" id="categoryFilter">
+                    <option value="">All Categories</option>
+                    <option value="Analgesic">Analgesic/Antipyretic</option>
+                    <option value="NSAID">NSAID</option>
+                    <option value="Antihistamine">Antihistamine</option>
+                    <option value="Antibiotic">Antibiotic</option>
+                    <option value="Antacid">Antacid</option>
+                    <option value="Supplement">Supplement</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- View Toggle -->
+        <div class="d-flex justify-content-end mb-3">
+            <div class="btn-group shadow-sm" role="group">
+                <button type="button" class="btn btn-outline-primary active" id="tableViewBtn">
+                    <i class="bi bi-table"></i> Table View
+                </button>
+                <button type="button" class="btn btn-outline-primary" id="cardViewBtn">
+                    <i class="bi bi-grid"></i> Card View
+                </button>
+            </div>
+        </div>
+
+        <!-- Table View -->
+        <div id="tableView" class="table-responsive mb-5">
+            <table class="table table-striped table-hover table-bordered">
+                <thead class="table-primary">
+                    <tr>
+                        <th>#</th>
+                        <th>Medicine Name</th>
+                        <th>Drug Name (Salt)</th>
+                        <th>Category</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Crocin</td>
+                        <td>Paracetamol</td>
+                        <td><span class="badge bg-info">Analgesic/Antipyretic</span></td>
+                        <td>Fever, body pain</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Dolo 650</td>
+                        <td>Paracetamol</td>
+                        <td><span class="badge bg-info">Analgesic/Antipyretic</span></td>
+                        <td>Fever, pain relief</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Calpol</td>
+                        <td>Paracetamol</td>
+                        <td><span class="badge bg-info">Analgesic/Antipyretic</span></td>
+                        <td>Fever (esp. in children)</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Combiflam</td>
+                        <td>Ibuprofen + Paracetamol</td>
+                        <td><span class="badge bg-warning text-dark">NSAID + Analgesic</span></td>
+                        <td>Headache, body ache</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Brufen</td>
+                        <td>Ibuprofen</td>
+                        <td><span class="badge bg-warning text-dark">NSAID</span></td>
+                        <td>Joint/muscle pain</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Meftal Spas</td>
+                        <td>Mefenamic Acid + Dicyclomine</td>
+                        <td><span class="badge bg-secondary">Antispasmodic + NSAID</span></td>
+                        <td>Menstrual cramps, stomach pain</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>Zerodol</td>
+                        <td>Aceclofenac</td>
+                        <td><span class="badge bg-warning text-dark">NSAID</span></td>
+                        <td>Inflammation, arthritis</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>Spasmonil</td>
+                        <td>Dicyclomine + Paracetamol</td>
+                        <td><span class="badge bg-secondary">Antispasmodic</span></td>
+                        <td>Stomach cramps</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>Buscopan</td>
+                        <td>Hyoscine Butylbromide</td>
+                        <td><span class="badge bg-secondary">Antispasmodic</span></td>
+                        <td>Abdominal pain</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>Avil</td>
+                        <td>Pheniramine</td>
+                        <td><span class="badge bg-success">Antihistamine</span></td>
+                        <td>Allergy, itching</td>
+                    </tr>
+                    <!-- Continue with remaining 30 medicines in the same format -->
+                    <tr>
+                        <td>11</td>
+                        <td>Cetirizine</td>
+                        <td>Cetirizine</td>
+                        <td><span class="badge bg-success">Antihistamine</span></td>
+                        <td>Allergies, sneezing</td>
+                    </tr>
+                    <tr>
+                        <td>12</td>
+                        <td>Allegra</td>
+                        <td>Fexofenadine</td>
+                        <td><span class="badge bg-success">Antihistamine</span></td>
+                        <td>Hay fever, runny nose</td>
+                    </tr>
+                    <tr>
+                        <td>13</td>
+                        <td>Montair-LC</td>
+                        <td>Montelukast + Levocetirizine</td>
+                        <td><span class="badge bg-success">Antiallergic</span></td>
+                        <td>Allergic rhinitis, asthma</td>
+                    </tr>
+                    <tr>
+                        <td>14</td>
+                        <td>Sinarest</td>
+                        <td>Paracetamol + Phenylephrine + Chlorpheniramine</td>
+                        <td><span class="badge bg-primary">Cold & Cough</span></td>
+                        <td>Cold, nasal congestion</td>
+                    </tr>
+                    <tr>
+                        <td>15</td>
+                        <td>Azee 500</td>
+                        <td>Azithromycin</td>
+                        <td><span class="badge bg-danger">Antibiotic</span></td>
+                        <td>Infections (throat, skin, etc.)</td>
+                    </tr>
+                    <tr>
+                        <td>16</td>
+                        <td>Augmentin</td>
+                        <td>Amoxicillin + Clavulanic Acid</td>
+                        <td><span class="badge bg-danger">Antibiotic</span></td>
+                        <td>Respiratory/urinary infections</td>
+                    </tr>
+                    <tr>
+                        <td>17</td>
+                        <td>Taxim-O</td>
+                        <td>Cefixime</td>
+                        <td><span class="badge bg-danger">Antibiotic</span></td>
+                        <td>Bacterial infections</td>
+                    </tr>
+                    <tr>
+                        <td>18</td>
+                        <td>Doxy 1</td>
+                        <td>Doxycycline</td>
+                        <td><span class="badge bg-danger">Antibiotic</span></td>
+                        <td>Typhoid, acne, infections</td>
+                    </tr>
+                    <tr>
+                        <td>19</td>
+                        <td>Norflox-TZ</td>
+                        <td>Norfloxacin + Tinidazole</td>
+                        <td><span class="badge bg-danger">Antibiotic/Antiprotozoal</span></td>
+                        <td>Diarrhea, dysentery</td>
+                    </tr>
+                    <tr>
+                        <td>20</td>
+                        <td>Metrogyl</td>
+                        <td>Metronidazole</td>
+                        <td><span class="badge bg-danger">Antiprotozoal</span></td>
+                        <td>Amoebiasis, dental infections</td>
+                    </tr>
+                    <tr>
+                        <td>21</td>
+                        <td>ORS Powder</td>
+                        <td>Glucose + Electrolytes</td>
+                        <td><span class="badge bg-info">Oral Rehydration</span></td>
+                        <td>Dehydration, diarrhea</td>
+                    </tr>
+                    <tr>
+                        <td>22</td>
+                        <td>Digene</td>
+                        <td>Magnesium + Aluminium Hydroxide</td>
+                        <td><span class="badge bg-secondary">Antacid</span></td>
+                        <td>Gas, acidity</td>
+                    </tr>
+                    <tr>
+                        <td>23</td>
+                        <td>Gelusil</td>
+                        <td>Aluminium Hydroxide + Magnesium</td>
+                        <td><span class="badge bg-secondary">Antacid</span></td>
+                        <td>Acidity, bloating</td>
+                    </tr>
+                    <tr>
+                        <td>24</td>
+                        <td>Pantop</td>
+                        <td>Pantoprazole</td>
+                        <td><span class="badge bg-secondary">PPI (Acid Reducer)</span></td>
+                        <td>Acid reflux, ulcers</td>
+                    </tr>
+                    <tr>
+                        <td>25</td>
+                        <td>Rantac</td>
+                        <td>Ranitidine</td>
+                        <td><span class="badge bg-secondary">H2 Blocker</span></td>
+                        <td>GERD, acidity</td>
+                    </tr>
+                    <tr>
+                        <td>26</td>
+                        <td>Domstal</td>
+                        <td>Domperidone</td>
+                        <td><span class="badge bg-secondary">Antiemetic</span></td>
+                        <td>Vomiting, nausea</td>
+                    </tr>
+                    <tr>
+                        <td>27</td>
+                        <td>Emeset</td>
+                        <td>Ondansetron</td>
+                        <td><span class="badge bg-secondary">Antiemetic</span></td>
+                        <td>Vomiting (esp. during travel, pregnancy)</td>
+                    </tr>
+                    <tr>
+                        <td>28</td>
+                        <td>Becosules</td>
+                        <td>Multivitamin B Complex</td>
+                        <td><span class="badge bg-primary">Supplement</span></td>
+                        <td>Vitamin deficiency</td>
+                    </tr>
+                    <tr>
+                        <td>29</td>
+                        <td>Limcee</td>
+                        <td>Vitamin C (Ascorbic Acid)</td>
+                        <td><span class="badge bg-primary">Supplement</span></td>
+                        <td>Immunity, vitamin C deficiency</td>
+                    </tr>
+                    <tr>
+                        <td>30</td>
+                        <td>Zincovit</td>
+                        <td>Multivitamin + Zinc</td>
+                        <td><span class="badge bg-primary">Supplement</span></td>
+                        <td>Immunity, general weakness</td>
+                    </tr>
+                    <tr>
+                        <td>31</td>
+                        <td>Betadine</td>
+                        <td>Povidone Iodine</td>
+                        <td><span class="badge bg-info">Antiseptic</span></td>
+                        <td>Wound cleaning</td>
+                    </tr>
+                    <tr>
+                        <td>32</td>
+                        <td>Soframycin</td>
+                        <td>Framycetin</td>
+                        <td><span class="badge bg-info">Topical Antibiotic</span></td>
+                        <td>Skin infections</td>
+                    </tr>
+                    <tr>
+                        <td>33</td>
+                        <td>Burnol</td>
+                        <td>Cetrimide + Nitrofurazone</td>
+                        <td><span class="badge bg-info">Antiseptic Cream</span></td>
+                        <td>Burns, minor wounds</td>
+                    </tr>
+                    <tr>
+                        <td>34</td>
+                        <td>Moov</td>
+                        <td>Diclofenac + Menthol</td>
+                        <td><span class="badge bg-info">Pain Relief Cream</span></td>
+                        <td>Back pain, muscle pain</td>
+                    </tr>
+                    <tr>
+                        <td>35</td>
+                        <td>Volini</td>
+                        <td>Diclofenac + Linseed Oil</td>
+                        <td><span class="badge bg-info">Pain Relief Spray</span></td>
+                        <td>Sports injury, joint pain</td>
+                    </tr>
+                    <tr>
+                        <td>36</td>
+                        <td>Iodex</td>
+                        <td>Various Muscle Soothers</td>
+                        <td><span class="badge bg-info">Pain Balm</span></td>
+                        <td>Local pain relief</td>
+                    </tr>
+                    <tr>
+                        <td>37</td>
+                        <td>Vicks</td>
+                        <td>Menthol + Camphor</td>
+                        <td><span class="badge bg-info">Decongestant Balm</span></td>
+                        <td>Cold, headache</td>
+                    </tr>
+                    <tr>
+                        <td>38</td>
+                        <td>Nasivion</td>
+                        <td>Oxymetazoline</td>
+                        <td><span class="badge bg-info">Nasal Decongestant</span></td>
+                        <td>Blocked nose</td>
+                    </tr>
+                    <tr>
+                        <td>39</td>
+                        <td>Loperamide</td>
+                        <td>Loperamide</td>
+                        <td><span class="badge bg-secondary">Antidiarrheal</span></td>
+                        <td>Loose motions</td>
+                    </tr>
+                    <tr>
+                        <td>40</td>
+                        <td>Isabgol</td>
+                        <td>Psyllium Husk</td>
+                        <td><span class="badge bg-secondary">Laxative (Fiber)</span></td>
+                        <td>Constipation, bowel regularity</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Card View (Hidden by default) -->
+        <div id="cardView" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4 d-none">
+            <!-- Cards will be generated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-5 pb-4" id="contact">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6 mb-4 fade-in">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-shield-alt fa-2x text-primary me-2"></i>
+                        <h4 class="fw-bold mb-0">MediSentry</h4>
+                    </div>
+                    <p>"Don't Guess, Verify First" - Our mission is to protect Indian consumers from counterfeit medicines through technology and community participation.</p>
+                    <div class="d-flex gap-3 mt-4">
+                        <a href="https://x.com/DeepakBawa2803" class="social-icon" aria-label="Twitter" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.linkedin.com/in/team-dr-93a056375/" class="social-icon" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4 fade-in" style="animation-delay: 0.1s;">
+                    <h5 class="fw-bold mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-white-50">Home</a></li>
+                        <li class="mb-2"><a href="verify.html" class="text-white-50">Verify Medicine</a></li>
+                        <li class="mb-2"><a href="report.html" class="text-white-50">Report Fake</a></li>
+                        <li class="mb-2"><a href="awareness.html" class="text-white-50">Awareness</a></li>
+                        <li class="mb-2"><a href="#about" class="text-white-50">About Us</a></li>
+                        <li class="mb-2"><a href="#" class="text-white-50">Download App</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4 fade-in" style="animation-delay: 0.2s;">
+                    <h5 class="fw-bold mb-3">Contact Us</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-3 d-flex align-items-start footer-contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div class="ms-3">
+                                <h6 class="mb-0">Email</h6>
+                                <a href="mailto:teamdr1928@gmail.com" class="text-white-50">teamdr1928@gmail.com</a>
+                            </div>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start footer-contact-item">
+                            <i class="fas fa-phone"></i>
+                            <div class="ms-3">
+                                <h6 class="mb-0">Phone</h6>
+                                <a href="tel:+919461111010" class="text-white-50">+91 9461111010</a>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-start footer-contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div class="ms-3">
+                                <h6 class="mb-0">Address</h6>
+                                <span class="text-white-50">India</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4 fade-in" style="animation-delay: 0.3s;">
+                    <h5 class="fw-bold mb-3">Newsletter</h5>
+                    <p class="text-white-50">Subscribe for alerts about fake medicines in your area.</p>
+                    <form>
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" placeholder="Your Email" aria-label="Your Email" required>
+                            <button class="btn btn-primary" type="submit">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <hr class="my-4">
+            
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <p class="mb-3 mb-md-0 small">© <span class="footer-year">2025</span> MediSentry | Student's Project by Team DR from Chandigarh University</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end footer-links">
+                    <a href="privacy.html" class="small">Privacy Policy</a>
+                    <a href="faq.html" class="small">FAQ</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // View toggle functionality
+            const tableViewBtn = document.getElementById('tableViewBtn');
+            const cardViewBtn = document.getElementById('cardViewBtn');
+            const tableView = document.getElementById('tableView');
+            const cardView = document.getElementById('cardView');
+            
+            // Generate cards from table data
+            generateCards();
+            
+            tableViewBtn.addEventListener('click', function() {
+                tableView.classList.remove('d-none');
+                cardView.classList.add('d-none');
+                tableViewBtn.classList.add('active');
+                cardViewBtn.classList.remove('active');
+            });
+            
+            cardViewBtn.addEventListener('click', function() {
+                tableView.classList.add('d-none');
+                cardView.classList.remove('d-none');
+                tableViewBtn.classList.remove('active');
+                cardViewBtn.classList.add('active');
+            });
+            
+            // Search functionality
+            const searchInput = document.getElementById('searchInput');
+            const clearSearch = document.getElementById('clearSearch');
+            
+            searchInput.addEventListener('input', function() {
+                filterMedicines();
+            });
+            
+            clearSearch.addEventListener('click', function() {
+                searchInput.value = '';
+                filterMedicines();
+            });
+            
+            // Category filter
+            const categoryFilter = document.getElementById('categoryFilter');
+            categoryFilter.addEventListener('change', function() {
+                filterMedicines();
+            });
+            
+            function filterMedicines() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const category = categoryFilter.value;
+                const rows = document.querySelectorAll('#tableView tbody tr');
+                const cards = document.querySelectorAll('#cardView .col');
+                
+                rows.forEach(row => {
+                    const medicineName = row.cells[1].textContent.toLowerCase();
+                    const drugName = row.cells[2].textContent.toLowerCase();
+                    const medicineCategory = row.cells[3].textContent;
+                    const purpose = row.cells[4].textContent.toLowerCase();
+                    
+                    const matchesSearch = medicineName.includes(searchTerm) || 
+                                         drugName.includes(searchTerm) || 
+                                         purpose.includes(searchTerm);
+                    
+                    const matchesCategory = category === '' || medicineCategory.includes(category);
+                    
+                    if (matchesSearch && matchesCategory) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+                
+                cards.forEach(card => {
+                    const medicineName = card.querySelector('.card-title').textContent.toLowerCase();
+                    const drugName = card.querySelector('.card-subtitle').textContent.toLowerCase();
+                    const medicineCategory = card.querySelector('.badge').textContent;
+                    const purpose = card.querySelector('.purpose-text').textContent.toLowerCase();
+                    
+                    const matchesSearch = medicineName.includes(searchTerm) || 
+                                         drugName.includes(searchTerm) || 
+                                         purpose.includes(searchTerm);
+                    
+                    const matchesCategory = category === '' || medicineCategory.includes(category);
+                    
+                    if (matchesSearch && matchesCategory) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+            
+            function generateCards() {
+                const cardView = document.getElementById('cardView');
+                const rows = document.querySelectorAll('#tableView tbody tr');
+                
+                rows.forEach(row => {
+                    const card = document.createElement('div');
+                    card.className = 'col';
+                    
+                    const cardHtml = `
+                        <div class="card medicine-card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">${row.cells[1].textContent}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">${row.cells[2].textContent}</h6>
+                                <div class="mb-2">${row.cells[3].innerHTML}</div>
+                                <p class="card-text purpose-text">${row.cells[4].textContent}</p>
+                            </div>
+                            <div class="card-footer bg-transparent">
+                                <small class="text-muted">#${row.cells[0].textContent}</small>
+                            </div>
+                        </div>
+                    `;
+                    
+                    card.innerHTML = cardHtml;
+                    cardView.appendChild(card);
+                });
+            }
+            
+            // Set current year in footer
+            document.querySelector('.footer-year').textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+</html>

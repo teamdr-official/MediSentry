@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediSentry | Medicine Authentication Awareness</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Favicon -->
+  <link rel="icon" href="images/favicon.jpg" type="image/x-icon" alt="MediSentry logo">
+  <link rel="apple-touch-icon" href="images/favicon.jpg">
+  
+  <style>
+    :root {
+      --primary: #6C4DF6;
+      --secondary: #FF7D59;
+      --accent: #00E5CC;
+      --dark: #1A1A2E;
+      --light: #F8F9FF;
+    }
+    
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background-color: var(--light);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+    
+    /* Navbar */
+    .navbar {
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+    
+    .navbar-brand {
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .nav-link {
+      font-weight: 500;
+    }
+    
+    /* Hero Section */
+    .hero-section {
+      background: linear-gradient(135deg, var(--primary), #8D6BFF);
+      clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+      padding-bottom: 6rem;
+    }
+    
+    .hero-title {
+      font-weight: 700;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    
+    /* Feature Cards */
+    .feature-card {
+      background: white;
+      border-radius: 16px;
+      border: none;
+      box-shadow: 0 10px 30px rgba(108, 77, 246, 0.1);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      overflow: hidden;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(108, 77, 246, 0.2);
+    }
+    
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    /* Comparison Slider */
+    .comparison-container {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+      width: 100%;
+      height: 400px; /* Fixed height or use aspect ratio */
+    }
+    
+    .comparison-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .comparison-image-container {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    
+    .comparison-image {
+      position: absolute;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .comparison-handle {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 4px;
+      height: 100%;
+      background: white;
+      transform: translateX(-50%);
+      z-index: 10;
+      cursor: ew-resize;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+    
+    .comparison-button {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 50px;
+      height: 50px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 11;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+      cursor: grab;
+    }
+    
+    .comparison-button:active {
+      cursor: grabbing;
+    }
+    
+    /* Danger Zone */
+    .danger-zone {
+      background: linear-gradient(135deg, #FF3D3D, #FF7D59);
+      color: white;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    
+    /* Footer */
+    .footer {
+      background: var(--dark);
+      color: white;
+      clip-path: polygon(0 20%, 100% 0, 100% 100%, 0 100%);
+      padding-top: 6rem;
+    }
+    
+    /* Unique Elements */
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(108, 77, 246, 0.1);
+      z-index: -1;
+    }
+    
+    .bubble-1 {
+      width: 300px;
+      height: 300px;
+      top: -150px;
+      right: -150px;
+    }
+    
+    .bubble-2 {
+      width: 200px;
+      height: 200px;
+      bottom: -100px;
+      left: -100px;
+    }
+
+    /* Theory Section Styles */
+    .theory-card {
+      border-left: 4px solid var(--primary);
+      transition: all 0.3s ease;
+    }
+    
+    .theory-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .theory-icon {
+      font-size: 2rem;
+      color: var(--primary);
+    }
+    
+    .accordion-theory .accordion-button {
+      font-weight: 600;
+      padding: 1.25rem;
+    }
+    
+    .accordion-theory .accordion-button:not(.collapsed) {
+      background-color: rgba(108, 77, 246, 0.05);
+      color: var(--primary);
+    }
+    
+    /* New Styles for Added Sections */
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+    
+    .checklist-icon {
+      margin-right: 1rem;
+      font-size: 1.2rem;
+      margin-top: 0.2rem;
+    }
+    
+    .checklist-trusted .checklist-icon {
+      color: var(--primary);
+    }
+    
+    .checklist-suspicious .checklist-icon {
+      color: var(--secondary);
+    }
+    
+    .progress-tracker {
+      position: relative;
+      padding-left: 2rem;
+      margin-bottom: 3rem;
+    }
+    
+    .progress-tracker::before {
+      content: "";
+      position: absolute;
+      left: 0.7rem;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--light);
+    }
+    
+    .progress-step {
+      position: relative;
+      padding-bottom: 2rem;
+    }
+    
+    .progress-step:last-child {
+      padding-bottom: 0;
+    }
+    
+    .progress-step::before {
+      content: "";
+      position: absolute;
+      left: -2rem;
+      top: 0;
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      background: var(--light);
+      border: 4px solid var(--primary);
+    }
+    
+    .progress-step.active::before {
+      background: var(--primary);
+    }
+    
+    .progress-step.completed::before {
+      background: var(--primary);
+      content: "\f00c";
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.7rem;
+    }
+    
+    .social-impact-card {
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      height: 100%;
+    }
+    
+    .social-impact-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .social-impact-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .download-btn {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .download-btn::after {
+      content: "\f019";
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      position: absolute;
+      right: -30px;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: all 0.3s ease;
+    }
+    
+    .download-btn:hover::after {
+      right: 20px;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 992px) {
+      .hero-section {
+        padding-bottom: 5rem;
+      }
+      
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      
+      .footer {
+        clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+      }
+      
+      .comparison-container {
+        height: 350px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .hero-section {
+        clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+        padding-bottom: 4rem;
+      }
+      
+      .hero-title {
+        font-size: 2.2rem;
+      }
+      
+      .footer {
+        clip-path: polygon(0 10%, 100% 0, 100% 100%, 0 100%);
+        padding-top: 5rem;
+      }
+      
+      .comparison-button {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .comparison-container {
+        height: 300px;
+      }
+      
+      .bubble-1 {
+        width: 200px;
+        height: 200px;
+        top: -100px;
+        right: -100px;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .hero-section {
+        clip-path: polygon(0 0, 100% 0, 100% 97%, 0 100%);
+        padding-bottom: 3rem;
+      }
+      
+      .hero-title {
+        font-size: 1.8rem;
+      }
+      
+      .comparison-button {
+        width: 30px;
+        height: 30px;
+      }
+      
+      .comparison-button i {
+        font-size: 0.8rem;
+      }
+      
+      .comparison-container {
+        height: 250px;
+      }
+      
+      .footer {
+        clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
+        padding-top: 4rem;
+      }
+      
+      .bubble-1, .bubble-2 {
+        display: none;
+      }
+      
+      .btn-lg {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating Bubbles -->
+  <div class="bubble bubble-1"></div>
+  <div class="bubble bubble-2"></div>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg py-3 sticky-top">
+    <div class="container">
+      <a class="navbar-brand fs-3" href="index.html">
+        <i class="fas fa-shield-alt me-2"></i>MediSentry
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item mx-2">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item mx-2">
+            <a class="nav-link" href="verify.html">Verify</a>
+          </li>
+          <li class="nav-item mx-2">
+            <a class="nav-link active" href="awareness.html">Awareness</a>
+          </li>
+          <li class="nav-item mx-2">
+            <a class="nav-link" href="report.html">Report</a>
+          </li>
+          <li class="nav-item mx-2">
+            <a class="nav-link" href="medicine-list.html">Medicine List</a>
+          </li>
+          <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+            <a href="#cta" class="btn btn-primary rounded-pill px-4">Get Started</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+
+  <!-- Hero Section -->
+  <section class="hero-section text-white py-5">
+    <div class="container py-5">
+      <div class="row align-items-center">
+        <div class="col-lg-6 order-lg-1 order-2">
+          <h1 class="hero-title display-4 mb-4">Become a Medicine Authentication Expert</h1>
+          <p class="lead mb-4">Learn to identify counterfeit medicines with our comprehensive visual guide and protect your health.</p>
+          <div class="d-flex flex-wrap gap-3">
+            <a href="#comparison" class="btn btn-light btn-lg rounded-pill px-4 mb-2 mb-md-0">
+              <i class="fas fa-eye me-2"></i>See Examples
+            </a>
+            <a href="#danger" class="btn btn-outline-light btn-lg rounded-pill px-4">
+              <i class="fas fa-exclamation-triangle me-2"></i>Danger Signs
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-6 order-lg-2 order-1 mb-4 mb-lg-0">
+          <img src="images/verification.png" class="img-fluid rounded-3 shadow-lg" alt="Medicine verification" style="width: 200px;; transform: rotate(-5deg); border: 5px solid white;">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="feature-card p-4 h-100 text-center">
+            <div class="feature-icon mx-auto">
+              <i class="fas fa-pills"></i>
+            </div>
+            <h3 class="mb-3">1 in 10</h3>
+            <p class="mb-0">medicines in developing countries are substandard or falsified (WHO)</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card p-4 h-100 text-center">
+            <div class="feature-icon mx-auto">
+              <i class="fas fa-rupee-sign"></i>
+            </div>
+            <h3 class="mb-3">$30B</h3>
+            <p class="mb-0">annual global market for counterfeit pharmaceuticals</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card p-4 h-100 text-center">
+            <div class="feature-icon mx-auto">
+              <i class="fas fa-skull-crossbones"></i>
+            </div>
+            <h3 class="mb-3">500,000+</h3>
+            <p class="mb-0">deaths annually from fake malaria and TB drugs alone</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Visual Comparison -->
+  <section id="comparison" class="py-5 bg-white">
+    <div class="container">
+      <div class="text-center mb-5">
+        <span class="badge bg-primary mb-3">Interactive Tool</span>
+        <h2 class="display-5 fw-bold mb-3">Real vs Fake Medicine Comparison</h2>
+        <p class="lead mx-auto" style="max-width: 700px;">Drag the slider to see key differences between authentic and counterfeit medicine packaging</p>
+      </div>
+      
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <div class="comparison-container">
+            <div class="comparison-wrapper">
+              <!-- Fake Medicine Image (left side) -->
+              <div class="comparison-image-container">
+                <img src="images/fake pack.jpg" class="comparison-image" alt="Fake medicine packaging" style="width: 50%;">
+              </div>
+              
+              <!-- Genuine Medicine Image (right side) -->
+              <div class="comparison-image-container">
+                <img src="images/good medicine.jpg" class="comparison-image" alt="Genuine medicine packaging" style="width: 50%; left: 50%;">
+              </div>
+              
+              <div class="comparison-handle"></div>
+              
+              <div class="comparison-button">
+                <i class="fas fa-arrows-left-right text-primary"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row mt-5 g-4">
+        <div class="col-md-6">
+          <div class="feature-card p-4 h-100">
+            <div class="d-flex align-items-center mb-3">
+              <div class="feature-icon me-3">
+                <i class="fas fa-check"></i>
+              </div>
+              <h3 class="mb-0">Authentic Medicine Markers</h3>
+            </div>
+            <ul class="ps-4">
+              <li class="mb-2">Precise, high-resolution printing</li>
+              <li class="mb-2">Dynamic holograms that change when tilted</li>
+              <li class="mb-2">Perfectly aligned security seals</li>
+              <li class="mb-2">Batch numbers match on all packaging</li>
+              <li class="mb-2">Manufacturer contact information present</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="feature-card p-4 h-100">
+            <div class="d-flex align-items-center mb-3">
+              <div class="feature-icon me-3" style="background: var(--secondary);">
+                <i class="fas fa-times"></i>
+              </div>
+              <h3 class="mb-0">Counterfeit Warning Signs</h3>
+            </div>
+            <ul class="ps-4">
+              <li class="mb-2">Blurry or pixelated text and logos</li>
+              <li class="mb-2">Static holograms that don't change</li>
+              <li class="mb-2">Poorly aligned or missing seals</li>
+              <li class="mb-2">Inconsistent batch numbers</li>
+              <li class="mb-2">No manufacturer contact details</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--quiz -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 mb-4 mb-lg-0">
+        <img src="images/quiz.jpg" alt="Quiz illustration" class="img-fluid rounded-3 shadow" style="width: 500px;">
+      </div>
+      <div class="col-lg-6">
+        <span class="badge bg-primary mb-3">Test Your Knowledge</span>
+        <h2 class="display-5 fw-bold mb-3">Ready to Test Your Skills?</h2>
+        <p class="lead mb-4">Take our interactive quiz to see if you can spot counterfeit medicines like a pro!</p>
+        
+        <div class="feature-card p-4 mb-4">
+          <div class="d-flex align-items-center">
+            <div class="feature-icon me-3">
+              <i class="fas fa-star"></i>
+            </div>
+            <div>
+              <h4 class="mb-1">What's in the Quiz?</h4>
+              <p class="mb-0">10 real-world examples to evaluate</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="d-flex flex-wrap gap-3">
+          <a href="quiz.html" class="btn btn-primary btn-lg rounded-pill px-4">
+            <i class="fas fa-play me-2"></i>Start Quiz Now
+          </a>
+          <a href="#comparison" class="btn btn-outline-primary btn-lg rounded-pill px-4">
+            <i class="fas fa-redo me-2"></i>Review First
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- Pharmacy Checklist Section -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <div class="text-center mb-5">
+        <span class="badge bg-primary mb-3">Safety Guide</span>
+        <h2 class="display-5 fw-bold mb-3">Trusted vs Suspicious Pharmacy Checklist</h2>
+        <p class="lead mx-auto" style="max-width: 700px;">Use this checklist to evaluate whether a pharmacy is genuine</p>
+      </div>
+      
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="feature-card p-4 h-100">
+            <h3 class="mb-4 text-primary"><i class="fas fa-check-circle me-2"></i>Trusted Pharmacy Signs</h3>
+            <div class="checklist-item checklist-trusted">
+              <div class="checklist-icon"><i class="fas fa-check"></i></div>
+              <div>
+                <h5>Valid License Displayed</h5>
+                <p class="mb-0">Properly displayed drug license from authorities</p>
+              </div>
+            </div>
+            <div class="checklist-item checklist-trusted">
+              <div class="checklist-icon"><i class="fas fa-check"></i></div>
+              <div>
+                <h5>Professional Staff</h5>
+                <p class="mb-0">Qualified pharmacists available for consultation</p>
+              </div>
+            </div>
+            <div class="checklist-item checklist-trusted">
+              <div class="checklist-icon"><i class="fas fa-check"></i></div>
+              <div>
+                <h5>Proper Storage</h5>
+                <p class="mb-0">Medicines stored in appropriate conditions</p>
+              </div>
+            </div>
+            <div class="checklist-item checklist-trusted">
+              <div class="checklist-icon"><i class="fas fa-check"></i></div>
+              <div>
+                <h5>Transparent Pricing</h5>
+                <p class="mb-0">Clear pricing with proper receipts</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="feature-card p-4 h-100">
+            <h3 class="mb-4 text-danger"><i class="fas fa-exclamation-triangle me-2"></i>Suspicious Pharmacy Signs</h3>
+            <div class="checklist-item checklist-suspicious">
+              <div class="checklist-icon"><i class="fas fa-times"></i></div>
+              <div>
+                <h5>No License Visible</h5>
+                <p class="mb-0">Cannot produce valid drug license when asked</p>
+              </div>
+            </div>
+            <div class="checklist-item checklist-suspicious">
+              <div class="checklist-icon"><i class="fas fa-times"></i></div>
+              <div>
+                <h5>Unusually Low Prices</h5>
+                <p class="mb-0">Prices significantly lower than market rates</p>
+              </div>
+            </div>
+            <div class="checklist-item checklist-suspicious">
+              <div class="checklist-icon"><i class="fas fa-times"></i></div>
+              <div>
+                <h5>Poor Storage Conditions</h5>
+                <p class="mb-0">Medicines exposed to heat, light or moisture</p>
+              </div>
+            </div>
+            <div class="checklist-item checklist-suspicious">
+              <div class="checklist-icon"><i class="fas fa-times"></i></div>
+              <div>
+                <h5>No Professional Staff</h5>
+                <p class="mb-0">No qualified pharmacist available</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Awareness Progress Timeline -->
+  <section class="py-5 bg-white">
+    <div class="container">
+      <div class="text-center mb-5">
+        <span class="badge bg-primary mb-3">Learning Path</span>
+        <h2 class="display-5 fw-bold mb-3">Medicine Authentication Awareness Steps</h2>
+        <p class="lead mx-auto" style="max-width: 700px;">Follow this step-by-step guide to become medicine authentication aware</p>
+      </div>
+      
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="progress-tracker">
+            <div class="progress-step completed">
+              <h4>Step 1: Learn Basic Authentication Features</h4>
+              <p>Understand common security features like holograms, QR codes, and batch numbers.</p>
+            </div>
+            <div class="progress-step active">
+              <h4>Step 2: Study Common Counterfeit Signs</h4>
+              <p>Recognize signs like poor printing quality, missing security features, and packaging errors.</p>
+            </div>
+            <div class="progress-step">
+              <h4>Step 3: Practice Verification Techniques</h4>
+              <p>Use verification tools to check medicine authenticity through apps or websites.</p>
+            </div>
+            <div class="progress-step">
+              <h4>Step 4: Share Knowledge With Others</h4>
+              <p>Educate family and friends about medicine authentication practices.</p>
+            </div>
+            <div class="progress-step">
+              <h4>Step 5: Report Suspected Counterfeits</h4>
+              <p>Know how and where to report suspected counterfeit medicines.</p>
+            </div>
+          </div>
+          
+          <div class="text-center mt-4">
+            <a href="" class="btn btn-primary btn-lg rounded-pill download-btn px-5">
+              <i class="fas fa-download me-2"></i>Download Complete Guide
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Impact Section -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <div class="text-center mb-5">
+        <span class="badge bg-primary mb-3">Community</span>
+        <h2 class="display-5 fw-bold mb-3">Share Awareness & Make an Impact</h2>
+        <p class="lead mx-auto" style="max-width: 700px;">Join our movement to combat counterfeit medicines through awareness</p>
+      </div>
+      
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="social-impact-card feature-card p-4 text-center">
+            <div class="social-impact-icon text-primary">
+              <i class="fas fa-share-alt"></i>
+            </div>
+            <h3>Share on Social Media</h3>
+            <p>Spread awareness by sharing our verification guides and counterfeit alerts</p>
+            <div class="d-flex justify-content-center gap-3 mt-3">
+              <a href="https://www.facebook.com/" class="btn btn-outline-primary rounded-circle"><i class="fab fa-facebook-f"></i></a>
+              <a href="https://x.com/?lang=en" class="btn btn-outline-primary rounded-circle"><i class="fab fa-twitter"></i></a>
+              <a href="https://www.instagram.com/accounts/login/?hl=en" class="btn btn-outline-primary rounded-circle"><i class="fab fa-instagram"></i></a>
+              <a href="https://www.whatsapp.com/" class="btn btn-outline-primary rounded-circle"><i class="fab fa-whatsapp"></i></a>
+              <a href="https://in.linkedin.com/" class="btn btn-outline-primary rounded-circle"><i class="fab fa-linkedin-in"></i></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="social-impact-card feature-card p-4 text-center">
+            <div class="social-impact-icon text-primary">
+              <i class="fas fa-chalkboard-teacher"></i>
+            </div>
+            <h3>Organize Awareness Sessions</h3>
+            <p>Host community sessions to teach medicine authentication techniques</p>
+            <a href="#" class="btn btn-primary mt-3">Request Materials</a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="social-impact-card feature-card p-4 text-center">
+            <div class="social-impact-icon text-primary">
+              <i class="fas fa-hands-helping"></i>
+            </div>
+            <h3>Volunteer With Us</h3>
+            <p>Join our network of volunteers helping combat counterfeit medicines</p>
+            <a href="#" class="btn btn-primary mt-3">Join Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+
+  <!-- Comprehensive Theory Section -->
+  <section class="py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <span class="badge bg-primary mb-3">Science Behind</span>
+        <h2 class="display-5 fw-bold mb-3">Pharmaceutical Authentication Theory</h2>
+        <p class="lead mx-auto" style="max-width: 700px;">Understanding how genuine medicines are protected and verified</p>
+      </div>
+
+      <div class="row g-4 mb-5">
+        <div class="col-md-6">
+          <div class="feature-card p-4 h-100">
+            <div class="feature-icon me-3 mb-3">
+              <i class="fas fa-microscope"></i>
+            </div>
+            <h3>Security Features in Medicine Packaging</h3>
+            <p>Genuine pharmaceutical companies implement multiple layers of security:</p>
+            <ul>
+              <li><strong>Overt Features:</strong> Holograms, color-shifting inks, embossed logos</li>
+              <li><strong>Covert Features:</strong> Microtext, UV markers, chemical taggants</li>
+              <li><strong>Digital Features:</strong> QR codes, serial numbers, blockchain tracking</li>
+            </ul>
+            <div class="alert alert-primary mt-3">
+              <i class="fas fa-lightbulb me-2"></i> In India, the CDSCO mandates at least 3 security features on all Schedule H drugs.
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="feature-card p-4 h-100">
+            <div class="feature-icon me-3 mb-3" style="background: var(--secondary);">
+              <i class="fas fa-industry"></i>
+            </div>
+            <h3>How Counterfeiters Operate</h3>
+            <p>Common techniques used by fake medicine manufacturers:</p>
+            <ul>
+              <li><strong>Refilling:</strong> Reusing genuine packaging with fake contents</li>
+              <li><strong>Repackaging:</strong> Changing expiry dates or batch numbers</li>
+              <li><strong>Copying:</strong> Mimicking packaging with inferior materials</li>
+              <li><strong>Dilution:</strong> Reducing active ingredient concentration</li>
+            </ul>
+            <div class="alert alert-danger mt-3">
+              <i class="fas fa-exclamation-triangle me-2"></i> 78% of counterfeit drugs in India are manufactured domestically (WHO 2022 report).
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Theory Accordion -->
+      <div class="row mt-4">
+        <div class="col-lg-8 mx-auto">
+          <div class="accordion accordion-theory" id="theoryAccordion">
+            <div class="accordion-item mb-3 border-0 shadow-sm">
+              <h3 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  <i class="fas fa-dna me-3 text-primary"></i> Why are fake medicines dangerous?
+                </button>
+              </h3>
+              <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#theoryAccordion">
+                <div class="accordion-body">
+                  <p>Counterfeit medicines pose three critical threats:</p>
+                  <ol>
+                    <li><strong>Health Risks:</strong> May contain toxic substances like chalk, arsenic, or road paint</li>
+                    <li><strong>Treatment Failure:</strong> Insufficient active ingredients lead to disease progression</li>
+                    <li><strong>Antibiotic Resistance:</strong> Sub-therapeutic doses create drug-resistant bacteria</li>
+                  </ol>
+                  <p>A 2021 Lancet study found fake antibiotics cause 169,000 childhood pneumonia deaths annually.</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="accordion-item mb-3 border-0 shadow-sm">
+              <h3 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  <i class="fas fa-qrcode me-3 text-primary"></i> How does digital verification work?
+                </button>
+              </h3>
+              <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#theoryAccordion">
+                <div class="accordion-body">
+                  <p>Modern authentication systems use:</p>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <h6>Track & Trace Technologies:</h6>
+                      <ul>
+                        <li>Unique serial numbers</li>
+                        <li>2D barcodes (Data Matrix)</li>
+                        <li>Blockchain records</li>
+                      </ul>
+                    </div>
+                    <div class="col-md-6">
+                      <h6>Verification Methods:</h6>
+                      <ul>
+                        <li>Mobile app scanning</li>
+                        <li>SMS verification</li>
+                        <li>Web portal checks</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <p class="mt-3">India's Drugs Traceability System (DTIS) aims to track 300+ essential drugs by 2025.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Danger Zone -->
+  <section id="danger" class="py-5 danger-zone">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <span class="badge bg-white text-danger mb-3">Critical Information</span>
+          <h2 class="display-5 fw-bold mb-3">Most Counterfeited Medicines in India</h2>
+          <p>These medicines are frequently targeted by counterfeiters. Be extra vigilant when purchasing:</p>
+          
+          <div class="row g-3">
+            <div class="col-6 col-sm-3 col-lg-6">
+              <div class="bg-white rounded-3 p-3 text-center h-100">
+                <i class="fas fa-capsules text-danger mb-2"></i>
+                <h6 class="mb-0">Antibiotics</h6>
+              </div>
+            </div>
+            <div class="col-6 col-sm-3 col-lg-6">
+              <div class="bg-white rounded-3 p-3 text-center h-100">
+                <i class="fas fa-pills text-danger mb-2"></i>
+                <h6 class="mb-0">Pain Relievers</h6>
+              </div>
+            </div>
+            <div class="col-6 col-sm-3 col-lg-6">
+              <div class="bg-white rounded-3 p-3 text-center h-100">
+                <i class="fas fa-heart text-danger mb-2"></i>
+                <h6 class="mb-0">Cardiac Drugs</h6>
+              </div>
+            </div>
+            <div class="col-6 col-sm-3 col-lg-6">
+              <div class="bg-white rounded-3 p-3 text-center h-100">
+                <i class="fas fa-syringe text-danger mb-2"></i>
+                <h6 class="mb-0">Vaccines</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="bg-white rounded-3 p-4">
+            <h4 class="mb-3"><i class="fas fa-exclamation-triangle text-danger me-2"></i>Danger Signs</h4>
+            <div class="alert alert-danger mb-3">
+              <i class="fas fa-skull-crossbones me-2"></i>
+              <strong>Consuming counterfeit medicines can:</strong>
+              <ul class="mb-0 mt-2">
+                <li>Cause treatment failure</li>
+                <li>Lead to antibiotic resistance</li>
+                <li>Result in poisoning or death</li>
+              </ul>
+            </div>
+            <div class="alert alert-warning mb-0">
+              <i class="fas fa-store-alt me-2"></i>
+              <strong>Where fakes are commonly sold:</strong>
+              <ul class="mb-0 mt-2">
+                <li>Unlicensed online pharmacies</li>
+                <li>Street vendors</li>
+                <li>Unauthorized medical stores</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Verification Steps -->
+  <section class="py-5 bg-white">
+    <div class="container">
+      <div class="text-center mb-5">
+        <span class="badge bg-primary mb-3">Step-by-Step Guide</span>
+        <h2 class="display-5 fw-bold mb-3">How to Verify Your Medicines</h2>
+      </div>
+      
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="feature-card p-4 h-100 text-center">
+            <div class="feature-icon mx-auto mb-3">
+              <span>1</span>
+            </div>
+            <h4>Check Packaging</h4>
+            <p>Examine for spelling errors, print quality, and security features</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card p-4 h-100 text-center">
+            <div class="feature-icon mx-auto mb-3">
+              <span>2</span>
+            </div>
+            <h4>Verify Online</h4>
+            <p>Use MediSentry's verification tool to check batch numbers</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card p-4 h-100 text-center">
+            <div class="feature-icon mx-auto mb-3">
+              <span>3</span>
+            </div>
+            <h4>Report Suspects</h4>
+            <p>Alert authorities if you find counterfeit medicines</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center mt-5">
+        <a href="verify.html" class="btn btn-primary btn-lg rounded-pill px-5">
+          <i class="fas fa-search me-2"></i>Verify Now
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section id="cta" class="py-5 bg-primary text-white">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+          <h2 class="display-5 fw-bold mb-4">Join the Fight Against Fake Medicines</h2>
+          <p class="lead mb-5">Together we can protect India from counterfeit pharmaceuticals</p>
+          <div class="d-flex flex-column flex-md-row justify-content-center gap-3">
+            <a href="report.html" class="btn btn-light btn-lg rounded-pill px-5 mb-3 mb-md-0">
+              <i class="fas fa-flag me-2"></i>Report Counterfeit
+            </a>
+            <a href="#comparison" class="btn btn-outline-light btn-lg rounded-pill px-5">
+              <i class="fas fa-book me-2"></i>Learn More
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer pt-5 pb-4">
+    <div class="container pt-5">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <h3 class="text-white mb-4"><i class="fas fa-shield-alt me-2"></i>MediSentry</h3>
+          <p>India's trusted platform for medicine authentication and counterfeit prevention.</p>
+          <div class="d-flex gap-3 mt-4">
+            <a href="https://x.com/DeepakBawa2803" class="text-white"><i class="fab fa-twitter fa-lg"></i></a>
+            <a href="https://www.linkedin.com/in/team-dr-93a056375/" class="text-white"><i class="fab fa-linkedin-in fa-lg"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4">
+          <h5 class="text-white mb-4">Quick Links</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="index.html" class="text-white-50">Home</a></li>
+            <li class="mb-2"><a href="verify.html" class="text-white-50">Verify</a></li>
+            <li class="mb-2"><a href="report.html" class="text-white-50">Report</a></li>
+            <li class="mb-2"><a href="awareness.html" class="text-white-50">Awareness</a></li>
+            <li class="mb-2"><a href="medicine-list.html" class="text-white-50">Medicine List</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-4">
+          <h5 class="text-white mb-4">Contact</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><i class="fas fa-envelope me-2"></i>teamdr1928@gmail.com</li>
+            <li class="mb-2"><i class="fas fa-phone me-2"></i> +91 9461111010</li>
+            <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i>India</li>
+          </ul>
+        </div>
+      </div>
+      <hr class="my-4 bg-light">
+      <div class="row">
+        <div class="col-md-6">
+          <p class="mb-3 mb-md-0 small">© 2025 MediSentry | Student's Project by Team DR from Chandigarh University</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <a href="privacy.html" class="text-white-50 me-3">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const container = document.querySelector('.comparison-container');
+      const wrapper = document.querySelector('.comparison-wrapper');
+      const before = document.querySelector('.comparison-image-container:first-child img');
+      const after = document.querySelector('.comparison-image-container:last-child img');
+      const handle = document.querySelector('.comparison-handle');
+      const button = document.querySelector('.comparison-button');
+      
+      // Only proceed if all required elements exist
+      if (!container || !wrapper || !before || !after || !handle || !button) {
+        return;
+      }
+      
+      let isDragging = false;
+      
+      // Set initial position to 50%
+      before.style.width = '50%';
+      after.style.width = '50%';
+      after.style.left = '50%';
+      handle.style.left = '50%';
+      button.style.left = '50%';
+      
+      const moveSlider = (e) => {
+        if (!isDragging) return;
+        
+        let x;
+        if (e.type === 'mousemove') {
+          x = e.pageX - wrapper.getBoundingClientRect().left;
+        } else if (e.type === 'touchmove') {
+          x = e.touches[0].clientX - wrapper.getBoundingClientRect().left;
+        }
+        
+        // Calculate percentage
+        const percent = Math.min(Math.max((x / wrapper.offsetWidth) * 100, 10), 90);
+        
+        before.style.width = `${percent}%`;
+        after.style.width = `${100 - percent}%`;
+        after.style.left = `${percent}%`;
+        handle.style.left = `${percent}%`;
+        button.style.left = `${percent}%`;
+      };
+      
+      // Mouse events
+      button.addEventListener('mousedown', () => {
+        isDragging = true;
+        document.body.style.cursor = 'ew-resize';
+        button.style.cursor = 'grabbing';
+      });
+      
+      document.addEventListener('mousemove', moveSlider);
+      document.addEventListener('mouseup', () => {
+        isDragging = false;
+        document.body.style.cursor = '';
+        button.style.cursor = 'grab';
+      });
+      
+      // Touch events
+      button.addEventListener('touchstart', () => {
+        isDragging = true;
+      }, { passive: true });
+      
+      document.addEventListener('touchmove', moveSlider, { passive: false });
+      document.addEventListener('touchend', () => {
+        isDragging = false;
+      });
+    });
+  </script>
+</body>
+</html>

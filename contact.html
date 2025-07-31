@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | MediSentry</title>
+    <!-- Meta tags for SEO/Social -->
+    <meta name="description" content="Contact MediSentry to report counterfeit medicines or get help with verification. We're based at Chandigarh University.">
+    <meta property="og:title" content="Contact | MediSentry">
+    <meta property="og:description" content="Contact MediSentry to report counterfeit medicines or get help with verification.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://example.com/contact.html">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     <!-- Favicon -->
+    <link rel="icon" href="images/favicon.jpg" type="image/x-icon" alt="MediSentry logo">
+    <link rel="apple-touch-icon" href="images/favicon.jpg">
+    <style>
+        :root {
+            --primary: #4e54c8;
+            --primary-dark: #3a3fa1;
+            --secondary: #8f94fb;
+            --accent: #ff6b6b;
+            --light-bg: #f8f9fa;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--light-bg);
+            padding-top: 56px;
+        }
+        
+        .contact-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 4rem 0;
+            margin-bottom: 3rem;
+        }
+        
+        .contact-card {
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border: none;
+            transition: transform 0.3s;
+            background: white;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.25rem rgba(78, 84, 200, 0.25);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            padding: 0.5rem 1.75rem;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+        
+        .map-container {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .disclaimer {
+            font-size: 0.85rem;
+            color: #6c757d;
+            text-align: center;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .section-title {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+        
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(78, 84, 200, 0.1);
+            color: var(--primary-dark);
+        }
+        
+        .accordion-button:focus {
+            box-shadow: 0 0 0 0.25rem rgba(78, 84, 200, 0.25);
+        }
+
+        /* Toast notification */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1100;
+        }
+
+        /* Hide big map on mobile */
+        @media (max-width: 768px) {
+            #map {
+                display: none;
+            }
+            
+            /* Stack contact cards on mobile */
+            .contact-cards .col-md-4 {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+        
+        /* Map placeholder */
+        .map-placeholder {
+            background-color: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            color: #6c757d;
+            margin-top: 20px;
+        }
+        
+        /* Footer social icons */
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .social-icons a {
+            font-size: 1.2rem;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Loading spinner */
+        .spinner-border {
+            display: none;
+            width: 1.5rem;
+            height: 1.5rem;
+            vertical-align: text-bottom;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">MediSentry</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="verify.html">Verify</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="report.html">Report</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="contact.html">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="medicine-list.html">Medicine List</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Toast Notification -->
+    <div class="toast-container">
+        <div id="formToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="fas fa-check-circle me-2"></i> Message sent successfully! (Demo)
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="contact-header text-center">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-3">Contact Us</h1>
+            <p class="lead">Have questions about counterfeit medicines or MediSentry? We're here to help.</p>
+        </div>
+    </header>
+
+    <!-- Contact Cards -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4 contact-cards">
+                <div class="col-md-4">
+                    <div class="contact-card p-4 text-center h-100">
+                        <div class="contact-icon mx-auto">
+                            <i class="fas fa-envelope" aria-hidden="true"></i>
+                        </div>
+                        <h3>Email</h3>
+                        <p class="text-muted">For general inquiries and support</p>
+                        <a href="mailto:teamdr1928@gmail.com<" class="btn btn-outline-primary" aria-label="Send email to teamdr1928@gmail.com<">teamdr1928@gmail.com</a>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="contact-card p-4 text-center h-100">
+                        <div class="contact-icon mx-auto">
+                            <i class="fas fa-phone-alt" aria-hidden="true"></i>
+                        </div>
+                        <h3>Phone</h3>
+                        <p class="text-muted">Available Monday-Friday, 10AM-6PM</p>
+                        <a href="tel:+919461111010" class="btn btn-outline-primary" aria-label="Call +91 9461111010">+91 9461111010</a>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="contact-card p-4 text-center h-100">
+                        <div class="contact-icon mx-auto">
+                            <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                        </div>
+                        <h3>Location</h3>
+                        <p class="text-muted">Based at Chandigarh University</p>
+                        <div class="d-flex justify-content-center gap-2">
+                            <button class="btn btn-outline-primary" onclick="loadMap()" aria-label="Load map view" id="mapButton">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                <i class="fas fa-map me-1"></i> View Map
+                            </button>
+                            <a href="https://maps.app.goo.gl/example" class="btn btn-outline-secondary" aria-label="Open in Google Maps" target="_blank" rel="noopener noreferrer">
+                                <i class="fas fa-external-link-alt me-1"></i> Open Maps
+                            </a>
+                        </div>
+                        <div id="mapContainer">
+                            <div class="map-placeholder">
+                                <i class="fas fa-map-marked-alt mb-2" style="font-size: 1.5rem;"></i>
+                                <p class="mb-0">Map will appear here after you click 'Load Map'</p>
+                            </div>
+                        </div>     
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section class="py-5 bg-white">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-4 p-md-5">
+                            <h2 class="text-center mb-4 section-title">Send Us a Message</h2>
+                            <form id="contactForm">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="name" class="form-label">Your Name <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="name" name="name" required aria-required="true">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
+                                        <input type="email" class="form-control" id="email" name="email" required aria-required="true" pattern="[^@\s]+@[^@\s]+\.[^@\s]+">
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="subject" class="form-label">Subject <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="subject" name="subject" required aria-required="true">
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="message" class="form-label">Message <span class="text-danger">*</span></label>
+                                        <textarea class="form-control" id="message" name="message" rows="5" required aria-required="true" minlength="10"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="consent" name="consent" required aria-required="true">
+                                            <label class="form-check-label" for="consent">
+                                                I consent to having MediSentry collect my details through this form
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 text-center">
+                                        <button type="submit" class="btn btn-primary btn-lg px-4" aria-label="Send message">
+                                            <i class="fas fa-paper-plane me-2"></i> Send Message
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="disclaimer">
+                                <strong>Note:</strong> This is a demonstration form only. For actual communication, 
+                                please use the contact details provided above. This form does not have backend 
+                                functionality implemented. For professional inquiries, we recommend reaching out 
+                                directly via email or phone.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map -->
+    <section id="map" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4 section-title">Find Us at Chandigarh University</h2>
+            <div class="map-container">
+                <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3428.106480670949!2d76.57626547619464!3d30.77159078375245!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ffb140bd63e07%3A0x68591e334d17a988!2sChandigarh%20University!5e0!3m2!1sen!2sin!4v1751813575383!5m2!1sen!2sin" 
+                        width="100%" 
+                        height="300" 
+                        style="border:0; border-radius: 8px;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Chandigarh University Location Map"
+                        aria-label="Interactive map showing Chandigarh University location">
+                    </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-5 bg-white">
+        <div class="container">
+            <h2 class="text-center mb-5 section-title">Frequently Asked Questions</h2>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item border-0 mb-3 shadow-sm">
+                    <h3 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <i class="fas fa-question-circle me-2 text-primary"></i> How quickly can I expect a response?
+                        </button>
+                    </h3>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            We typically respond to emails within 24-48 hours. For urgent matters regarding counterfeit medicines, please call the provided phone number during business hours for immediate assistance.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item border-0 mb-3 shadow-sm">
+                    <h3 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <i class="fas fa-question-circle me-2 text-primary"></i> Can I report counterfeit medicines through this contact form?
+                        </button>
+                    </h3>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            While you can mention counterfeit medicine reports here, we strongly recommend using the dedicated <a href="report.html" class="text-primary">Report</a> page for faster processing and proper documentation. The report form is specifically designed to capture all necessary details about counterfeit medicines.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item border-0 mb-3 shadow-sm">
+                    <h3 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            <i class="fas fa-question-circle me-2 text-primary"></i> Are there other ways to get in touch?
+                        </button>
+                    </h3>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes! You can connect with us professionally on <a href="https://www.linkedin.com/in/deepak-bawa-115a79328/" class="text-primary" target="_blank" rel="noopener noreferrer">LinkedIn</a> or follow MediSentry on <a href="https://www.instagram.com/deepak_bawa0005/" class="text-primary" target="_blank" rel="noopener noreferrer">Instagram</a> for updates and announcements. For official academic correspondence, please use the university email address provided above.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item border-0 shadow-sm">
+                    <h3 class="accordion-header" id="headingFour">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            <i class="fas fa-question-circle me-2 text-primary"></i> Is the contact form functional?
+                        </button>
+                    </h3>
+                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Currently, the contact form is for demonstration purposes only as part of this student project. For actual communication, please use the direct contact methods (email or phone) listed in the contact cards section above. This ensures your message will be received and responded to promptly.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-3 mb-md-0 small">© <span id="currentYear"></span> MediSentry | Student's Project by Team DR from Chandigarh University</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <div class="social-icons">
+                        <a href="https://x.com/DeepakBawa2803" class="text-white" aria-label="Follow us on Twitter" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.linkedin.com/in/team-dr-93a056375/" class="text-white" aria-label="Connect on LinkedIn" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Load map dynamically with loading feedback
+        function loadMap() {
+            const mapContainer = document.getElementById("mapContainer");
+            const mapButton = document.getElementById("mapButton");
+            const spinner = mapButton.querySelector(".spinner-border");
+            const icon = mapButton.querySelector(".fa-map");
+            
+            // Show loading spinner
+            icon.style.display = "none";
+            spinner.style.display = "inline-block";
+            mapButton.disabled = true;
+            
+            // Simulate loading delay (remove in production)
+            setTimeout(() => {
+                if (!mapContainer.querySelector("iframe")) {
+                    // Remove placeholder
+                    mapContainer.innerHTML = `
+                        <iframe 
+                            data-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3428.106480670949!2d76.57626547619464!3d30.77159078375245!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ffb140bd63e07%3A0x68591e334d17a988!2sChandigarh%20University!5e0!3m2!1sen!2sin!4v1751813575383!5m2!1sen!2sin" 
+                            width="100%" 
+                            height="300" 
+                            style="border:0; border-radius: 8px;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade"
+                            title="Chandigarh University Location"
+                            aria-label="Interactive map showing Chandigarh University location">
+                        </iframe>
+                    `;
+                    
+                    // Actually load the iframe
+                    const iframe = mapContainer.querySelector("iframe");
+                    iframe.src = iframe.getAttribute("data-src");
+                }
+                
+                // Restore button state
+                spinner.style.display = "none";
+                icon.style.display = "inline-block";
+                mapButton.disabled = false;
+                mapButton.innerHTML = '<i class="fas fa-map me-1"></i> Map Loaded';
+            }, 1000);
+        }
+
+        // Form submission handler
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simple validation
+            if (!this.checkValidity()) {
+                this.classList.add('was-validated');
+                return;
+            }
+            
+            // Show toast notification
+            const toast = new bootstrap.Toast(document.getElementById('formToast'));
+            toast.show();
+            
+            // Reset form
+            this.reset();
+            this.classList.remove('was-validated');
+            
+            // Hide toast after 5 seconds
+            setTimeout(() => {
+                toast.hide();
+            }, 5000);
+        });
+
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

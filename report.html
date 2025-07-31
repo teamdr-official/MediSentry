@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Report Counterfeit Medicine | MediSentry - Pharmaceutical Authentication</title>
+  <meta name="description" content="Report suspected counterfeit or fake medicines to help protect public health. Your report helps authorities track and eliminate dangerous pharmaceuticals.">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link rel="icon" href="images/favicon.jpg" type="image/x-icon">
+  <style>
+    :root {
+      --primary: #dc3545;
+      --secondary: #6c757d;
+      --dark: #212529;
+      --light: #f8f9fa;
+      --warning: #ffc107;
+      --success: #198754;
+    }
+    
+    body {
+      background-color: #f8f9fa;
+      padding-top: 70px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .form-section {
+      background: white;
+      border-radius: 10px;
+      padding: 2.5rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      margin-bottom: 2rem;
+      border-top: 4px solid var(--primary);
+    }
+
+    .required::after {
+      content: "*";
+      color: var(--primary);
+      margin-left: 3px;
+    }
+
+    .why-box {
+      background: rgba(255, 193, 7, 0.1);
+      border-left: 4px solid var(--warning);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-radius: 8px;
+    }
+
+    .success-box {
+      display: none;
+    }
+
+    .form-control:focus, .form-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .btn-primary:hover {
+      background-color: #bb2d3b;
+      border-color: #b02a37;
+    }
+
+    footer {
+      background: var(--dark);
+      color: var(--light);
+      padding: 1.5rem 0;
+      margin-top: 3rem;
+    }
+
+    footer a {
+      color: var(--warning);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: #ffca2c;
+      text-decoration: underline;
+    }
+
+    .nav-pills .nav-link.active {
+      background-color: var(--primary);
+    }
+
+    .file-upload {
+      border: 2px dashed #dee2e6;
+      border-radius: 8px;
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .file-upload:hover {
+      border-color: var(--primary);
+      background-color: rgba(220, 53, 69, 0.05);
+    }
+
+    .preview-image {
+      max-width: 100px;
+      max-height: 100px;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      object-fit: cover;
+    }
+
+    .image-preview-container {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 15px;
+    }
+
+    @media (max-width: 768px) {
+      .form-section {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold text-warning" href="index.html">
+      <i class="bi bi-shield-check me-2"></i> MediSentry
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="verify.html">Verify Medicine</a></li>
+        <li class="nav-item"><a class="nav-link active" href="report.html">Report Counterfeit</a></li>
+        <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Main Container -->
+<div class="container mt-4 mb-5">
+  <h1 class="text-center text-danger fw-bold mb-4">
+    <i class="bi bi-exclamation-triangle-fill"></i> Report Suspected Counterfeit Medicine
+  </h1>
+
+  <!-- Why Reporting Matters -->
+  <div class="why-box">
+    <h4 class="fw-bold"><i class="bi bi-info-circle-fill me-2"></i>Why Reporting Counterfeit Medicines Matters</h4>
+    <p class="mb-1">Counterfeit medicines may contain:</p>
+    <ul>
+      <li>Incorrect ingredients or dosages</li>
+      <li>Harmful substances like heavy metals or toxins</li>
+      <li>No active pharmaceutical ingredients at all</li>
+    </ul>
+    <p class="mb-0">Your report helps regulatory authorities track counterfeit drug networks and protect public health. All reports are confidential.</p>
+  </div>
+
+  <!-- Form Steps Navigation -->
+  <ul class="nav nav-pills mb-4 justify-content-center" id="reportTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="medicine-tab" data-bs-toggle="pill" data-bs-target="#medicine-info" type="button" role="tab">
+        <i class="bi bi-capsule"></i> Medicine Details
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="issue-tab" data-bs-toggle="pill" data-bs-target="#issue-details" type="button" role="tab">
+        <i class="bi bi-exclamation-octagon"></i> Issue Description
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="location-tab" data-bs-toggle="pill" data-bs-target="#location-info" type="button" role="tab">
+        <i class="bi bi-geo-alt"></i> Location
+      </button>
+    </li>
+  </ul>
+
+  <!-- Form Section -->
+  <div class="form-section">
+    <form id="reportForm" novalidate>
+      <div class="tab-content" id="reportTabsContent">
+        <!-- Medicine Information Tab -->
+        <div class="tab-pane fade show active" id="medicine-info" role="tabpanel">
+          <div class="row mb-3">
+            <div class="col-md-6 mb-3">
+              <label for="medicineName" class="form-label required">Medicine Name (Brand or Generic)</label>
+              <input type="text" class="form-control" id="medicineName" required>
+              <div class="invalid-feedback">Please provide the medicine name</div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="batchNumber" class="form-label required">Batch/Lot Number</label>
+              <input type="text" class="form-control" id="batchNumber" required>
+              <div class="invalid-feedback">Please provide the batch number</div>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6 mb-3">
+              <label for="manufacturer" class="form-label">Manufacturer (if known)</label>
+              <input type="text" class="form-control" id="manufacturer">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="expiryDate" class="form-label">Expiry Date</label>
+              <input type="date" class="form-control" id="expiryDate">
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="medicineType" class="form-label required">Medicine Type</label>
+            <select class="form-select" id="medicineType" required>
+              <option value="">Select medicine type</option>
+              <option>Tablet</option>
+              <option>Capsule</option>
+              <option>Syrup</option>
+              <option>Injection</option>
+              <option>Ointment/Cream</option>
+              <option>Other</option>
+            </select>
+            <div class="invalid-feedback">Please select the medicine type</div>
+          </div>
+
+          <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-primary" onclick="nextTab('issue-tab')">Next: Issue Details <i class="bi bi-arrow-right"></i></button>
+          </div>
+        </div>
+
+        <!-- Issue Details Tab -->
+        <div class="tab-pane fade" id="issue-details" role="tabpanel">
+          <div class="mb-3">
+            <label for="issueDescription" class="form-label required">Describe why you suspect this medicine is counterfeit</label>
+            <textarea class="form-control" id="issueDescription" rows="4" required></textarea>
+            <div class="invalid-feedback">Please describe the issue</div>
+            <div class="form-text">Include details like unusual appearance, taste, packaging errors, or adverse effects</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Upload Photos (Max 5MB each)</label>
+            <div class="file-upload" id="fileUploadArea">
+              <i class="bi bi-cloud-arrow-up fs-1 text-muted"></i>
+              <p class="mb-1">Click to upload or drag & drop</p>
+              <p class="small text-muted">Packaging, medicine strips, labels, or any suspicious features</p>
+              <input type="file" class="d-none" id="fileInput" accept="image/*,.pdf" multiple>
+            </div>
+            <div class="image-preview-container" id="imagePreview"></div>
+          </div>
+
+          <div class="mb-3">
+            <label for="purchaseDate" class="form-label">When did you purchase this medicine?</label>
+            <input type="date" class="form-control" id="purchaseDate">
+          </div>
+
+          <div class="d-flex justify-content-between">
+            <button type="button" class="btn btn-outline-secondary" onclick="prevTab('medicine-tab')"><i class="bi bi-arrow-left"></i> Previous</button>
+            <button type="button" class="btn btn-primary" onclick="nextTab('location-tab')">Next: Location <i class="bi bi-arrow-right"></i></button>
+          </div>
+        </div>
+
+        <!-- Location Information Tab -->
+        <div class="tab-pane fade" id="location-info" role="tabpanel">
+          <div class="row mb-3">
+            <div class="col-md-6 mb-3">
+              <label for="state" class="form-label required">State</label>
+              <select class="form-select" id="state" required>
+                <option value="">Select State</option>
+                <option value="">-- Select State --</option>
+  <option value="Andhra Pradesh">Andhra Pradesh</option>
+  <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+  <option value="Assam">Assam</option>
+  <option value="Bihar">Bihar</option>
+  <option value="Chhattisgarh">Chhattisgarh</option>
+  <option value="Goa">Goa</option>
+  <option value="Gujarat">Gujarat</option>
+  <option value="Haryana">Haryana</option>
+  <option value="Himachal Pradesh">Himachal Pradesh</option>
+  <option value="Jharkhand">Jharkhand</option>
+  <option value="Karnataka">Karnataka</option>
+  <option value="Kerala">Kerala</option>
+  <option value="Madhya Pradesh">Madhya Pradesh</option>
+  <option value="Maharashtra">Maharashtra</option>
+  <option value="Manipur">Manipur</option>
+  <option value="Meghalaya">Meghalaya</option>
+  <option value="Mizoram">Mizoram</option>
+  <option value="Nagaland">Nagaland</option>
+  <option value="Odisha">Odisha</option>
+  <option value="Punjab">Punjab</option>
+  <option value="Rajasthan">Rajasthan</option>
+  <option value="Sikkim">Sikkim</option>
+  <option value="Tamil Nadu">Tamil Nadu</option>
+  <option value="Telangana">Telangana</option>
+  <option value="Tripura">Tripura</option>
+  <option value="Uttar Pradesh">Uttar Pradesh</option>
+  <option value="Uttarakhand">Uttarakhand</option>
+  <option value="West Bengal">West Bengal</option>
+  <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+  <option value="Chandigarh">Chandigarh</option>
+  <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
+  <option value="Delhi">Delhi</option>
+  <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+  <option value="Ladakh">Ladakh</option>
+  <option value="Lakshadweep">Lakshadweep</option>
+  <option value="Puducherry">Puducherry</option>
+              </select>
+              <div class="invalid-feedback">Please select your state</div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="city" class="form-label required">City/District</label>
+              <input type="text" class="form-control" id="city" required>
+              <div class="invalid-feedback">Please provide your city/district</div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="purchaseLocation" class="form-label">Where did you purchase this medicine? (optional)</label>
+            <input type="text" class="form-control" id="purchaseLocation" placeholder="Pharmacy name, hospital, online store etc.">
+          </div>
+
+          <div class="mb-4">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="anonymousReport">
+              <label class="form-check-label" for="anonymousReport">Submit Anonymously</label>
+            </div>
+            <div class="form-text">Anonymous reports help us track counterfeit medicines while protecting your identity</div>
+          </div>
+
+          <div id="contactInfo" class="mb-4">
+            <h5 class="mb-3"><i class="bi bi-person-lines-fill"></i> Contact Information (Optional)</h5>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="reporterName" class="form-label">Your Name</label>
+                <input type="text" class="form-control" id="reporterName">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="reporterEmail" class="form-label">Email Address</label>
+                <input type="email" class="form-control" id="reporterEmail">
+                <div class="form-text">We may contact you for more information</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between">
+            <button type="button" class="btn btn-outline-secondary" onclick="prevTab('issue-tab')"><i class="bi bi-arrow-left"></i> Previous</button>
+            <button type="submit" class="btn btn-danger">
+              <i class="bi bi-send-fill"></i> Submit Report
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Success Message -->
+  <div id="successBox" class="alert alert-success mt-4 success-box">
+    <div class="d-flex">
+      <div class="flex-shrink-0">
+        <i class="bi bi-check-circle-fill fs-1"></i>
+      </div>
+      <div class="flex-grow-1 ms-3">
+        <h4 class="alert-heading fw-bold">Report Submitted Successfully!</h4>
+        <p>Thank you for helping combat counterfeit medicines. Your report has been received and will be reviewed by our team.</p>
+        <p class="mb-0">Reference ID: <strong>MS-<span id="referenceId"></span></strong></p>
+        <hr>
+        <div class="d-flex flex-wrap gap-2">
+          <a href="report.html" class="btn btn-outline-success">
+            <i class="bi bi-plus-circle"></i> Submit Another Report
+          </a>
+          <a href="awareness.html" class="btn btn-outline-primary">
+            <i class="bi bi-shield-check"></i> Learn How to Identify Counterfeits
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="text-center">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 mb-3 mb-md-0">
+        <h5>MediSentry</h5>
+        <p class="mb-3 mb-md-0 small">© 2025 MediSentry | Student;s Project by Team DR from Chandigarh University</p>
+      </div>
+      <div class="col-md-4 mb-3 mb-md-0">
+        <h5>Quick Links</h5>
+        <ul class="list-unstyled">
+          <li><a href="verify.html">Verify Medicine</a></li>
+          <li><a href="report.html">Report Counterfeit</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h5>Contact</h5>
+        <ul class="list-unstyled">
+          <li><i class="bi bi-envelope"></i>teamdr1928@gmail.com</li>
+          <li><i class="bi bi-telephone"></i> +91 94611-11010</li>
+        </ul>
+      </div>
+    </div>
+    <hr class="my-3 bg-light">
+    <p class="mb-0 small">&copy; 2025 MediSentry. All rights reserved. | <a href="privacy.html">Privacy Policy</a><p>
+  </div>
+</footer>
+
+<!-- JS Scripts -->
+<script>
+  // Tab navigation
+  function nextTab(nextTabId) {
+    const currentTab = document.querySelector('.nav-pills .active');
+    const currentPane = document.querySelector('.tab-pane.active');
+    
+    // Validate current tab before proceeding
+    if (!validateCurrentTab(currentPane.id)) {
+      return;
+    }
+    
+    const nextTab = document.getElementById(nextTabId);
+    const nextPane = document.getElementById(nextTabId.replace('-tab', ''));
+    
+    currentTab.classList.remove('active');
+    currentPane.classList.remove('show', 'active');
+    
+    nextTab.classList.add('active');
+    nextPane.classList.add('show', 'active');
+  }
+  
+  function prevTab(prevTabId) {
+    const currentTab = document.querySelector('.nav-pills .active');
+    const currentPane = document.querySelector('.tab-pane.active');
+    
+    const prevTab = document.getElementById(prevTabId);
+    const prevPane = document.getElementById(prevTabId.replace('-tab', ''));
+    
+    currentTab.classList.remove('active');
+    currentPane.classList.remove('show', 'active');
+    
+    prevTab.classList.add('active');
+    prevPane.classList.add('show', 'active');
+  }
+  
+  // Form validation for current tab
+  function validateCurrentTab(tabId) {
+    let isValid = true;
+    const tab = document.getElementById(tabId);
+    const requiredInputs = tab.querySelectorAll('[required]');
+    
+    requiredInputs.forEach(input => {
+      if (!input.value.trim()) {
+        input.classList.add('is-invalid');
+        isValid = false;
+      } else {
+        input.classList.remove('is-invalid');
+      }
+    });
+    
+    if (!isValid) {
+      const firstInvalid = tab.querySelector('.is-invalid');
+      firstInvalid.focus();
+    }
+    
+    return isValid;
+  }
+  
+  // File upload handling
+  const fileUploadArea = document.getElementById('fileUploadArea');
+  const fileInput = document.getElementById('fileInput');
+  const imagePreview = document.getElementById('imagePreview');
+  
+  fileUploadArea.addEventListener('click', () => fileInput.click());
+  
+  fileUploadArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    fileUploadArea.style.borderColor = '#dc3545';
+    fileUploadArea.style.backgroundColor = 'rgba(220, 53, 69, 0.1)';
+  });
+  
+  fileUploadArea.addEventListener('dragleave', () => {
+    fileUploadArea.style.borderColor = '#dee2e6';
+    fileUploadArea.style.backgroundColor = '';
+  });
+  
+  fileUploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    fileUploadArea.style.borderColor = '#dee2e6';
+    fileUploadArea.style.backgroundColor = '';
+    
+    if (e.dataTransfer.files.length > 0) {
+      fileInput.files = e.dataTransfer.files;
+      handleFiles(fileInput.files);
+    }
+  });
+  
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files.length > 0) {
+      handleFiles(fileInput.files);
+    }
+  });
+  
+  function handleFiles(files) {
+    imagePreview.innerHTML = '';
+    
+    for (let i = 0; i < Math.min(files.length, 5); i++) {
+      const file = files[i];
+      
+      if (!file.type.match('image.*')) {
+        continue;
+      }
+      
+      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+        alert(`File ${file.name} is too large (max 5MB)`);
+        continue;
+      }
+      
+      const reader = new FileReader();
+      
+      reader.onload = (e) => {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.className = 'preview-image';
+        img.alt = 'Preview ' + (i + 1);
+        
+        const wrapper = document.createElement('div');
+        wrapper.className = 'position-relative d-inline-block';
+        
+        const removeBtn = document.createElement('button');
+        removeBtn.innerHTML = '&times;';
+        removeBtn.className = 'btn btn-sm btn-danger position-absolute top-0 end-0 rounded-circle p-0';
+        removeBtn.style.width = '20px';
+        removeBtn.style.height = '20px';
+        removeBtn.style.fontSize = '10px';
+        removeBtn.style.lineHeight = '1';
+        removeBtn.onclick = () => {
+          wrapper.remove();
+          // TODO: Remove from file list
+        };
+        
+        wrapper.appendChild(img);
+        wrapper.appendChild(removeBtn);
+        imagePreview.appendChild(wrapper);
+      };
+      
+      reader.readAsDataURL(file);
+    }
+  }
+  
+  // Form submission
+  const form = document.getElementById('reportForm');
+  const successBox = document.getElementById('successBox');
+  
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Validate all tabs
+    let allValid = true;
+    document.querySelectorAll('.tab-pane').forEach(pane => {
+      if (!validateCurrentTab(pane.id)) {
+        allValid = false;
+        // Switch to the first invalid tab
+        const tabId = pane.id.replace('-info', '-tab').replace('-details', '-tab');
+        document.querySelector('.nav-pills .active').classList.remove('active');
+        document.querySelector('.tab-pane.active').classList.remove('show', 'active');
+        document.getElementById(tabId).classList.add('active');
+        pane.classList.add('show', 'active');
+      }
+    });
+    
+    if (!allValid) {
+      return;
+    }
+    
+    // Simulate form submission
+    form.style.display = 'none';
+    successBox.style.display = 'block';
+    
+    // Generate random reference ID
+    document.getElementById('referenceId').textContent = Math.floor(100000 + Math.random() * 900000);
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // In a real application, you would send the data to your server here
+    // const formData = new FormData(form);
+    // fetch('/api/report', { method: 'POST', body: formData })
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     document.getElementById('referenceId').textContent = data.referenceId;
+    //     form.style.display = 'none';
+    //     successBox.style.display = 'block';
+    //     window.scrollTo({ top: 0, behavior: 'smooth' });
+    //   });
+  });
+  
+  // Toggle contact info based on anonymous checkbox
+  document.getElementById('anonymousReport').addEventListener('change', function() {
+    document.getElementById('contactInfo').style.display = this.checked ? 'none' : 'block';
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

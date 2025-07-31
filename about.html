@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MediSentry - A Chandigarh University initiative fighting counterfeit medicines through technology and community participation">
+    <title>About MediSentry | Fighting Counterfeit Medicines with Technology</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" href="images/favicon.jpg" type="image/x-icon" alt="MediSentry logo">
+    <link rel="apple-touch-icon" href="images/favicon.jpg">
+    <style>
+        :root {
+            --primary: #4e54c8;
+            --primary-dark: #3a3fa1;
+            --secondary: #8f94fb;
+            --accent: #ff6b6b;
+            --light-bg: #f8f9fa;
+            --dark-bg: #212529;
+            --text-light: #f8f9fa;
+            --text-dark: #212529;
+        }
+        
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+            height: 100%;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            padding-top: 56px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            line-height: 1.3;
+        }
+        
+        .hero-about {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            position: relative;
+            padding: 5rem 0 4rem;
+            color: var(--text-light);
+        }
+        
+        .hero-about::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 15s infinite linear;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        @keyframes pulse {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .impact-card {
+            border-left: 4px solid var(--accent);
+            transition: all 0.3s ease;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .impact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            font-size: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-item {
+            overflow: hidden;
+        }
+        
+        .feature-item:hover .feature-icon {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(78, 84, 200, 0.3);
+        }
+        
+        .roadmap-phase {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .roadmap-phase::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px var(--accent);
+            z-index: 2;
+        }
+        
+        .roadmap-phase::after {
+            content: "";
+            position: absolute;
+            left: 8px;
+            top: 23px;
+            width: 2px;
+            height: calc(100% - 18px);
+            background: var(--secondary);
+        }
+        
+        .roadmap-phase:last-child::after {
+            display: none;
+        }
+        
+        .team-card {
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            overflow: hidden;
+            height: 100%;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .team-img {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+        
+        .bg-light-custom {
+            background-color: var(--light-bg);
+        }
+        
+        .btn-primary-custom {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary-custom:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+        
+        .section-padding {
+            padding: 5rem 0;
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+        }
+        
+        .text-accent {
+            color: var(--accent);
+        }
+        
+        .tech-badge {
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            margin: 0.25rem;
+            background-color: rgba(78, 84, 200, 0.1);
+            color: var(--primary);
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .tech-badge i {
+            margin-right: 0.5rem;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 1199.98px) {
+            .team-img {
+                width: 120px;
+                height: 120px;
+            }
+        }
+        
+        @media (max-width: 991.98px) {
+            .section-padding {
+                padding: 4rem 0;
+            }
+            
+            .hero-about {
+                padding: 4rem 0;
+            }
+            
+            .roadmap-phase {
+                padding-left: 25px;
+            }
+        }
+        
+        @media (max-width: 767.98px) {
+            .section-padding {
+                padding: 3rem 0;
+            }
+            
+            .display-4 {
+                font-size: 2.5rem;
+            }
+            
+            .roadmap-phase::before {
+                width: 16px;
+                height: 16px;
+            }
+            
+            .team-img {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+            
+            .btn-lg {
+                padding: 0.5rem 1rem;
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 575.98px) {
+            .hero-about {
+                padding: 3.5rem 0;
+            }
+            
+            .display-4 {
+                font-size: 2rem;
+            }
+            
+            .lead {
+                font-size: 1rem;
+            }
+            
+            .section-title::after {
+                width: 40px;
+                bottom: -8px;
+            }
+            
+            .feature-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* Accessibility improvements */
+        a:focus, button:focus {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+        
+        /* Navbar styles */
+        .navbar {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+        }
+        
+        .navbar-toggler {
+            border: none;
+            padding: 0.5rem;
+        }
+        
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+        
+        /* Container fixes */
+        .container, .container-fluid {
+            max-width: 100%;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        
+        /* Card overflow fixes */
+        .card {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+    <!-- Responsive Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">MediSentry</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="verify.html">Verify</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="report.html">Report</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="awareness.html">Awareness</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="medicine-list.html">Medicine List</a>
+                    </li>
+                    <li class="nav-item ms-lg-2">
+                        <a class="btn btn-outline-light btn-sm mt-1 mt-lg-0" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-about">
+        <div class="container py-4">
+            <div class="row align-items-center">
+                <div class="col-lg-8 mx-auto text-center hero-content">
+                    <h1 class="display-3 fw-bold mb-4">About MediSentry</h1>
+                    <p class="lead fs-3 mb-4">Fighting Counterfeit Medicines with Technology</p>
+                    <p class="mb-0">An initiative by Chandigarh University students to make medicine authentication <strong>accessible, reliable, and citizen-driven</strong></p>
+                    <div class="mt-4">
+                        <a href="#mission" class="btn btn-light btn-lg me-2 mb-2 mb-sm-0">Our Mission</a>
+                        <a href="#problem" class="btn btn-outline-light btn-lg">The Problem</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section id="mission" class="section-padding bg-light-custom">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 order-lg-2 mb-4 mb-lg-0" data-aos="fade-left">
+                    <div class="position-relative">
+                        <img src="https://images.unsplash.com/photo-1631815588090-d4bfec5b1ccb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                             alt="Person verifying medicine authenticity" 
+                             class="img-fluid rounded shadow-lg" 
+                             loading="lazy">
+                    </div>
+                </div>
+                <div class="col-lg-6 order-lg-1 pe-lg-5" data-aos="fade-right">
+                    <span class="section-title">Our Mission</span>
+                    <h2 class="fw-bold mb-4">Empowering Citizens Against Counterfeit Drugs</h2>
+                    <blockquote class="blockquote bg-white p-4 rounded shadow-sm mb-4 border-start border-3 border-accent">
+                        <p class="mb-0 fst-italic">"Don't guess, verify first."</p>
+                    </blockquote>
+                    <p class="mb-4">We are dedicated to creating a safer healthcare ecosystem by providing tools and knowledge to detect counterfeit medicines. Our platform integrates cutting-edge technology with community participation to combat this growing public health threat.</p>
+                    <ul class="list-unstyled">
+                        <li class="mb-3 d-flex align-items-start">
+                            <i class="fas fa-check-circle text-primary mt-1 me-3 fs-5"></i>
+                            <span>Real-time medicine verification using batch codes and packaging details</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <i class="fas fa-check-circle text-primary mt-1 me-3 fs-5"></i>
+                            <span>Community-driven reporting system for suspicious drugs</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <i class="fas fa-check-circle text-primary mt-1 me-3 fs-5"></i>
+                            <span>Educational resources to recognize counterfeit medications</span>
+                        </li>
+                        <li class="d-flex align-items-start">
+                            <i class="fas fa-check-circle text-primary mt-1 me-3 fs-5"></i>
+                            <span>Data analytics to identify counterfeit hotspots</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section id="problem" class="section-padding">
+        <div class="container">
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-10 text-center" data-aos="fade-up">
+                    <span class="section-title">The Challenge</span>
+                    <h2 class="fw-bold mb-4">The Growing Threat of Counterfeit Medicines</h2>
+                    <p class="lead">India faces a serious public health crisis from <span class="text-accent fw-bold">fake, substandard, or expired drugs</span> circulating in the market</p>
+                </div>
+            </div>
+            
+            <div class="row g-4 mb-5">
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="stat-number text-danger mb-3">10%+</div>
+                            <p class="mb-0">of medicines in developing countries are counterfeit according to WHO estimates</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="stat-number text-danger mb-3">1M+</div>
+                            <p class="mb-0">deaths annually are linked to fake medicines as reported by The Lancet</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="stat-number text-danger mb-3">72%</div>
+                            <p class="mb-0">of fake medicines reported in India lack active pharmaceutical ingredients</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="stat-number text-danger mb-3">$30B</div>
+                            <p class="mb-0">global counterfeit drug market causing economic losses</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-10 mx-auto" data-aos="fade-up">
+                    <div class="alert alert-danger bg-opacity-10 border-danger">
+                        <h3 class="alert-heading h4">Consequences of Counterfeit Drugs</h3>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <ul class="mb-3 mb-md-0">
+                                    <li class="mb-2">Failed treatments and worsening health conditions</li>
+                                    <li class="mb-2">Increased antimicrobial resistance</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul>
+                                    <li class="mb-2">Irreversible harm or death</li>
+                                    <li>Erosion of trust in healthcare systems</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="section-padding bg-light-custom">
+        <div class="container">
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-8 text-center" data-aos="fade-up">
+                    <span class="section-title">Our Solution</span>
+                    <h2 class="fw-bold mb-3">How MediSentry Works</h2>
+                    <p class="lead">An <span class="text-accent fw-bold">interactive health-tech ecosystem</span> designed for public protection</p>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-item text-center p-4 h-100">
+                        <div class="feature-icon">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="h5">Medicine Verification</h3>
+                        <p class="mb-0">Check authenticity using batch codes, manufacturer details, or uploaded packaging images with our comprehensive database.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-item text-center p-4 h-100">
+                        <div class="feature-icon">
+                            <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="h5">Report Counterfeit</h3>
+                        <p class="mb-0">Anonymous reporting system that triggers alerts to authorities and warns other users about suspicious medications.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-item text-center p-4 h-100">
+                        <div class="feature-icon">
+                            <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="h5">Awareness Center</h3>
+                        <p class="mb-0">Interactive guides, comparison tools, and quizzes to help identify fake packaging and understand drug safety.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-item text-center p-4 h-100">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="h5">AI Detection</h3>
+                        <p class="mb-0">Future implementation of machine learning for image-based fraud detection and pattern recognition in counterfeit reports.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Section -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
+                    <span class="section-title">Our Impact</span>
+                    <h2 class="fw-bold">Making a Difference in Pharmaceutical Safety</h2>
+                    <p class="lead">Since our launch, we've achieved significant milestones in combating counterfeit medicines</p>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="impact-card bg-white p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-success bg-opacity-10 text-success rounded-circle p-3 me-3">
+                                <i class="fas fa-check fa-lg" aria-hidden="true"></i>
+                            </div>
+                            <div>
+                                <h3 class="stat-number mb-0">20,000+</h3>
+                                <small>Medicine entries</small>
+                            </div>
+                        </div>
+                        <p class="mb-0">Verified through our platform with 98% accuracy rate</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="impact-card bg-white p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-info bg-opacity-10 text-info rounded-circle p-3 me-3">
+                                <i class="fas fa-users fa-lg" aria-hidden="true"></i>
+                            </div>
+                            <div>
+                                <h3 class="stat-number mb-0">10,000+</h3>
+                                <small>Active users</small>
+                            </div>
+                        </div>
+                        <p class="mb-0">Educated through our platform and awareness campaigns</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                    <div class="impact-card bg-white p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-warning bg-opacity-10 text-warning rounded-circle p-3 me-3">
+                                <i class="fas fa-flag fa-lg" aria-hidden="true"></i>
+                            </div>
+                            <div>
+                                <h3 class="stat-number mb-0">400+</h3>
+                                <small>Reports filed</small>
+                            </div>
+                        </div>
+                        <p class="mb-0">Of suspected counterfeit medicines leading to 50+ investigations</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+                    <div class="impact-card bg-white p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-3 me-3">
+                                <i class="fas fa-handshake fa-lg" aria-hidden="true"></i>
+                            </div>
+                            <div>
+                                <h3 class="stat-number mb-0">50+</h3>
+                                <small>Partnerships</small>
+                            </div>
+                        </div>
+                        <p class="mb-0">With pharmacies, NGOs, and healthcare providers across India</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-5">
+                <div class="col-lg-10 mx-auto" data-aos="fade-up">
+                    <div class="bg-primary text-white p-4 rounded-3">
+                        <div class="row align-items-center">
+                            <div class="col-md-8 mb-3 mb-md-0">
+                                <h3 class="h4 mb-2">Join Our Community Safety Network</h3>
+                                <p class="mb-0">Help us expand our database and protect more people from counterfeit drugs</p>
+                            </div>
+                            <div class="col-md-4 text-md-end">
+                                <a href="#" class="btn btn-light btn-lg">Contribute Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="section-padding bg-light-custom">
+        <div class="container">
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-8 text-center" data-aos="fade-up">
+                    <span class="section-title">Our Team</span>
+                    <h2 class="fw-bold">Passionate Students Making a Difference</h2>
+                    <p class="lead">Chandigarh University's bright minds tackling healthcare challenges</p>
+                </div>
+            </div>
+            
+            <div class="row justify-content-center g-4">
+                <div class="col-lg-6" data-aos="fade-up">
+                    <div class="team-card card">
+                        <div class="card-body p-4 text-center">
+                            <img src="https://ui-avatars.com/api/?name=Deepak+Bawa&background=4e54c8&color=fff&size=300" 
+                                 class="rounded-circle mb-4 team-img" 
+                                 alt="Portrait of Deepak Bawa"
+                                 loading="lazy">
+                            <h3>Deepak Bawa</h3>
+                            <p class="text-muted mb-3">Founder & Full Stack Developer (2024–28)</p>
+                            <p class="mb-4">Computer Science student at Chandigarh University with expertise in web development and database systems. Conceived MediSentry after witnessing the impact of counterfeit medicines in his community. Leads all technical development and strategic planning for this initiative.</p>
+                            <div class="d-flex flex-wrap justify-content-center gap-3">
+                                <a href="https://www.linkedin.com/in/deepak-bawa-115a79328/" class="btn btn-outline-primary" aria-label="Deepak Bawa's LinkedIn profile">
+                                    <i class="fab fa-linkedin-f me-2" aria-hidden="true"></i> LinkedIn
+                                </a>
+                                <a href="https://github.com/dbawa1928" class="btn btn-outline-dark" aria-label="Deepak Bawa's GitHub profile">
+                                    <i class="fab fa-github me-2" aria-hidden="true"></i> GitHub
+                                </a>
+                                <a href="https://deepak-bawa-portfolio.netlify.app/" class="btn btn-outline-success" aria-label="Deepak Bawa's Portfolio">
+                                    <i class="fas fa-globe me-2" aria-hidden="true"></i> Portfolio
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="team-card card">
+                        <div class="card-body p-4 text-center">
+                            <img src="https://ui-avatars.com/api/?name=Riya+Garg&background=8f94fb&color=fff&size=300" 
+                                 class="rounded-circle mb-4 team-img" 
+                                 alt="Portrait of Riya Garg"
+                                 loading="lazy">
+                            <h3>Riya Garg</h3>
+                            <p class="text-muted mb-3">Co-founder & Full Stack Developer (2024–28)</p>
+                            <p class="mb-4">Computer Science student student at Chandigarh University with deep knowledge of pharmaceutical products and quality control. Brings medical expertise to the team and oversees the accuracy of our medicine database. Leads our awareness campaigns and community outreach programs.</p>
+                            <div class="d-flex flex-wrap justify-content-center gap-3">
+                                <a href="https://www.linkedin.com/in/riya-garg-8471a1329/" class="btn btn-outline-primary" aria-label="Riya  LinkedIn profile">
+                                    <i class="fab fa-linkedin-f me-2" aria-hidden="true"></i> LinkedIn
+                                </a>
+                                <a href="https://github.com/rgarg1928" class="btn btn-outline-dark" aria-label="Riya GitHub profile">
+                                    <i class="fab fa-github me-2" aria-hidden="true"></i> GitHub
+                                </a>
+                                <a href="https://riyagarg-portfolio.netlify.app/" class="btn btn-outline-success" aria-label="Riya garg's Portfolio">
+                                    <i class="fas fa-globe me-2" aria-hidden="true"></i> Portfolio
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Stack -->
+    <section id="technology" class="section-padding">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-5 mb-5 mb-lg-0" data-aos="fade-right">
+                    <span class="section-title">Our Technology</span>
+                    <h2 class="fw-bold mb-4">Built With Modern Web Technologies</h2>
+                    
+                    <h3 class="h5 mb-3">Current Stack</h3>
+                    <div class="d-flex flex-wrap mb-4">
+                        <span class="tech-badge">
+                            <i class="fab fa-html5"></i> HTML5
+                        </span>
+                        <span class="tech-badge">
+                            <i class="fab fa-css3-alt"></i> CSS3
+                        </span>
+                        <span class="tech-badge">
+                            <i class="fab fa-bootstrap"></i> Bootstrap 5
+                        </span>
+                        <span class="tech-badge">
+                            <i class="fab fa-js"></i> JavaScript
+                        </span>
+                        <span class="tech-badge">
+                            <i class="fas fa-font"></i> Font Awesome
+                        </span>
+                        <span class="tech-badge">
+                            <i class="fas fa-server"></i> Netlify
+                        </span>
+                    </div>
+                    
+                    <h3 class="h5 mb-3">Future Development</h3>
+                    <ul class="list-unstyled mb-4">
+                        <li class="mb-2 d-flex align-items-start">
+                            <i class="fas fa-arrow-right text-primary mt-1 me-2"></i>
+                            <span>Python Flask backend for batch verification</span>
+                        </li>
+                        <li class="mb-2 d-flex align-items-start">
+                            <i class="fas fa-arrow-right text-primary mt-1 me-2"></i>
+                            <span>Machine learning for image-based detection</span>
+                        </li>
+                        <li class="d-flex align-items-start">
+                            <i class="fas fa-arrow-right text-primary mt-1 me-2"></i>
+                            <span>Mobile app development for wider accessibility</span>
+                        </li>
+                    </ul>
+                    
+                    <a href="https://github.com/myteamdrofficial" class="btn btn-outline-primary">
+                        <i class="fab fa-github me-2"></i> View on GitHub
+                    </a>
+                </div>
+                
+                <div class="col-lg-7" data-aos="fade-left">
+                    <div class="bg-light p-4 p-lg-5 rounded-3 border-start border-3 border-primary">
+                        <span class="section-title">Our Roadmap</span>
+                        <h2 class="fw-bold mb-4">Strategic Development Plan</h2>
+                        
+                        <div class="roadmap-phase">
+                            <h3 class="h5">Phase 1: Foundation (2024)</h3>
+                            <ul class="mb-0">
+                                <li>Build MVP with core verification features</li>
+                                <li>Launch awareness content platform</li>
+                                <li>Establish basic reporting system</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="roadmap-phase">
+                            <h3 class="h5">Phase 2: Expansion (2025)</h3>
+                            <ul class="mb-0">
+                                <li>Partner with 100+ pharmacies for testing</li>
+                                <li>Develop API for third-party integration</li>
+                                <li>Launch regional awareness campaigns</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="roadmap-phase">
+                            <h3 class="h5">Phase 3: Innovation (2026)</h3>
+                            <ul class="mb-0">
+                                <li>Implement AI/ML backend for fraud detection</li>
+                                <li>Launch community mobile application</li>
+                                <li>Expand database to cover 95% of Indian drugs</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="roadmap-phase">
+                            <h3 class="h5">Phase 4: Scale (2027+)</h3>
+                            <ul class="mb-0">
+                                <li>National-level awareness campaign</li>
+                                <li>Government and regulatory collaboration</li>
+                                <li>International expansion planning</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-5 bg-primary text-white">
+        <div class="container text-center py-4" data-aos="fade-up">
+            <h2 class="fw-bold mb-4">Join the Fight Against Fake Medicines</h2>
+            <p class="lead mb-5">Together we can create a safer healthcare ecosystem for all Indians</p>
+            <div class="d-flex flex-wrap justify-content-center gap-3">
+                <a href="verify.html" class="btn btn-light btn-lg px-4">
+                    <i class="fas fa-search me-2" aria-hidden="true"></i> Verify a Medicine
+                </a>
+                <a href="report.html" class="btn btn-outline-light btn-lg px-4">
+                    <i class="fas fa-flag me-2" aria-hidden="true"></i> Report Suspicious Drug
+                </a>
+                <a href="awareness.html" class="btn btn-outline-light btn-lg px-4">
+                    <i class="fas fa-share-alt me-2" aria-hidden="true"></i> Share Awareness
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h3 class="h5 mb-3">MediSentry</h3>
+                    <p>An initiative by Chandigarh University students to combat counterfeit medicines through technology and community participation.</p>
+                    <div class="mt-4">
+                        <a href="https://www.linkedin.com/in/team-dr-93a056375/" class="text-white me-3" aria-label="LinkedIn"><i class="fab fa-linkedin fa-lg"></i></a>
+                        <a href="https://github.com/teamdr-official" class="text-white me-3" aria-label="GitHub"><i class="fab fa-github fa-lg"></i></a>
+                        <a href="https://www.instagram.com/deepak_bawa0005/" class="text-white" aria-label="Instagram"><i class="fab fa-instagram fa-lg"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h3 class="h5 mb-3">Quick Links</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="index.html" class="text-white text-decoration-none">Home</a></li>
+                        <li class="mb-2"><a href="about.html" class="text-white text-decoration-none">About</a></li>
+                        <li class="mb-2"><a href="verify.html" class="text-white text-decoration-none">Verify</a></li>
+                        <li class="mb-2"><a href="report.html" class="text-white text-decoration-none">Report</a></li>
+                        <li><a href="awareness.html" class="text-white text-decoration-none">Awareness</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
+                    <h3 class="h5 mb-3">Resources</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="privacy.html" class="text-white text-decoration-none">Privacy policy </a></li>
+                        <li class="mb-2"><a href="faq.html" class="text-white text-decoration-none">FAQs</a></li>
+                    </ul>
+                </div>
+                
+                
+                <div class="col-lg-3 col-md-4">
+                    <h3 class="h5 mb-3">Contact Us</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-university me-2"></i> Chandigarh University</li>
+                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> Mohali, Punjab, India</li>
+                        <li class="mb-2"><i class="fas fa-envelope me-2"></i>teamdr1928@gmail.com</li>
+                        <li><i class="fas fa-phone me-2"></i> +91 9461111010</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr class="my-4 bg-secondary">
+            
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-3 mb-md-0 small">© 2025 MediSentry | Student's Project by Chandigarh University Students</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS animation
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true,
+            offset: 100
+        });
+        
+        // Add smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    
+                    // Update URL without jumping
+                    if (history.pushState) {
+                        history.pushState(null, null, targetId);
+                    } else {
+                        location.hash = targetId;
+                    }
+                }
+            });
+        });
+        
+        // Add intersection observer for scroll animations
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('[data-aos]');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('aos-animate');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            elements.forEach(element => {
+                observer.observe(element);
+            });
+        };
+        
+        // Run after page load
+        window.addEventListener('load', animateOnScroll);
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+            }
+        });
+    </script>
+</body>
+</html>

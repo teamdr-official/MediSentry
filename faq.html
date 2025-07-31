@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQs | MediSentry - Pharmaceutical Authentication Platform</title>
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="Get answers about medicine verification, counterfeit detection, and pharmaceutical safety with MediSentry's comprehensive FAQ section.">
+    <meta name="keywords" content="medicine verification, counterfeit drugs, pharmaceutical safety, drug authentication, healthcare technology">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="images/favicon.jpg" type="image/svg+xml">
+    
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a0ca3;
+            --primary-light: #4895ef;
+            --accent: #f72585;
+            --success: #4cc9f0;
+            --light-bg: #f8f9ff;
+            --dark-bg: #1a1a2e;
+            --text-dark: #14213d;
+            --text-light: #f8f9fa;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--light-bg);
+            padding-top: 80px;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5, .display-font {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: rgba(26, 26, 46, 0.95);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            transition: var(--transition);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--success) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            margin: 0 0.5rem;
+            position: relative;
+            color: var(--text-light) !important;
+            opacity: 0.9;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-light);
+            transition: var(--transition);
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .nav-link.active {
+            opacity: 1;
+            font-weight: 600;
+        }
+        
+        /* Hero Section */
+        .faq-hero {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white;
+            padding: 5rem 0 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .faq-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,255,255,0.03)" d="M0,0 L100,0 L100,100 L0,100 Z" /><path fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5" d="M0,50 Q25,25 50,50 T100,50" /></svg>');
+            background-size: cover;
+        }
+        
+        .hero-title {
+            font-size: 3.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .hero-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* Search Bar */
+        .search-container {
+            position: relative;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+            z-index: 2;
+        }
+        
+        .search-container i {
+            position: absolute;
+            left: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        .search-input {
+            padding: 15px 25px 15px 60px;
+            border-radius: 50px;
+            border: none;
+            height: 60px;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 30px rgba(67, 97, 238, 0.2);
+            transition: var(--transition);
+        }
+        
+        .search-input:focus {
+            box-shadow: 0 10px 30px rgba(67, 97, 238, 0.3);
+            border: none;
+        }
+        
+        /* Category Tabs */
+        .category-tabs {
+            border: none;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .category-tabs::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: rgba(0,0,0,0.1);
+            z-index: 1;
+        }
+        
+        .category-tabs .nav-link {
+            color: var(--text-dark);
+            font-weight: 500;
+            border: none;
+            padding: 1rem 1.5rem;
+            margin: 0 0.5rem;
+            background: transparent;
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            z-index: 2;
+            transition: var(--transition);
+            opacity: 0.8;
+        }
+        
+        .category-tabs .nav-link:hover {
+            opacity: 1;
+            background: rgba(67, 97, 238, 0.05);
+        }
+        
+        .category-tabs .nav-link.active {
+            opacity: 1;
+            color: var(--primary);
+            background: rgba(255,255,255,0.9);
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
+            border-bottom: none;
+        }
+        
+        .category-tabs .nav-link.active::before {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px 3px 0 0;
+        }
+        
+        .category-icon {
+            font-size: 1.3rem;
+            margin-right: 0.7rem;
+            vertical-align: middle;
+            color: var(--primary);
+        }
+        
+        .category-tabs .nav-link.active .category-icon {
+            color: var(--primary);
+        }
+        
+        /* Accordion */
+        .accordion {
+            --bs-accordion-border-radius: 12px;
+            --bs-accordion-inner-border-radius: 10px;
+            --bs-accordion-btn-focus-box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+        }
+        
+        .accordion-item {
+            margin-bottom: 1.2rem;
+            border: none;
+            border-radius: var(--bs-accordion-border-radius) !important;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            background: white;
+            transition: var(--transition);
+        }
+        
+        .accordion-item:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .accordion-button {
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 1.5rem;
+            color: var(--text-dark);
+            background: white;
+        }
+        
+        .accordion-button:not(.collapsed) {
+            color: var(--primary);
+            background: rgba(67, 97, 238, 0.05);
+            box-shadow: none;
+        }
+        
+        .accordion-button::after {
+            background-size: 1.2rem;
+        }
+        
+        .accordion-body {
+            padding: 1.5rem;
+            color: #555;
+        }
+        
+        .question-icon {
+            font-size: 1.2rem;
+            margin-right: 1rem;
+            color: var(--primary);
+        }
+        
+        /* Feedback Buttons */
+        .feedback-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px dashed #eee;
+        }
+        
+        .feedback-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            color: #aaa;
+            transition: var(--transition);
+        }
+        
+        .feedback-btn:hover {
+            color: var(--primary);
+            transform: scale(1.1);
+        }
+        
+        .feedback-btn.active {
+            color: var(--primary);
+        }
+        
+        /* Submit Question Section */
+        .submit-question {
+            background: white;
+            border-radius: 16px;
+            padding: 3rem;
+            margin: 4rem auto 0;
+            max-width: 900px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .submit-question::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+        
+        .submit-question h3 {
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+        
+        .submit-question p {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        
+        .submit-question .form-control {
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            transition: var(--transition);
+        }
+        
+        .submit-question .form-control:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.15);
+        }
+        
+        .submit-question textarea {
+            min-height: 120px;
+        }
+        
+        .submit-question .btn {
+            padding: 0.8rem 2rem;
+            font-weight: 500;
+            border-radius: 8px;
+            margin-top: 1rem;
+            background: var(--primary);
+            border: none;
+            transition: var(--transition);
+        }
+        
+        .submit-question .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark-bg);
+            color: var(--text-light);
+            padding: 3rem 0 2rem;
+            margin-top: 5rem;
+            position: relative;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--success) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            transition: var(--transition);
+        }
+        
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+        
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 991.98px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .category-tabs .nav-link {
+                padding: 0.8rem 1rem;
+                font-size: 0.95rem;
+            }
+            
+            .submit-question {
+                padding: 2rem;
+            }
+        }
+        
+        @media (max-width: 767.98px) {
+            body {
+                padding-top: 70px;
+            }
+            
+            .faq-hero {
+                padding: 3rem 0;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .search-input {
+                height: 50px;
+                font-size: 1rem;
+                padding-left: 50px;
+            }
+            
+            .search-container i {
+                left: 20px;
+            }
+            
+            .category-tabs .nav-link {
+                padding: 0.6rem;
+                margin: 0 0.2rem;
+                font-size: 0.9rem;
+            }
+            
+            .category-icon {
+                font-size: 1.1rem;
+                margin-right: 0.5rem;
+            }
+            
+            .accordion-button {
+                padding: 1.2rem;
+                font-size: 1rem;
+            }
+            
+            .accordion-body {
+                padding: 1.2rem;
+            }
+            
+            .submit-question {
+                padding: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 575.98px) {
+            .category-tabs .nav-link {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+            
+            .category-icon {
+                display: none;
+            }
+            
+            .submit-question {
+                padding: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">MediSentry</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="verify.html">Verify</a></li>
+                    <li class="nav-item"><a class="nav-link" href="report.html">Report</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="faq.html">FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="faq-hero">
+        <div class="container text-center animate">
+            <h1 class="hero-title">Pharmaceutical Verification FAQs</h1>
+            <p class="hero-subtitle">Find comprehensive answers about medicine authentication, counterfeit detection, and pharmaceutical safety protocols</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container my-5">
+        <!-- Search Bar -->
+        <div class="search-container animate delay-1">
+            <i class="fas fa-search"></i>
+            <input type="text" class="form-control search-input" placeholder="Search our knowledge base (e.g., 'batch verification', 'counterfeit signs')" id="faqSearch">
+        </div>
+
+        <!-- Category Tabs -->
+        <ul class="nav nav-tabs category-tabs mb-4 justify-content-center animate delay-1" id="faqTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button">
+                    <i class="fas fa-pills category-icon"></i> Pharmaceutical Safety
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="verification-tab" data-bs-toggle="tab" data-bs-target="#verification" type="button">
+                    <i class="fas fa-qrcode category-icon"></i> Authentication
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="reporting-tab" data-bs-toggle="tab" data-bs-target="#reporting" type="button">
+                    <i class="fas fa-shield-alt category-icon"></i> Reporting
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="privacy-tab" data-bs-toggle="tab" data-bs-target="#privacy" type="button">
+                    <i class="fas fa-database category-icon"></i> Data Security
+                </button>
+            </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content animate delay-2" id="faqTabContent">
+            <!-- General FAQs -->
+            <div class="tab-pane fade show active" id="general" role="tabpanel">
+                <div class="accordion" id="generalAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#general1">
+                                <i class="fas fa-vial-circle-exclamation question-icon"></i> What constitutes a counterfeit pharmaceutical product?
+                            </button>
+                        </h2>
+                        <div id="general1" class="accordion-collapse collapse show" data-bs-parent="#generalAccordion">
+                            <div class="accordion-body">
+                                <p>A counterfeit pharmaceutical product is any medication that has been deliberately misrepresented in terms of identity, composition, source, or manufacturing standards. These products violate regulatory requirements and may include:</p>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <ul class="fa-ul">
+                                            <li><span class="fa-li"><i class="fas fa-circle-exclamation text-danger"></i></span>Products containing incorrect active ingredients</li>
+                                            <li><span class="fa-li"><i class="fas fa-percent text-warning"></i></span>Medicines with improper dosage concentrations</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <ul class="fa-ul">
+                                            <li><span class="fa-li"><i class="fas fa-box-open text-info"></i></span>Products with falsified packaging materials</li>
+                                            <li><span class="fa-li"><i class="fas fa-clock text-secondary"></i></span>Expired products with altered expiration dates</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="alert alert-light mt-3">
+                                    <i class="fas fa-microscope me-2 text-primary"></i> <strong>Laboratory analysis</strong> reveals that approximately 62% of counterfeit medicines contain either no active ingredients or incorrect quantities.
+                                </div>
+                                <div class="feedback-buttons">
+                                    <small class="text-muted">Did this answer your question?</small>
+                                    <button class="feedback-btn" aria-label="Yes" data-feedback="yes"><i class="far fa-thumbs-up"></i></button>
+                                    <button class="feedback-btn" aria-label="No" data-feedback="no"><i class="far fa-thumbs-down"></i></button>
+                                    <span class="text-muted ms-2 feedback-count" style="display: none;"><span class="up-count">0</span>/<span class="down-count">0</span> found this helpful</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#general2">
+                                <i class="fas fa-biohazard question-icon"></i> What are the health risks associated with counterfeit medications?
+                            </button>
+                        </h2>
+                        <div id="general2" class="accordion-collapse collapse" data-bs-parent="#generalAccordion">
+                            <div class="accordion-body">
+                                <p>Counterfeit pharmaceuticals present multiple tiers of health hazards:</p>
+                                <div class="risk-levels mb-4">
+                                    <div class="risk-item mb-3 p-3 bg-danger bg-opacity-10 rounded">
+                                        <h5 class="d-flex align-items-center"><i class="fas fa-skull-crossbones me-2"></i> Critical Risks</h5>
+                                        <ul class="fa-ul">
+                                            <li><span class="fa-li"><i class="fas fa-arrow-right"></i></span>Acute toxicity from harmful substances (heavy metals, industrial chemicals)</li>
+                                            <li><span class="fa-li"><i class="fas fa-arrow-right"></i></span>Life-threatening allergic reactions to unknown ingredients</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="risk-item mb-3 p-3 bg-warning bg-opacity-10 rounded">
+                                        <h5 class="d-flex align-items-center"><i class="fas fa-exclamation-triangle me-2"></i> Severe Risks</h5>
+                                        <ul class="fa-ul">
+                                            <li><span class="fa-li"><i class="fas fa-arrow-right"></i></span>Progression of untreated medical conditions</li>
+                                            <li><span class="fa-li"><i class="fas fa-arrow-right"></i></span>Development of antimicrobial resistance</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="risk-item p-3 bg-info bg-opacity-10 rounded">
+                                        <h5 class="d-flex align-items-center"><i class="fas fa-info-circle me-2"></i> Systemic Risks</h5>
+                                        <ul class="fa-ul">
+                                            <li><span class="fa-li"><i class="fas fa-arrow-right"></i></span>Erosion of public trust in healthcare systems</li>
+                                            <li><span class="fa-li"><i class="fas fa-arrow-right"></i></span>Economic burden on healthcare infrastructure</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <p class="mt-3"><strong>Global Impact:</strong> The WHO estimates counterfeit medicines contribute to over 500,000 deaths annually from malaria and tuberculosis alone.</p>
+                                <div class="feedback-buttons">
+                                    <small class="text-muted">Did this answer your question?</small>
+                                    <button class="feedback-btn" aria-label="Yes" data-feedback="yes"><i class="far fa-thumbs-up"></i></button>
+                                    <button class="feedback-btn" aria-label="No" data-feedback="no"><i class="far fa-thumbs-down"></i></button>
+                                    <span class="text-muted ms-2 feedback-count" style="display: none;"><span class="up-count">0</span>/<span class="down-count">0</span> found this helpful</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#general3">
+                                <i class="fas fa-map-marked-alt question-icon"></i> What is the prevalence of counterfeit medicines in India?
+                            </button>
+                        </h2>
+                        <div id="general3" class="accordion-collapse collapse" data-bs-parent="#generalAccordion">
+                            <div class="accordion-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="prevalence-card p-3 mb-3 bg-light rounded">
+                                            <h5 class="d-flex align-items-center"><i class="fas fa-globe-asia me-2 text-primary"></i> Global Context</h5>
+                                            <ul class="fa-ul">
+                                                <li><span class="fa-li"><i class="fas fa-chart-line text-info"></i></span>10-30% prevalence in developing nations (WHO)</li>
+                                                <li><span class="fa-li"><i class="fas fa-syringe text-danger"></i></span>Up to 50% for certain therapeutic categories</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="prevalence-card p-3 mb-3 bg-light rounded">
+                                            <h5 class="d-flex align-items-center"><i class="fas fa-rupee-sign me-2 text-success"></i> Indian Market</h5>
+                                            <ul class="fa-ul">
+                                                <li><span class="fa-li"><i class="fas fa-city text-primary"></i></span>3-5% in regulated urban markets</li>
+                                                <li><span class="fa-li"><i class="fas fa-tree text-success"></i></span>8-15% in rural distribution channels</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="alert alert-primary mt-3">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-database me-3 fa-2x"></i>
+                                        <div>
+                                            <strong>MediSentry Verification Data:</strong> Our platform has authenticated over 1.2 million pharmaceutical products, identifying approximately 4.7% as potentially counterfeit or substandard.
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="high-risk-categories mt-4">
+                                    <h6><i class="fas fa-exclamation-triangle me-2 text-warning"></i> High-Risk Categories:</h6>
+                                    <div class="d-flex flex-wrap gap-2 mt-2">
+                                        <span class="badge bg-danger bg-opacity-20 text-danger">Antibiotics</span>
+                                        <span class="badge bg-danger bg-opacity-20 text-danger">Antimalarials</span>
+                                        <span class="badge bg-danger bg-opacity-20 text-danger">Lifestyle Drugs</span>
+                                        <span class="badge bg-danger bg-opacity-20 text-danger">Pain Management</span>
+                                        <span class="badge bg-danger bg-opacity-20 text-danger">Hormone Therapies</span>
+                                    </div>
+                                </div>
+                                <div class="feedback-buttons">
+                                    <small class="text-muted">Did this answer your question?</small>
+                                    <button class="feedback-btn" aria-label="Yes" data-feedback="yes"><i class="far fa-thumbs-up"></i></button>
+                                    <button class="feedback-btn" aria-label="No" data-feedback="no"><i class="far fa-thumbs-down"></i></button>
+                                    <span class="text-muted ms-2 feedback-count" style="display: none;"><span class="up-count">0</span>/<span class="down-count">0</span> found this helpful</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Verification FAQs -->
+            <div class="tab-pane fade" id="verification" role="tabpanel">
+                <div class="accordion" id="verificationAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#verification1">
+                                <i class="fas fa-fingerprint question-icon"></i> What authentication methods does MediSentry employ?
+                            </button>
+                        </h2>
+                        <div id="verification1" class="accordion-collapse collapse show" data-bs-parent="#verificationAccordion">
+                            <div class="accordion-body">
+                                <p>MediSentry utilizes a multi-layered authentication framework combining technological and forensic techniques:</p>
+                                
+                                <div class="verification-methods">
+                                    <div class="method-card p-3 mb-3 bg-light rounded">
+                                        <h5 class="d-flex align-items-center"><i class="fas fa-barcode me-2 text-primary"></i> 1. Digital Identifiers</h5>
+                                        <ul class="fa-ul">
+                                            <li><span class="fa-li"><i class="fas fa-qrcode"></i></span>QR code scanning with encrypted batch data</li>
+                                            <li><span class="fa-li"><i class="fas fa-hashtag"></i></span>Unique serial number verification</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="method-card p-3 mb-3 bg-light rounded">
+                                        <h5 class="d-flex align-items-center"><i class="fas fa-microscope me-2 text-success"></i> 2. Physical Authentication</h5>
+                                        <ul class="fa-ul">
+                                            <li><span class="fa-li"><i class="fas fa-hologram"></i></span>Hologram pattern recognition</li>
+                                            <li><span class="fa-li"><i class="fas fa-font"></i></span>Micro-text verification under magnification</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="method-card p-3 bg-light rounded">
+                                        <h5 class="d-flex align-items-center"><i class="fas fa-brain me-2 text-info"></i> 3. Advanced Analytics</h5>
+                                        <ul class="fa-ul">
+                                            <li><span class="fa-li"><i class="fas fa-robot"></i></span>Machine learning pattern detection</li>
+                                            <li><span class="fa-li"><i class="fas fa-project-diagram"></i></span>Blockchain-based batch tracking</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div class="alert alert-success mt-3 d-flex align-items-center">
+                                    <i class="fas fa-mobile-alt me-3 fa-2x"></i>
+                                    <div>
+                                        <strong>Mobile Verification:</strong> Our mobile app allows real-time verification with 98.7% accuracy through image recognition algorithms.
+                                    </div>
+                                </div>
+                                <div class="feedback-buttons">
+                                    <small class="text-muted">Did this answer your question?</small>
+                                    <button class="feedback-btn" aria-label="Yes" data-feedback="yes"><i class="far fa-thumbs-up"></i></button>
+                                    <button class="feedback-btn" aria-label="No" data-feedback="no"><i class="far fa-thumbs-down"></i></button>
+                                    <span class="text-muted ms-2 feedback-count" style="display: none;"><span class="up-count">0</span>/<span class="down-count">0</span> found this helpful</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#verification2">
+                                <i class="fas fa-box-open question-icon"></i> What packaging anomalies indicate potential counterfeits?
+                            </button>
+                        </h2>
+                        <div id="verification2" class="accordion-collapse collapse" data-bs-parent="#verificationAccordion">
+                            <div class="accordion-body">
+                                <p>Pharmaceutical packaging forensic analysis focuses on multiple authentication points:</p>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="anomaly-card p-3 mb-3 bg-light rounded">
+                                            <h6 class="d-flex align-items-center"><i class="fas fa-text-width me-2 text-danger"></i> Typographic Indicators</h6>
+                                            <ul class="fa-ul">
+                                                <li><span class="fa-li"><i class="fas fa-spell-check"></i></span>Inconsistent font styles or weights</li>
+                                                <li><span class="fa-li"><i class="fas fa-language"></i></span>Grammatical errors or translation mistakes</li>
+                                            </ul>
+                                        </div>
+                                        
+                                        <div class="anomaly-card p-3 mb-3 bg-light rounded">
+                                            <h6 class="d-flex align-items-center"><i class="fas fa-palette me-2 text-warning"></i> Color & Graphics</h6>
+                                            <ul class="fa-ul">
+                                                <li><span class="fa-li"><i class="fas fa-fill-drip"></i></span>Color variations from authentic products</li>
+                                                <li><span class="fa-li"><i class="fas fa-image"></i></span>Pixelated or low-resolution logos</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="anomaly-card p-3 mb-3 bg-light rounded">
+                                            <h6 class="d-flex align-items-center"><i class="fas fa-cut me-2 text-primary"></i> Structural Features</h6>
+                                            <ul class="fa-ul">
+                                                <li><span class="fa-li"><i class="fas fa-ruler-combined"></i></span>Incorrect package dimensions</li>
+                                                <li><span class="fa-li"><i class="fas fa-box"></i></span>Poor quality blister packs or seals</li>
+                                            </ul>
+                                        </div>
+                                        
+                                        <div class="anomaly-card p-3 bg-light rounded">
+                                            <h6 class="d-flex align-items-center"><i class="fas fa-shield-alt me-2 text-success"></i> Security Elements</h6>
+                                            <ul class="fa-ul">
+                                                <li><span class="fa-li"><i class="fas fa-eye-slash"></i></span>Missing holograms or security labels</li>
+                                                <li><span class="fa-li"><i class="fas fa-barcode"></i></span>Unreadable or duplicate barcodes</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="comparison-guide mt-4">
+                                    <h6><i class="fas fa-clipboard-check me-2 text-info"></i> Verification Checklist:</h6>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered mt-2">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Feature</th>
+                                                    <th>Authentic</th>
+                                                    <th>Counterfeit</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Package Texture</td>
+                                                    <td><i class="fas fa-check text-success"></i> Consistent matte/gloss</td>
+                                                    <td><i class="fas fa-times text-danger"></i> Uneven surfaces</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Print Quality</td>
+                                                    <td><i class="fas fa-check text-success"></i> Sharp, clear text</td>
+                                                    <td><i class="fas fa-times text-danger"></i> Blurred or bleeding ink</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Seal Integrity</td>
+                                                    <td><i class="fas fa-check text-success"></i> Factory-perfect seals</td>
+                                                    <td><i class="fas fa-times text-danger"></i> Resealed or tampered</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="feedback-buttons">
+                                    <small class="text-muted">Did this answer your question?</small>
+                                    <button class="feedback-btn" aria-label="Yes" data-feedback="yes"><i class="far fa-thumbs-up"></i></button>
+                                    <button class="feedback-btn" aria-label="No" data-feedback="no"><i class="far fa-thumbs-down"></i></button>
+                                    <span class="text-muted ms-2 feedback-count" style="display: none;"><span class="up-count">0</span>/<span class="down-count">0</span> found this helpful</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#verification3">
+                                <i class="fas fa-mobile-alt question-icon"></i> How does mobile verification work?
+                            </button>
+                        </h2>
+                        <div id="verification3" class="accordion-collapse collapse" data-bs-parent="#verificationAccordion">
+                            <div class="accordion-body">
+                                <div class="verification-steps">
+                                    <div class="step-card p-3 mb-3 bg-light rounded d-flex">
+                                        <div class="step-number me-3 fw-bold text-primary">1</div>
+                                        <div>
+                                            <h6>Capture Product Identifier</h6>
+                                            <p class="mb-0">Use your smartphone camera to scan the QR code or barcode on the pharmaceutical packaging</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="step-card p-3 mb-3 bg-light rounded d-flex">
+                                        <div class="step-number me-3 fw-bold text-primary">2</div>
+                                        <div>
+                                            <h6>Image Analysis</h6>
+                                            <p class="mb-0">Our AI compares packaging images against verified templates for consistency</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="step-card p-3 mb-3 bg-light rounded d-flex">
+                                        <div class="step-number me-3 fw-bold text-primary">3</div>
+                                        <div>
+                                            <h6>Database Verification</h6>
+                                            <p class="mb-0">System checks the unique identifier against manufacturer batch records</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="step-card p-3 bg-light rounded d-flex">
+                                        <div class="step-number me-3 fw-bold text-primary">4</div>
+                                        <div>
+                                            <h6>Result Delivery</h6>
+                                            <p class="mb-0">Instant authentication report with confidence percentage and security indicators</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mt-4">
+                                    <div class="col-md-6">
+                                        <div class="tech-feature p-3 h-100 bg-light rounded">
+                                            <h6 class="d-flex align-items-center"><i class="fas fa-cogs me-2 text-primary"></i> Technical Specifications</h6>
+                                            <ul class="fa-ul">
+                                                <li><span class="fa-li"><i class="fas fa-bolt"></i></span>300ms average response time</li>
+                                                <li><span class="fa-li"><i class="fas fa-database"></i></span>Updated every 15 minutes from manufacturers</li>
+                                                <li><span class="fa-li"><i class="fas fa-cloud"></i></span>Cloud-based verification infrastructure</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="compatibility p-3 h-100 bg-light rounded">
+                                            <h6 class="d-flex align-items-center"><i class="fas fa-mobile me-2 text-success"></i> Compatibility</h6>
+                                            <div class="d-flex flex-wrap gap-2 mt-2">
+                                                <span class="badge bg-primary">iOS 12+</span>
+                                                <span class="badge bg-success">Android 8+</span>
+                                                <span class="badge bg-info">Huawei HMS</span>
+                                                <span class="badge bg-secondary">Web Browser</span>
+                                            </div>
+                                            <p class="mt-3 mb-0"><i class="fas fa-info-circle me-2"></i> No special hardware required - works with standard smartphone cameras</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="feedback-buttons">
+                                    <small class="text-muted">Did this answer your question?</small>
+                                    <button class="feedback-btn" aria-label="Yes" data-feedback="yes"><i class="far fa-thumbs-up"></i></button>
+                                    <button class="feedback-btn" aria-label="No" data-feedback="no"><i class="far fa-thumbs-down"></i></button>
+                                    <span class="text-muted ms-2 feedback-count" style="display: none;"><span class="up-count">0</span>/<span class="down-count">0</span> found this helpful</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reporting FAQs -->
+            <div class="tab-pane fade" id="reporting" role="tabpanel">
+                <div class="accordion" id="reportingAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#reporting1">
+                                <i class="fas fa-flag question-icon"></i> What should I do if I suspect a counterfeit product?
+                            </button>
+                        </h2>
+                        <div id="reporting1" class="accordion-collapse collapse show" data-bs-parent="#reportingAccordion">
+                            <div class="accordion-body">
+                                <div class="reporting-protocol">
+                                    <div class="protocol-step p-3 mb-3 bg-light rounded">
+                                        <h5 class="d-flex align-items-center"><i class="fas fa-camera me-2 text-primary"></i> 1. Document the Evidence</h5>
+                                        <ul class="fa-ul">
+                                            <li><span class="fa-li"><i class="fas fa-qrcode"></i></span>Clear photos of all package sides and identifiers</li>
+                                            <li><span class="fa-li"><i class="fas fa-receipt"></i></span>Purchase receipt or invoice documentation</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="protocol-step p-3 mb-3 bg-light rounded">
+                                        <h5 class="d-flex align-items-center"><i class="fas fa-shield-alt me-2 text-success"></i> 2. Secure the Product</h5>
+                                        <ul class="fa-ul">
+                                            <li><span class="fa-li"><i class="fas fa-box-seal"></i></span>Place in original packaging if possible</li>
+                                            <li><span class="fa-li"><i class="fas fa-hands"></i></span>Minimize handling to preserve evidence</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="protocol-step p-3 mb-3 bg-light rounded">
+                                        <h5 class="d-flex align-items-center"><i class="fas fa-paper-plane me-2 text-info"></i> 3. Submit Report</h5>
+                                        <ul class="fa-ul">
+                                            <li><span class="fa-li"><i class="fas fa-mobile-alt"></i></span>Use our mobile app's reporting feature</li>
+                                            <li><span class="fa-li"><i class="fas fa-desktop"></i></span>File through our secure web portal</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="protocol-step p-3 bg-light rounded">
+                                        <h5 class="d-flex align-items-center"><i class="fas fa-bell me-2 text-warning"></i> 4. Follow-up Actions</h5>
+                                        <ul class="fa-ul">
+                                            <li><span class="fa-li"><i class="fas fa-phone-alt"></i></span>Our team may contact you for additional information</li>
+                                            <li><span class="fa-li"><i class="fas fa-envelope"></i></span>You'll receive a case reference number</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div class="alert alert-warning mt-3">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-exclamation-triangle me-3 fa-2x"></i>
+                                        <div>
+                                            <strong>Important:</strong> Do not consume or distribute suspected counterfeit medications. Our reporting system is connected to national regulatory authorities for immediate action.
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="response-timeline mt-4">
+                                    <h6><i class="fas fa-clock me-2 text-secondary"></i> Typical Response Timeline:</h6>
+                                    <div class="d-flex flex-wrap gap-3 mt-3">
+                                        <div class="timeline-item p-2 bg-primary bg-opacity-10 rounded">
+                                            <small class="d-block fw-bold text-primary">Immediate</small>
+                                            <small>Automated acknowledgement</small>
+                                        </div>
+                                        <div class="timeline-item p-2 bg-success bg-opacity-10 rounded">
+                                            <small class="d-block fw-bold text-success">2-4 Hours</small>
+                                            <small>Preliminary assessment</small>
+                                        </div>
+                                        <div class="timeline-item p-2 bg-info bg-opacity-10 rounded">
+                                            <small class="d-block fw-bold text-info">24 Hours</small>
+                                            <small>Regulatory notification</small>
+                                        </div>
+                                        <div class="timeline-item p-2 bg-dark bg-opacity-10 rounded">
+                                            <small class="d-block fw-bold">7 Days</small>
+                                            <small>Full investigation report</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="feedback-buttons">
+                                    <small class="text-muted">Did this answer your question?</small>
+                                    <button class="feedback-btn" aria-label="Yes" data-feedback="yes"><i class="far fa-thumbs-up"></i></button>
+                                    <button class="feedback-btn" aria-label="No" data-feedback="no"><i class="far fa-thumbs-down"></i></button>
+                                    <span class="text-muted ms-2 feedback-count" style="display: none;"><span class="up-count">0</span>/<span class="down-count">0</span> found this helpful</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#reporting2">
+                                <i class="fas fa-user-shield question-icon"></i> What protections exist for whistleblowers?
+                            </button>
+                        </h2>
+                        <div id="reporting2" class="accordion-collapse collapse" data-bs-parent="#reportingAccordion">
+                            <div class="accordion-body">
+                                <p>MediSentry provides multiple layers of protection for individuals reporting pharmaceutical fraud:</p>
+                                
+                                <div class="protection-levels">
+                                    <div class="protection-card p-3 mb-3 bg-light rounded">
+                                        <h5 class="d-flex align-items-center"><i class="fas fa-lock me-2 text-primary"></i> Anonymity Options</h5>
+                                        <ul class="fa-ul">
+                                            <li><span class="fa-li"><i class="fas fa-user-secret"></i></span>Complete anonymous reporting channels</li>
+                                            <li><span class="fa-li"><i class="fas fa-mobile-alt"></i></span>Disposable mobile verification for sensitive cases</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="protection-card p-3 mb-3 bg-light rounded">
+                                        <h5 class="d-flex align-items-center"><i class="fas fa-gavel me-2 text-success"></i> Legal Protections</h5>
+                                        <ul class="fa-ul">
+                                            <li><span class="fa-li"><i class="fas fa-shield-alt"></i></span>Covered under India's Whistleblower Protection Act</li>
+                                            <li><span class="fa-li"><i class="fas fa-file-contract"></i></span>Non-disclosure agreements with regulatory partners</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="protection-card p-3 bg-light rounded">
+                                        <h5 class="d-flex align-items-center"><i class="fas fa-database me-2 text-info"></i> Data Security</h5>
+                                        <ul class="fa-ul">
+                                            <li><span class="fa-li"><i class="fas fa-server"></i></span>End-to-end encrypted report submissions</li>
+                                            <li><span class="fa-li"><i class="fas fa-fire"></i></span>Automatic data purging after case resolution</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div class="legal-resources mt-4">
+                                    <h6><i class="fas fa-balance-scale me-2 text-warning"></i> Additional Resources:</h6>
+                                    <div class="d-flex flex-wrap gap-2 mt-2">
+                                        <a href="#" class="btn btn-sm btn-outline-primary">Whistleblower Policy PDF</a>
+                                        <a href="#" class="btn btn-sm btn-outline-success">Legal Counsel Contacts</a>
+                                        <a href="#" class="btn btn-sm btn-outline-info">Regulatory Guidelines</a>
+                                    </div>
+                                </div>
+                                
+                                <div class="alert alert-info mt-3">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-handshake me-3 fa-2x"></i>
+                                        <div>
+                                            <strong>Confidentiality Assurance:</strong> In the past 3 years, we've processed over 14,000 reports with zero confidentiality breaches.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="feedback-buttons">
+                                    <small class="text-muted">Did this answer your question?</small>
+                                    <button class="feedback-btn" aria-label="Yes" data-feedback="yes"><i class="far fa-thumbs-up"></i></button>
+                                    <button class="feedback-btn" aria-label="No" data-feedback="no"><i class="far fa-thumbs-down"></i></button>
+                                    <span class="text-muted ms-2 feedback-count" style="display: none;"><span class="up-count">0</span>/<span class="down-count">0</span> found this helpful</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Privacy FAQs -->
+            <div class="tab-pane fade" id="privacy" role="tabpanel">
+                <div class="accordion" id="privacyAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#privacy1">
+                                <i class="fas fa-lock question-icon"></i> How is my personal data protected during verification?
+                            </button>
+                        </h2>
+                        <div id="privacy1" class="accordion-collapse collapse show" data-bs-parent="#privacyAccordion">
+                            <div class="accordion-body">
+                                <p>MediSentry employs enterprise-grade security measures to protect user data:</p>
+                                
+                                <div class="security-features">
+                                    <div class="feature-card p-3 mb-3 bg-light rounded">
+                                        <h5 class="d-flex align-items-center"><i class="fas fa-key me-2 text-primary"></i> Encryption Standards</h5>
+                                        <ul class="fa-ul">
+                                            <li><span class="fa-li"><i class="fas fa-lock"></i></span>AES-256 encryption for all stored data</li>
+                                            <li><span class="fa-li"><i class="fas fa-exchange-alt"></i></span>TLS 1.3 for all data transmissions</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="feature-card p-3 mb-3 bg-light rounded">
+                                        <h5 class="d-flex align-items-center"><i class="fas fa-user-shield me-2 text-success"></i> Privacy Controls</h5>
+                                        <ul class="fa-ul">
+                                            <li><span class="fa-li"><i class="fas fa-eye-slash"></i></span>Optional anonymous verification mode</li>
+                                            <li><span class="fa-li"><i class="fas fa-calendar-times"></i></span>Automatic data expiration policies</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="feature-card p-3 bg-light rounded">
+                                        <h5 class="d-flex align-items-center"><i class="fas fa-shield-virus me-2 text-info"></i> Infrastructure Security</h5>
+                                        <ul class="fa-ul">
+                                            <li><span class="fa-li"><i class="fas fa-cloud"></i></span>ISO 27001 certified data centers</li>
+                                            <li><span class="fa-li"><i class="fas fa-fingerprint"></i></span>Biometric access controls</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div class="compliance-badges mt-4 text-center">
+                                    <h6><i class="fas fa-certificate me-2 text-warning"></i> Compliance Certifications:</h6>
+                                    <div class="d-flex flex-wrap justify-content-center gap-3 mt-3">
+                                        <img src="https://via.placeholder.com/120x60?text=ISO+27001" alt="ISO 27001" class="img-fluid" style="height: 50px;">
+                                        <img src="https://via.placeholder.com/120x60?text=GDPR" alt="GDPR" class="img-fluid" style="height: 50px;">
+                                        <img src="https://via.placeholder.com/120x60?text=HIPAA" alt="HIPAA" class="img-fluid" style="height: 50px;">
+                                        <img src="https://via.placeholder.com/120x60?text=SOC2" alt="SOC2" class="img-fluid" style="height: 50px;">
+                                    </div>
+                                </div>
+                                
+                                <div class="data-flow mt-4">
+                                    <h6><i class="fas fa-project-diagram me-2 text-secondary"></i> Data Flow Diagram:</h6>
+                                    <div class="text-center mt-3">
+                                        <img src="https://via.placeholder.com/800x300?text=Secure+Data+Flow+Diagram" alt="Data Flow" class="img-fluid rounded border">
+                                        <p class="small text-muted mt-2">All verification requests are processed through our secure gateway with no direct access to raw databases</p>
+                                    </div>
+                                </div>
+                                <div class="feedback-buttons">
+                                    <small class="text-muted">Did this answer your question?</small>
+                                    <button class="feedback-btn" aria-label="Yes" data-feedback="yes"><i class="far fa-thumbs-up"></i></button>
+                                    <button class="feedback-btn" aria-label="No" data-feedback="no"><i class="far fa-thumbs-down"></i></button>
+                                    <span class="text-muted ms-2 feedback-count" style="display: none;"><span class="up-count">0</span>/<span class="down-count">0</span> found this helpful</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#privacy2">
+                                <i class="fas fa-database question-icon"></i> What verification data is shared with manufacturers?
+                            </button>
+                        </h2>
+                        <div id="privacy2" class="accordion-collapse collapse" data-bs-parent="#privacyAccordion">
+                            <div class="accordion-body">
+                                <p>Our data sharing follows strict protocols to balance authentication needs with privacy:</p>
+                                
+                                <div class="data-sharing-table mt-3">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Data Type</th>
+                                                    <th>Shared With Manufacturer</th>
+                                                    <th>Purpose</th>
+                                                    <th>Anonymized</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Product Identifier</td>
+                                                    <td><i class="fas fa-check text-success"></i></td>
+                                                    <td>Batch verification</td>
+                                                    <td><i class="fas fa-times text-danger"></i></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Geolocation</td>
+                                                    <td><i class="fas fa-check text-success"></i></td>
+                                                    <td>Supply chain monitoring</td>
+                                                    <td><i class="fas fa-check text-success"></i></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>User Details</td>
+                                                    <td><i class="fas fa-times text-danger"></i></td>
+                                                    <td>N/A</td>
+                                                    <td><i class="fas fa-check text-success"></i></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Verification Timestamp</td>
+                                                    <td><i class="fas fa-check text-success"></i></td>
+                                                    <td>Analytics</td>
+                                                    <td><i class="fas fa-check text-success"></i></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                
+                                <div class="data-usage-policy mt-4">
+                                    <h6><i class="fas fa-file-contract me-2 text-primary"></i> Data Usage Policy Highlights:</h6>
+                                    <ul class="fa-ul mt-2">
+                                        <li><span class="fa-li"><i class="fas fa-ban text-danger"></i></span>Manufacturers cannot use data for marketing purposes</li>
+                                        <li><span class="fa-li"><i class="fas fa-calendar-alt text-info"></i></span>All shared data automatically expires after 18 months</li>
+                                        <li><span class="fa-li"><i class="fas fa-user-cog text-success"></i></span>Users can opt-out of non-essential data sharing</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="alert alert-light mt-3">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-chart-pie me-3 fa-2x text-secondary"></i>
+                                        <div>
+                                            <strong>Aggregate Analytics Only:</strong> Manufacturers receive only summarized, non-identifiable data for quality control and supply chain optimization.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="feedback-buttons">
+                                    <small class="text-muted">Did this answer your question?</small>
+                                    <button class="feedback-btn" aria-label="Yes" data-feedback="yes"><i class="far fa-thumbs-up"></i></button>
+                                    <button class="feedback-btn" aria-label="No" data-feedback="no"><i class="far fa-thumbs-down"></i></button>
+                                    <span class="text-muted ms-2 feedback-count" style="display: none;"><span class="up-count">0</span>/<span class="down-count">0</span> found this helpful</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Question Section -->
+        <section class="submit-question animate">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h3>Still have questions?</h3>
+                    <p>Our pharmaceutical experts are ready to provide detailed answers about medicine verification, counterfeit detection, and safety protocols.</p>
+                    <div class="support-info mt-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-phone-alt me-3 text-primary"></i>
+                            <div>
+                                <h6 class="mb-0">Emergency Support</h6>
+                                <small>24/7 Hotline: +91 9461111010</small>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-envelope me-3 text-success"></i>
+                            <div>
+                                <h6 class="mb-0">Email Support</h6>
+                                <small>teamdr1928@gmail.com</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <form id="questionForm">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Your Name</label>
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="question" class="form-label">Your Question</label>
+                            <textarea class="form-control" id="question" rows="4" required></textarea>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="consent" required>
+                            <label class="form-check-label small" for="consent">
+                                I consent to MediSentry processing my data according to the <a href="#">privacy policy</a>
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Question</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-logo">MediSentry</div>
+                    <p>Advanced pharmaceutical authentication and counterfeit detection platform protecting public health since 2018.</p>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4">
+                    <h5>Services</h5>
+                    <ul class="footer-links">
+                        <li><a href="verify.html">Medicine Verification</a></li>
+                        <li><a href="report.html">Counterfeit Reporting</a></li>
+                        <li><a href="verify.html">Batch Tracking</a></li>
+                        
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4">
+                    <h5>Company</h5>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="quiz.html">Quiz</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 mb-4">
+                    <h5>Legal</h5>
+                    <ul class="footer-links">
+                        <li><a href="privacy.html">privacy policy </a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright text-center">
+                <p class="mb-3 mb-md-0 small">© 2025 MediSentry | Student Project by Chandigarh University Students</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Feedback button functionality
+            document.querySelectorAll('.feedback-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const feedback = this.getAttribute('data-feedback');
+                    const countElement = this.closest('.feedback-buttons').querySelector('.feedback-count');
+                    const upCount = countElement.querySelector('.up-count');
+                    const downCount = countElement.querySelector('.down-count');
+                    
+                    // Remove active class from all buttons in this group
+                    this.closest('.feedback-buttons').querySelectorAll('.feedback-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Update counts
+                    if(feedback === 'yes') {
+                        upCount.textContent = parseInt(upCount.textContent) + 1;
+                    } else {
+                        downCount.textContent = parseInt(downCount.textContent) + 1;
+                    }
+                    
+                    // Show count element if hidden
+                    countElement.style.display = 'inline-block';
+                    
+                    // Disable buttons after feedback
+                    this.closest('.feedback-buttons').querySelectorAll('.feedback-btn').forEach(btn => {
+                        btn.disabled = true;
+                    });
+                });
+            });
+            
+            // Search functionality
+            const faqSearch = document.getElementById('faqSearch');
+            faqSearch.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                if(searchTerm.length > 2) {
+                    document.querySelectorAll('.accordion-button').forEach(button => {
+                        const question = button.textContent.toLowerCase();
+                        const accordionItem = button.closest('.accordion-item');
+                        
+                        if(question.includes(searchTerm)) {
+                            accordionItem.style.display = 'block';
+                            // Open the accordion item
+                            const collapseId = button.getAttribute('data-bs-target');
+                            const collapseElement = document.querySelector(collapseId);
+                            new bootstrap.Collapse(collapseElement, { show: true });
+                        } else {
+                            accordionItem.style.display = 'none';
+                        }
+                    });
+                } else {
+                    document.querySelectorAll('.accordion-item').forEach(item => {
+                        item.style.display = 'block';
+                    });
+                }
+            });
+            
+            // Form submission
+            const questionForm = document.getElementById('questionForm');
+            questionForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Here you would typically send the form data to your server
+                alert('Thank you for your question! Our team will respond within 24 hours.');
+                this.reset();
+            });
+            
+            // Add animation classes on scroll
+            function animateOnScroll() {
+                const elements = document.querySelectorAll('.animate');
+                elements.forEach(element => {
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const screenPosition = window.innerHeight / 1.2;
+                    
+                    if(elementPosition < screenPosition) {
+                        element.classList.add('fadeInUp');
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', animateOnScroll);
+            animateOnScroll(); // Run once on page load
+        });
+    </script>
+</body>
+</html>
